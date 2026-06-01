@@ -1,25 +1,30 @@
-import polars as pl
-from pathlib import Path
+"""
+problem_parser.py — Extracts problem scores from HTML description files.
+
+Handles both English ("Score") and Japanese ("配点") descriptions.
+Only reads files matching the provided problem_ids list.
+"""
 import re
+from pathlib import Path
+import polars as pl
 
-def extract_problem_scores(descriptions_dir: str | Path, problem_ids: list[str]) -> pl.DataFrame:
+
+def extract_problem_scores(
+    descriptions_dir: str | Path,
+    problem_ids: list[str]
+) -> pl.DataFrame:
     """
-    Extrait les scores (points) depuis les fichiers HTML de description,
-    en ne lisant QUE les fichiers correspondant aux problem_ids fournis.
-    Gère les descriptions en anglais et en japonais.
-
-    Extracts scores (points) from HTML description files,
+    Extracts the score (points) from HTML problem description files,
     reading ONLY the files matching the provided problem_ids.
-    Handles descriptions in English and Japanese.
 
     Args:
-        descriptions_dir : dossier contenant les fichiers HTML (un par problème).
-        problem_ids      : liste des IDs à traiter (ex: ['p02534', 'p02535', ...]).
+        descriptions_dir: Directory containing HTML files (one per problem).
+        problem_ids:      List of IDs to process (e.g. ['p02534', 'p02535']).
 
     Returns:
-        DataFrame avec colonnes : problem_id, score (nulls exclus).
+        DataFrame with columns: problem_id, score (nulls excluded).
     """
-    # Cherche "Score" ou "配点" (japonais), suivi de la balise <var> avec des chiffres
+    # Matches "Score" or "配点" (Japanese), followed by a <var> tag with digits
     score_pattern = re.compile(
         r"(?:Score|配点).*?<var>(\d+)</var>",
         re.IGNORECASE | re.DOTALL
@@ -43,11 +48,11 @@ def extract_problem_scores(descriptions_dir: str | Path, problem_ids: list[str])
                 data.append({"problem_id": pid, "score": int(match.group(1))})
                 files_with_score += 1
         except Exception as e:
-            print(f"  ⚠ Erreur lecture {filepath.name}: {e}")
+            print(f"  Warning: could not read {filepath.name}: {e}")
 
-    print(f"  Fichiers HTML ciblés   : {len(problem_ids)}")
-    print(f"  Fichiers trouvés       : {files_scanned}")
-    print(f"  Scores extraits        : {files_with_score}")
-    print(f"  Sans score (format old): {files_scanned - files_with_score}")
+    print(f"  HTML files targeted  : {len(problem_ids)}")
+    print(f"  Files found          : {files_scanned}")
+    print(f"  Scores extracted     : {files_with_score}")
+    print(f"  Without score        : {files_scanned - files_with_score}")
 
     return pl.DataFrame(data) if data else pl.DataFrame({"problem_id": [], "score": []})

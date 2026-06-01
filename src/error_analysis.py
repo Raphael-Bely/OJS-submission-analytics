@@ -1,12 +1,7 @@
 """
-error_analysis.py — Analyse de la distribution des erreurs par niveau de difficulté.
-                    Error distribution analysis by difficulty level.
+error_analysis.py — Error distribution analysis by difficulty level.
 
-Méthodologie : Shimizu et al. (2025) — RQ1.
-Unité d'analyse : la soumission (pas l'utilisateur).
-Pour chaque niveau de difficulté A–F, calcule la proportion de chaque
-type de statut (AC, WA, CE, TLE, RE, Other) parmi toutes les soumissions.
-
+Methodology: Shimizu et al. (2025) — RQ1.
 Analysis unit: the submission (not the user).
 For each difficulty level A–F, computes the proportion of each
 status type (AC, WA, CE, TLE, RE, Other) across all submissions.
@@ -14,8 +9,8 @@ status type (AC, WA, CE, TLE, RE, Other) across all submissions.
 import polars as pl
 
 
-# ── Normalisation des statuts → codes courts ──────────────────────────────────
-# Valeurs observées dans les données CodeNet AtCoder.
+# Normalization: full status names → short codes
+# Values observed in CodeNet AtCoder data.
 STATUS_MAP = {
     "Accepted":              "AC",
     "Wrong Answer":          "WA",
@@ -27,7 +22,7 @@ STATUS_MAP = {
     "Judge Not Available":   "Other",
 }
 
-# Ordre d'affichage pour les graphiques
+# Display order for charts and terminal output
 STATUS_ORDER = ["AC", "WA", "TLE", "RE", "CE", "Other"]
 DIFFICULTY_ORDER = ["A", "B", "C", "D", "E", "F"]
 
@@ -37,24 +32,22 @@ def compute_error_distribution(
     df_abc: pl.DataFrame,
 ) -> pl.DataFrame:
     """
-    Calcule la distribution des statuts de soumission par lettre de difficulté.
-
     Computes submission status distribution per difficulty letter.
 
     Args:
-        lazy_subs : LazyFrame des soumissions ABC
-                    (colonnes requises : problem_id, status)
-        df_abc    : DataFrame des problèmes ABC labellisés
-                    (colonnes requises : problem_id, difficulty)
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, status)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty)
 
     Returns:
-        DataFrame avec colonnes :
+        DataFrame with columns:
         difficulty | status_code | n_submissions | pct
-        Trié par difficulty puis status_code.
+        Sorted by difficulty then status_code.
     """
     lazy_labels = df_abc.lazy().select(["problem_id", "difficulty"])
 
-    # Jointure + normalisation des statuts
+    # Join + normalize status names to short codes
     joined = (
         lazy_subs
         .select(["problem_id", "status"])
@@ -66,21 +59,21 @@ def compute_error_distribution(
         )
     )
 
-    # Total de soumissions par difficulté (pour le calcul des %)
+    # Total submissions per difficulty level (denominator for percentages)
     totals = (
         joined
         .group_by("difficulty")
         .agg(pl.len().alias("total_submissions"))
     )
 
-    # Comptage par (difficulty, status_code)
+    # Count per (difficulty, status_code)
     counts = (
         joined
         .group_by(["difficulty", "status_code"])
         .agg(pl.len().alias("n_submissions"))
     )
 
-    # Jointure + calcul des pourcentages
+    # Join + compute percentages
     result = (
         counts
         .join(totals, on="difficulty", how="left")
@@ -94,14 +87,12 @@ def compute_error_distribution(
         .collect()
     )
 
-    # ── Résumé console ────────────────────────────────────────────────────────
+    # Terminal summary
     total_subs = result["n_submissions"].sum()
-    print(f"  Total soumissions ABC analysées : {total_subs:,}\n")
+    print(f"  Total ABC submissions analyzed: {total_subs:,}\n")
 
-    # Tableau pivot : difficulty × status_code → pct
-    # On pivote uniquement les statuts principaux pour un affichage lisible
     main_statuses = ["AC", "WA", "TLE", "CE", "RE"]
-    header = f"  {'Niveau':<8}" + "".join(f"{s:>8}%" for s in main_statuses)
+    header = f"  {'Level':<8}" + "".join(f"{s:>8}%" for s in main_statuses)
     print(header)
     print("  " + "-" * (8 + 9 * len(main_statuses)))
 

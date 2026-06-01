@@ -1,9 +1,8 @@
 """
-main.py — Orchestrateur du pipeline de données.
-         Data pipeline orchestrator.
+main.py — Data pipeline orchestrator.
 
-Responsabilité unique : appeler les modules dans l'ordre et sauvegarder les résultats.
-Single responsibility : call modules in order and save results.
+Single responsibility: call modules in order and save results.
+No processing logic — no file paths (delegated to data_loader).
 """
 import polars as pl
 
@@ -29,31 +28,25 @@ def print_section(title: str) -> None:
 
 
 def main():
-    print_section("🚀 OJS Submission Analytics Pipeline")
+    print_section("OJS Submission Analytics Pipeline")
     ensure_processed_dir()
 
-    # ──────────────────────────────────────────────────────────────
-    # PHASE 1 : Labellisation des problèmes ABC (A–F)
-    # PHASE 1 : ABC problem difficulty labeling (A–F)
-    # ──────────────────────────────────────────────────────────────
-    print_section("PHASE 1 — Labellisation des problèmes ABC")
+    # ── PHASE 1: ABC problem difficulty labeling (A–F) ────────────────────────
+    print_section("PHASE 1 — ABC Problem Labeling")
 
     df_atcoder = load_atcoder_problems()
     df_abc = label_abc_problems(df_atcoder)
 
-    # Enrichissement avec les scores HTML — ciblé sur les IDs ABC uniquement
+    # Enrich with HTML scores — targeted to ABC IDs only
     abc_ids = df_abc["problem_id"].to_list()
     df_scores = extract_problem_scores(get_descriptions_dir(), abc_ids)
     df_abc = df_abc.join(df_scores, on="problem_id", how="left")
 
     df_abc.write_csv(OUT_ABC_PROBLEMS)
-    print(f"\n  ✅ Sauvegardé : {OUT_ABC_PROBLEMS}")
+    print(f"\n  Saved: {OUT_ABC_PROBLEMS}")
 
-    # ──────────────────────────────────────────────────────────────
-    # PHASE 2 : Profilage et classification des utilisateurs
-    # PHASE 2 : User profiling and classification
-    # ──────────────────────────────────────────────────────────────
-    print_section("PHASE 2 — Profilage & Classification des utilisateurs")
+    # ── PHASE 2: User profiling and G1–G6 classification ─────────────────────
+    print_section("PHASE 2 — User Profiling & Classification")
 
     lazy_subs = load_submissions_lazy(
         abc_ids,
@@ -62,12 +55,10 @@ def main():
     df_users = build_user_profiles(lazy_subs, df_abc)
 
     df_users.write_csv(OUT_USER_PROFILES)
-    print(f"\n  ✅ Sauvegardé : {OUT_USER_PROFILES}")
+    print(f"\n  Saved: {OUT_USER_PROFILES}")
 
-    # ──────────────────────────────────────────────────────────────
-    # SYNTHÈSE — Classification G1–G6 (Shimizu et al. 2025)
-    # ──────────────────────────────────────────────────────────────
-    print_section("SYNTHÈSE — Classification G1–G6")
+    # ── PHASE 2 SUMMARY: G1–G6 breakdown ─────────────────────────────────────
+    print_section("SUMMARY — G1–G6 Classification")
 
     group_stats = (
         df_users
@@ -76,14 +67,11 @@ def main():
         .sort("proficiency_group")
     )
 
-    group_labels = {v: k for k, v in LETTER_TO_GROUP.items()}  # G1→A, G2→B...
+    group_labels = {v: k for k, v in LETTER_TO_GROUP.items()}
     total = df_users.shape[0]
-
-    # Utilisateurs sans aucun AC (jamais résolu un problème)
     no_ac = df_users.filter(pl.col("proficiency_group").is_null()).shape[0]
-    classified = df_users.filter(pl.col("proficiency_group").is_not_null())
 
-    print(f"\n  {'Groupe':<8} {'Lettre max':<14} {'Utilisateurs':>14}  {'%':>6}")
+    print(f"\n  {'Group':<8} {'Max level':<14} {'Users':>14}  {'%':>6}")
     print(f"  {'-'*48}")
     for row in group_stats.filter(pl.col("proficiency_group").is_not_null()).iter_rows(named=True):
         g = row["proficiency_group"]
@@ -92,15 +80,12 @@ def main():
         pct = n / total * 100
         print(f"  {g:<8} max {letter:<11} {n:>14,}  {pct:>5.1f}%")
     if no_ac > 0:
-        print(f"  {'—':<8} {'aucun AC':<14} {no_ac:>14,}  {no_ac/total*100:>5.1f}%")
+        print(f"  {'—':<8} {'no AC':<14} {no_ac:>14,}  {no_ac/total*100:>5.1f}%")
     print(f"  {'-'*48}")
     print(f"  {'TOTAL':<23} {total:>14,}  100.0%")
 
-    # ──────────────────────────────────────────────────────────────
-    # PHASE 3 : Distribution des erreurs par niveau (RQ1)
-    # PHASE 3 : Error distribution by difficulty level (RQ1)
-    # ──────────────────────────────────────────────────────────────
-    print_section("PHASE 3 — Distribution des erreurs par niveau (RQ1)")
+    # ── PHASE 3: Error distribution by difficulty level (RQ1) ─────────────────
+    print_section("PHASE 3 — Error Distribution by Difficulty Level (RQ1)")
 
     lazy_subs_errors = load_submissions_lazy(
         abc_ids,
@@ -110,9 +95,9 @@ def main():
 
     out_errors = PROCESSED_DATA_DIR / "atcoder_error_distribution.csv"
     df_errors.write_csv(out_errors)
-    print(f"\n  ✅ Sauvegardé : {out_errors}")
+    print(f"\n  Saved: {out_errors}")
 
-    print_section("✨ Pipeline terminé avec succès !")
+    print_section("Pipeline completed successfully")
 
 
 if __name__ == "__main__":

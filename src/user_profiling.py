@@ -1,16 +1,11 @@
 """
-user_profiling.py — Construction des profils utilisateurs et classification G1–G6.
-                    Builds user profiles and classifies users into groups G1–G6.
-
-Méthodologie : Shimizu et al. (2025).
-Chaque utilisateur est classé selon la lettre de difficulté maximale
-qu'il a résolue avec succès (Accepted) dans les contests ABC.
-  G1 = max A | G2 = max B | G3 = max C
-  G4 = max D | G5 = max E | G6 = max F
+user_profiling.py — Builds user behavioral profiles and classifies them into G1–G6.
 
 Methodology: Shimizu et al. (2025).
 Each user is classified by the maximum difficulty letter they successfully
-solved (Accepted) in ABC contests.
+solved (Accepted) in ABC contests:
+  G1 = max A | G2 = max B | G3 = max C
+  G4 = max D | G5 = max E | G6 = max F
 """
 import polars as pl
 
@@ -22,41 +17,35 @@ def build_user_profiles(
     df_abc: pl.DataFrame,
 ) -> pl.DataFrame:
     """
-    Calcule les profils comportementaux de chaque utilisateur
-    et les classe en groupes G1–G6 (Shimizu et al. 2025).
-
-    Computes behavioral profiles for each user
-    and classifies them into groups G1–G6 (Shimizu et al. 2025).
+    Computes behavioral profiles for each user and classifies them
+    into groups G1–G6 (Shimizu et al. 2025).
 
     Args:
-        lazy_subs : LazyFrame des soumissions ABC
-                    (colonnes : problem_id, user_id, status, date)
-        df_abc    : DataFrame des problèmes ABC labellisés
-                    (colonnes : problem_id, difficulty, ...)
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, user_id, status, date)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty, ...)
 
     Returns:
-        DataFrame par utilisateur avec :
+        Per-user DataFrame with:
         user_id, unique_problems_attempted, unique_problems_solved,
         total_raw_submissions, problem_win_rate, submissions_per_problem,
         max_difficulty_solved, proficiency_group
     """
-    print("  [1/4] Jointure soumissions × labels de difficulté...")
+    print("  [1/4] Joining submissions with difficulty labels...")
     lazy_abc = df_abc.lazy().select(["problem_id", "difficulty"])
-
     joined = lazy_subs.join(lazy_abc, on="problem_id", how="inner")
 
-    # ── Étape 2 : agrégation par (user, problème) ──────────────────────────────
-    # Évite de compter le spam de soumissions comme des tentatives distinctes.
-    # Avoids counting submission spam as distinct attempts.
-    print("  [2/4] Agrégation par (utilisateur, problème)...")
+    # Step 2: aggregate per (user, problem) to handle submission spam
+    print("  [2/4] Aggregating per (user, problem)...")
     user_problem_stats = joined.group_by(["user_id", "problem_id"]).agg(
         pl.len().alias("attempts"),
         (pl.col("status") == "Accepted").any().alias("is_solved"),
         pl.col("difficulty").first().alias("difficulty"),
     )
 
-    # ── Étape 3 : profil global par utilisateur ────────────────────────────────
-    print("  [3/4] Calcul des profils globaux...")
+    # Step 3: global profile per user
+    print("  [3/4] Computing global user profiles...")
     user_profiles = (
         user_problem_stats
         .group_by("user_id")
@@ -73,10 +62,9 @@ def build_user_profiles(
         ])
     )
 
-    # ── Étape 4 : lettre max résolue → groupe G1–G6 ───────────────────────────
-    # max() sur 'A'..'F' est correct alphabétiquement.
-    # max() on 'A'..'F' is correct alphabetically.
-    print("  [4/4] Classification G1–G6 (lettre max résolue)...")
+    # Step 4: max solved difficulty letter → G1–G6 group
+    # max() on 'A'..'F' is alphabetically correct (A < B < C < D < E < F)
+    print("  [4/4] Classifying into G1–G6 (max solved difficulty letter)...")
     max_difficulty = (
         user_problem_stats
         .filter(pl.col("is_solved"))
@@ -85,7 +73,6 @@ def build_user_profiles(
     )
 
     user_profiles = user_profiles.join(max_difficulty, on="user_id", how="left")
-
     user_profiles = user_profiles.with_columns(
         pl.col("max_difficulty_solved")
           .replace(LETTER_TO_GROUP)
@@ -94,13 +81,13 @@ def build_user_profiles(
 
     df_final = user_profiles.collect()
 
-    # Filtrage : ≥ 3 soumissions brutes (critère Shimizu et al. 2025)
+    # Filter: >= 3 raw submissions (Shimizu et al. 2025 criterion)
     before = df_final.shape[0]
     df_final = df_final.filter(pl.col("total_raw_submissions") >= 3)
     removed = before - df_final.shape[0]
 
-    print(f"\n  Profils calculés       : {before:,}")
-    print(f"  Profils fantômes exclus (< 3 soumissions) : {removed:,}")
-    print(f"  Profils actifs retenus : {df_final.shape[0]:,}")
+    print(f"\n  Profiles computed          : {before:,}")
+    print(f"  Ghost profiles removed     : {removed:,}  (< 3 submissions)")
+    print(f"  Active profiles kept       : {df_final.shape[0]:,}")
 
     return df_final
