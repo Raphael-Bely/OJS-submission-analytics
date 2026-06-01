@@ -1,6 +1,18 @@
 # OJS Submission Analytics Dashboard — Project Roadmap & Technical Specifications
 
-This repository contains the source code, data pipelines, and interactive analytics dashboard developed during my research internship at Ritsumeikan University. The project focuses on exploring large-scale code submission datasets (Project CodeNet: AtCoder & AIZU) to model programmer proficiency, error resolution characteristics, and code evolution.
+This repository contains the source code, data pipelines, and interactive analytics dashboard developed during my research internship at Ritsumeikan University (DDSE Laboratory, supervised by Prof. Makihara Erina). The project focuses on analyzing the **AtCoder** submission history from Project CodeNet to systematically characterize error patterns in Online Judge Systems (OJS) and build an interactive analytics tool.
+
+> **Scope confirmed (Prof. Makihara, May 2025):** The project focuses exclusively on **AtCoder** data, which constitutes the majority of CodeNet and provides the difficulty labels required for the analysis. AIZU and LeetCode integration is optional and deferred to V2+.
+
+---
+
+## 0. Research Questions (defined with Prof. Makihara)
+
+* **RQ1 (V0):** How do programmers' error patterns differ across combinations of problem difficulty and user proficiency level? → Reproducing Shimizu *et al.* (2025) proficiency classification as a baseline, then granular analysis by error type (CE, WA, TLE, RE).
+
+* **RQ2 (V1):** Do codes that are close to each other in vector space share similar error patterns? → Code embeddings (CodeBERT / GraphCodeBERT) + topological visualization (t-SNE / UMAP).
+
+* **RQ3 (V2 — optional):** Does the information visualized by the proposed tool contribute to error prediction? → Predictive model distinguishing predictable from unpredictable errors.
 
 ---
 
@@ -45,9 +57,9 @@ The project is divided into three incremental phases (V0, V1, V2) to secure func
     1.  Dynamically and interactively replicate the conclusions of the laboratory's research paper (*An Empirical Study of the Error Characteristics in an Online Judge System*).
     2.  Empirically verify specific phenomena, such as the prevalence and resolution difficulty of *Time Limit Exceeded* (TLE) errors, or the inversion of compilation error (CE) vs. logical error (TLE) proportions based on problem difficulty.
 * **Applied Machine Learning Algorithms**:
-    * **PCA (Principal Component Analysis)**: To reduce the dimensionality of user profiles (based on their error rates, submission speed, language diversity) and project these profiles in 2D/3D to visually identify natural groupings.
-    * **K-Means (Clustering)**: Unsupervised algorithm used to automatically segment and classify programmers in the absence of level labels in the raw dataset. The goal is to see if the algorithm naturally recreates the G1 to G6 level groups manually identified by the researchers.
-* **Interface Deliverable**: A functional local Streamlit dashboard allowing users to filter error distributions and resolution times by platform (AtCoder / AIZU), programming language, and difficulty level (A to F).
+    * **G1–G6 Classification (Shimizu *et al.* 2025)**: Each user is classified by the maximum difficulty letter they successfully solved (Accepted) in AtCoder Beginner Contests. Letters A–F are assigned by ordinal position within each contest in `problem_list.csv`. This is the primary classification method.
+    * **K-Means + PCA (exploratory)**: Used in the initial exploration phase to validate the existence of natural behavioral clusters. Results archived in `playground/00_exploration_score_based_DEPRECATED.ipynb`.
+* **Interface Deliverable**: A functional local Streamlit dashboard allowing users to filter error distributions and resolution times by difficulty level (A to F) and proficiency group (G1–G6), on AtCoder data only.
 
 ### 2.2. Version 1: Textual Analysis & Introduction to Code Embeddings
 * **Data Scope**: Extension of the analysis to the **raw source code files** (`.cpp`, `.py`, `.java`, `.c`) contained in the CodeNet archive.
@@ -76,7 +88,7 @@ The following schedule aligns with the standard duration of the research interns
   * *Deliverables:* Operational computing environment. Data cleaning scripts validated on a 100,000-row sample.
 
 * **Phase 2: V0 Development (Weeks 4 — 7)**
-  * *Main Tasks:* Calculate aggregated user features (TLE rate, submission speed, etc.). Implement PCA and K-Means for unsupervised profiling. Code the Streamlit layout and dynamic filters.
+  * *Main Tasks:* Reproduce Shimizu *et al.* (2025) G1–G6 proficiency classification. Analyze error distributions (CE, WA, TLE, RE) by difficulty level and user group (RQ1). Code the Streamlit layout and dynamic filters.
   * *Deliverables:* **V0 Deliverable**: Functional dashboard displaying descriptive statistics and the first user profile clusters. Report validating the conclusions of the initial research paper.
 
 * **Phase 3: V1 Research (Weeks 8 — 11)**

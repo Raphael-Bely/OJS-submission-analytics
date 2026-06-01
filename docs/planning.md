@@ -1,6 +1,18 @@
 # OJS Submission Analytics Dashboard — Project Roadmap & Technical Specifications
 
-This repository contains the source code, data pipelines, and interactive analytics dashboard developed during my research internship at Ritsumeikan University. The project focuses on exploring large-scale code submission datasets (Project CodeNet: AtCoder & AIZU) to model programmer proficiency, error resolution characteristics, and code evolution.
+This repository contains the source code, data pipelines, and interactive analytics dashboard developed during my research internship at Ritsumeikan University (DDSE Laboratory, supervised by Prof. Makihara Erina). The project focuses on analyzing the **AtCoder** submission history from Project CodeNet to systematically characterize error patterns in Online Judge Systems (OJS) and build an interactive analytics tool.
+
+> **Périmètre confirmé (Prof. Makihara, mai 2025)** : Le projet se concentre exclusivement sur les données **AtCoder**, qui constituent la majorité de CodeNet et disposent des labels de difficulté nécessaires à l'analyse. L'intégration AIZU et LeetCode est optionnelle et reportée en V2+.
+
+---
+
+## 0. Questions de Recherche (définies avec Prof. Makihara)
+
+* **RQ1 (V0)** : Comment les patterns d'erreurs des programmeurs varient-ils selon la combinaison difficulté du problème et niveau de proficience de l'utilisateur ? → Reproduction de la classification de Shimizu *et al.* (2025) comme baseline, puis analyse granulaire par type d'erreur (CE, WA, TLE, RE).
+
+* **RQ2 (V1)** : Les codes proches dans l'espace vectoriel partagent-ils des patterns d'erreurs similaires ? → Embeddings de code (CodeBERT / GraphCodeBERT) + visualisation topologique (t-SNE / UMAP).
+
+* **RQ3 (V2 — optionnel)** : Les informations visualisées par l'outil contribuent-elles à la prédiction des erreurs ? → Modèle prédictif distinguant erreurs prévisibles et imprévisibles.
 
 ---
 
@@ -44,10 +56,10 @@ Le projet est découpé en trois phases incrémentales (V0, V1, V2) afin de séc
 * **Objectifs Scientifiques** : 
     1.  Répliquer de manière dynamique et interactive les conclusions du papier de recherche du laboratoire (*An Empirical Study of the Error Characteristics in an Online Judge System*).
     2.  Vérifier empiriquement des phénomènes précis, comme la prédominance et la difficulté de résolution des erreurs de type *Time Limit Exceeded* (TLE), ou l'inversion des proportions d'erreurs de compilation (CE) vs logiques (TLE) selon la difficulté du problème.
-* **Algorithmes de Machine Learning Appliqués** :
-    * **ACP (Analyse en Composantes Principales)** : Pour réduire la dimensionnalité des profils d'utilisateurs (basés sur leurs taux d'erreurs, vitesse de soumission, diversité des langages) et projeter ces profils en 2D/3D afin d'identifier visuellement des groupements naturels.
-    * **K-Means (Clustering)** : Algorithme non supervisé utilisé pour segmenter et classifier les programmeurs de manière automatique en l'absence d'étiquettes de niveau ("labels") dans le dataset brut. L'objectif est de voir si l'algorithme recrée naturellement les groupes de niveau de G1 à G6 identifiés manuellement par les chercheurs.
-* **Livrable Interface** : Un tableau de bord Streamlit fonctionnel en local permettant de filtrer les distributions d'erreurs et les temps de résolution par plateforme (AtCoder / AIZU), par langage et par niveau de difficulté (A à F).
+* **Méthodologie de Classification Adoptée** :
+    * **Classification G1–G6 (Shimizu *et al.* 2025)** : Chaque utilisateur est classé selon la lettre de difficulté maximale résolue (Accepted) dans les AtCoder Beginner Contests. Les lettres A–F sont assignées par position ordinale au sein de chaque contest dans `problem_list.csv`. Cette méthode est la baseline principale.
+    * **K-Means + ACP (exploratoire)** : Utilisés dans la phase d'exploration initiale pour valider l'existence de clusters comportementaux naturels. Résultats archivés dans `playground/00_exploration_score_based_DEPRECATED.ipynb`.
+* **Livrable Interface** : Un tableau de bord Streamlit fonctionnel en local permettant de filtrer les distributions d'erreurs et les temps de résolution par niveau de difficulté (A à F) et par groupe de proficience (G1–G6), sur les données AtCoder uniquement.
 
 ### 2.2. Version 1 : Analyse Textuelle & Introduction aux Embeddings de Code
 * **Périmètre des données** : Extension de l'analyse aux **fichiers sources bruts** (`.cpp`, `.py`, `.java`, `.c`) contenus dans l'archive de CodeNet.
