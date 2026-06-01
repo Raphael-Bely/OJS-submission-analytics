@@ -18,7 +18,7 @@ from data_loader import (
 from problem_parser import extract_problem_scores
 from difficulty_labeler import label_abc_problems, LETTER_TO_GROUP
 from user_profiling import build_user_profiles
-from error_analysis import compute_error_distribution
+from error_analysis import compute_error_distribution, compute_error_by_group_and_difficulty
 
 
 def print_section(title: str) -> None:
@@ -84,8 +84,8 @@ def main():
     print(f"  {'-'*48}")
     print(f"  {'TOTAL':<23} {total:>14,}  100.0%")
 
-    # ── PHASE 3: Error distribution by difficulty level (RQ1) ─────────────────
-    print_section("PHASE 3 — Error Distribution by Difficulty Level (RQ1)")
+    # ── PHASE 3a: Error distribution by difficulty level (RQ1 — all users) ───
+    print_section("PHASE 3a — Error Distribution by Difficulty Level (RQ1)")
 
     lazy_subs_errors = load_submissions_lazy(
         abc_ids,
@@ -96,6 +96,21 @@ def main():
     out_errors = PROCESSED_DATA_DIR / "atcoder_error_distribution.csv"
     df_errors.write_csv(out_errors)
     print(f"\n  Saved: {out_errors}")
+
+    # ── PHASE 3b: Error distribution by difficulty x group (RQ1 — Table 4) ───
+    print_section("PHASE 3b — Error Distribution by Difficulty x Group (Table 4)")
+
+    lazy_subs_grouped = load_submissions_lazy(
+        abc_ids,
+        columns=["problem_id", "user_id", "status"]
+    )
+    df_errors_by_group = compute_error_by_group_and_difficulty(
+        lazy_subs_grouped, df_abc, df_users
+    )
+
+    out_errors_by_group = PROCESSED_DATA_DIR / "atcoder_error_by_group_difficulty.csv"
+    df_errors_by_group.write_csv(out_errors_by_group)
+    print(f"\n  Saved: {out_errors_by_group}")
 
     print_section("Pipeline completed successfully")
 
