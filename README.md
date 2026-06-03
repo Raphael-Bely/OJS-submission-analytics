@@ -54,16 +54,18 @@ src/
 ├── difficulty_labeler.py     # Assigns A–F difficulty letters to ABC problems
 ├── problem_parser.py         # Extracts scores from HTML problem descriptions
 ├── user_profiling.py         # Builds user profiles and classifies into G1–G6
-└── error_analysis.py         # Computes error distribution by difficulty level (RQ1)
+└── error_analysis.py         # Computes error distributions (by difficulty, group, language)
 
 playground/
 ├── 00_exploration_score_based_DEPRECATED.ipynb  # Initial exploration (archived)
-├── 01_user_classification_G1G6.ipynb            # G1–G6 classification & validation
-└── 02_error_analysis_RQ1.ipynb                  # Error distribution analysis (RQ1)
+├── 01_user_classification_G1G6.ipynb            # G1–G6 classification & validation vs Shimizu
+├── 02_error_analysis_RQ1.ipynb                  # Error distribution by difficulty (RQ1)
+├── 03_error_analysis_by_group_difficulty.ipynb  # Error distribution by difficulty × group (RQ1 extended)
+└── 04_language_analysis.ipynb                   # Language distribution & error patterns by language
 
 data/
 ├── Project_CodeNet/          # Raw dataset (not versioned — 8GB)
-└── processed/                # Pipeline outputs (not versioned)
+└── processed/                # Pipeline outputs (versioned)
 
 docs/
 ├── planning.md               # Technical specifications & roadmap
@@ -91,10 +93,14 @@ Download [Project CodeNet](https://developer.ibm.com/exchanges/data/all/project-
 python src/main.py
 ```
 
-The pipeline runs 3 phases and produces in `data/processed/`:
+The pipeline runs in phases and produces in `data/processed/`:
 - `atcoder_abc_problems_labeled.csv` — 659 ABC problems with difficulty A–F
 - `atcoder_user_profiles.csv` — ~96K user profiles with G1–G6 classification
-- `atcoder_error_distribution.csv` — error distribution per difficulty level (RQ1)
+- `atcoder_error_distribution.csv` — error distribution per difficulty level
+- `atcoder_error_by_group_difficulty.csv` — error distribution per difficulty × group
+- `atcoder_language_distribution.csv` — language distribution per difficulty level
+- `atcoder_language_by_group.csv` — language distribution per difficulty × group
+- `atcoder_error_by_language.csv` — error distribution per language × difficulty
 
 ---
 
@@ -105,8 +111,11 @@ The pipeline runs 3 phases and produces in `data/processed/`:
 | ABC problem labeling (A–F) | ✅ Done |
 | User profiling & G1–G6 classification | ✅ Done |
 | Error distribution by difficulty (RQ1) | ✅ Done |
-| Error analysis by user group (RQ1 extended) | ⏳ Next |
-| Error resolution rate (RQ2 analysis) | ⏳ Planned |
+| Error distribution by difficulty × group (RQ1 extended) | ✅ Done |
+| Language distribution by difficulty & proficiency group | ✅ Done |
+| Error patterns by language × difficulty (TLE, AC, CE) | ✅ Done |
+| Error patterns by language × proficiency group | ⏳ Planned |
+| Error resolution rate after first failure (RQ2) | ⏳ Planned |
 | Streamlit dashboard | ⏳ Planned |
 
 ---
@@ -114,9 +123,8 @@ The pipeline runs 3 phases and produces in `data/processed/`:
 ## Dataset
 
 **Project CodeNet** — IBM Research (2021)  
-License: CDLA-Permissive-2.0  
 AtCoder subset: 1,519 problems · ~12M submissions · ~124K users
 
 ---
 
-*Ritsumeikan University — DDSE Laboratory — 2025*
+*Ritsumeikan University — DDSE Laboratory — 2026*

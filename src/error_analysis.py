@@ -1,10 +1,8 @@
 """
-error_analysis.py — Error distribution analysis by difficulty level.
+error_analysis.py — Error distribution analysis by difficulty level and language.
 
-Methodology: Shimizu et al. (2025) — RQ1.
+Methodology: Shimizu et al. (2025) — RQ1 + language extension.
 Analysis unit: the submission (not the user).
-For each difficulty level A–F, computes the proportion of each
-status type (AC, WA, CE, TLE, RE, Other) across all submissions.
 """
 import polars as pl
 
@@ -21,6 +19,23 @@ STATUS_MAP = {
     "Output Limit Exceeded": "Other",
     "Judge Not Available":   "Other",
 }
+
+# Language normalization: filename_ext → canonical language name.
+# Extensions verified to exist in the AtCoder ABC subset of CodeNet.
+# All other extensions (js, kt, hs, php, scala, nim, ...) → "Other".
+EXT_TO_LANGUAGE = {
+    "cpp":  "C++",
+    "py":   "Python",
+    "java": "Java",
+    "c":    "C",
+    "rb":   "Ruby",
+    "cs":   "C#",
+    "rs":   "Rust",
+    "go":   "Go",
+}
+# All other extensions (js, kt, hs, php, d, scala, nim, sh, ...) → "Other"
+
+LANGUAGE_ORDER = ["C++", "Python", "Java", "C", "Ruby", "C#", "Rust", "Go", "Other"]
 
 # Display order for charts and terminal output
 STATUS_ORDER = ["AC", "WA", "TLE", "RE", "CE", "Other"]
@@ -205,5 +220,191 @@ def compute_error_by_group_and_difficulty(
             row_parts.append(f"{val:>8.1f}" if val is not None else f"{'—':>9}")
         print(f"  {diff:<6}" + "".join(row_parts))
 
+    print()
+    return result
+
+
+# ── Shared helper ──────────────────────────────────────────────────────────────
+
+def _normalize_language(lazy: pl.LazyFrame) -> pl.LazyFrame:
+    """Adds a 'language' column by mapping filename_ext → canonical name."""
+    return lazy.with_columns(
+        pl.col("filename_ext")
+          .replace(EXT_TO_LANGUAGE, default="Other")
+          .alias("language")
+    )
+
+
+# ── Language analysis functions ────────────────────────────────────────────────
+
+def compute_language_distribution(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Computes submission count per language per difficulty level.
+
+    Args:
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, filename_ext)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty)
+
+    Returns:
+        DataFrame with columns: difficulty | language | n_submissions | pct
+    """
+    lazy_labels = df_abc.lazy().select(["problem_id", "difficulty"])
+
+    joined = (
+        lazy_subs
+        .select(["problem_id", "filename_ext"])
+        .join(lazy_labels, on="problem_id", how="inner")
+        .pipe(_normalize_language)
+    )
+
+    totals = joined.group_by("difficulty").agg(pl.len().alias("total"))
+    counts = joined.group_by(["difficulty", "language"]).agg(pl.len().alias("n_submissions"))
+
+    result = (
+        counts
+        .join(totals, on="difficulty", how="left")
+        .with_columns(
+            (pl.col("n_submissions") / pl.col("total") * 100).round(2).alias("pct")
+        )
+        .drop("total")
+        .sort(["difficulty", "n_submissions"], descending=[False, True])
+        .collect()
+    )
+
+    total_subs = result["n_submissions"].sum()
+    print(f"  Total submissions: {total_subs:,}")
+    print(f"  Languages found:   {sorted(result['language'].unique().to_list())}")
+    return result
+
+
+def compute_language_distribution_by_group(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+    df_users: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Computes submission count per (difficulty, proficiency group, language).
+
+    Args:
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, user_id, filename_ext)
+        df_abc:    Labeled ABC problem DataFrame
+        df_users:  User profile DataFrame
+                   (required columns: user_id, proficiency_group)
+
+    Returns:
+        DataFrame with columns:
+        difficulty | proficiency_group | language | n_submissions | pct
+    """
+    lazy_labels = df_abc.lazy().select(["problem_id", "difficulty"])
+    lazy_groups = (
+        df_users.lazy()
+        .select(["user_id", "proficiency_group"])
+        .filter(pl.col("proficiency_group").is_not_null())
+    )
+
+    joined = (
+        lazy_subs
+        .select(["problem_id", "user_id", "filename_ext"])
+        .join(lazy_labels, on="problem_id", how="inner")
+        .join(lazy_groups, on="user_id", how="inner")
+        .pipe(_normalize_language)
+    )
+
+    totals = (
+        joined
+        .group_by(["difficulty", "proficiency_group"])
+        .agg(pl.len().alias("total"))
+    )
+    counts = (
+        joined
+        .group_by(["difficulty", "proficiency_group", "language"])
+        .agg(pl.len().alias("n_submissions"))
+    )
+
+    result = (
+        counts
+        .join(totals, on=["difficulty", "proficiency_group"], how="left")
+        .with_columns(
+            (pl.col("n_submissions") / pl.col("total") * 100).round(2).alias("pct")
+        )
+        .drop("total")
+        .sort(["difficulty", "proficiency_group", "n_submissions"], descending=[False, False, True])
+        .collect()
+    )
+
+    print(f"  Total submissions: {result['n_submissions'].sum():,}")
+    return result
+
+
+def compute_error_by_language(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Computes error type distribution per (language, difficulty level).
+
+    Args:
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, filename_ext, status)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty)
+
+    Returns:
+        DataFrame with columns:
+        difficulty | language | status_code | n_submissions | pct
+    """
+    lazy_labels = df_abc.lazy().select(["problem_id", "difficulty"])
+
+    joined = (
+        lazy_subs
+        .select(["problem_id", "filename_ext", "status"])
+        .join(lazy_labels, on="problem_id", how="inner")
+        .pipe(_normalize_language)
+        .with_columns(
+            pl.col("status")
+              .replace(STATUS_MAP, default="Other")
+              .alias("status_code")
+        )
+    )
+
+    totals = (
+        joined
+        .group_by(["difficulty", "language"])
+        .agg(pl.len().alias("total"))
+    )
+    counts = (
+        joined
+        .group_by(["difficulty", "language", "status_code"])
+        .agg(pl.len().alias("n_submissions"))
+    )
+
+    result = (
+        counts
+        .join(totals, on=["difficulty", "language"], how="left")
+        .with_columns(
+            (pl.col("n_submissions") / pl.col("total") * 100).round(2).alias("pct")
+        )
+        .drop("total")
+        .sort(["difficulty", "language", "status_code"])
+        .collect()
+    )
+
+    # Terminal summary: AC rate per language on level A
+    print(f"  Total submissions analyzed: {result['n_submissions'].sum():,}\n")
+    print(f"  AC rate on level A by language:")
+    for lang in LANGUAGE_ORDER:
+        subset = result.filter(
+            (pl.col("difficulty") == "A") &
+            (pl.col("language") == lang) &
+            (pl.col("status_code") == "AC")
+        )
+        if not subset.is_empty():
+            print(f"    {lang:<10} {subset['pct'].item():>5.1f}%")
     print()
     return result

@@ -13,3 +13,5 @@ env/
 *.zip
 *.pdf
 data/
+.claudeignore
+CLAUDE.md

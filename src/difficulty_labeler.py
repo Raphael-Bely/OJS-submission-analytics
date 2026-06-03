@@ -59,7 +59,6 @@ def label_abc_problems(df_atcoder: pl.DataFrame) -> pl.DataFrame:
 
     df_labeled = pl.DataFrame(labeled_rows)
 
-    # Summary
     sizes: dict[int, int] = defaultdict(int)
     for ids in contest_groups.values():
         sizes[len(ids)] += 1

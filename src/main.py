@@ -18,7 +18,13 @@ from data_loader import (
 from problem_parser import extract_problem_scores
 from difficulty_labeler import label_abc_problems, LETTER_TO_GROUP
 from user_profiling import build_user_profiles
-from error_analysis import compute_error_distribution, compute_error_by_group_and_difficulty
+from error_analysis import (
+    compute_error_distribution,
+    compute_error_by_group_and_difficulty,
+    compute_language_distribution,
+    compute_language_distribution_by_group,
+    compute_error_by_language,
+)
 
 
 def print_section(title: str) -> None:
@@ -111,6 +117,30 @@ def main():
     out_errors_by_group = PROCESSED_DATA_DIR / "atcoder_error_by_group_difficulty.csv"
     df_errors_by_group.write_csv(out_errors_by_group)
     print(f"\n  Saved: {out_errors_by_group}")
+
+    # ── PHASE 4a: Language distribution by difficulty ─────────────────────────
+    print_section("PHASE 4a — Language Distribution by Difficulty")
+
+    lazy_lang = load_submissions_lazy(abc_ids, columns=["problem_id", "filename_ext"])
+    df_lang = compute_language_distribution(lazy_lang, df_abc)
+    df_lang.write_csv(PROCESSED_DATA_DIR / "atcoder_language_distribution.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_language_distribution.csv'}")
+
+    # ── PHASE 4b: Language distribution by difficulty × group ─────────────────
+    print_section("PHASE 4b — Language Distribution by Difficulty x Group")
+
+    lazy_lang_group = load_submissions_lazy(abc_ids, columns=["problem_id", "user_id", "filename_ext"])
+    df_lang_group = compute_language_distribution_by_group(lazy_lang_group, df_abc, df_users)
+    df_lang_group.write_csv(PROCESSED_DATA_DIR / "atcoder_language_by_group.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_language_by_group.csv'}")
+
+    # ── PHASE 4c: Error distribution by language × difficulty ─────────────────
+    print_section("PHASE 4c — Error Distribution by Language x Difficulty")
+
+    lazy_lang_err = load_submissions_lazy(abc_ids, columns=["problem_id", "filename_ext", "status"])
+    df_lang_err = compute_error_by_language(lazy_lang_err, df_abc)
+    df_lang_err.write_csv(PROCESSED_DATA_DIR / "atcoder_error_by_language.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_error_by_language.csv'}")
 
     print_section("Pipeline completed successfully")
 
