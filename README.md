@@ -61,7 +61,8 @@ playground/
 ├── 01_user_classification_G1G6.ipynb            # G1–G6 classification & validation vs Shimizu
 ├── 02_error_analysis_RQ1.ipynb                  # Error distribution by difficulty (RQ1)
 ├── 03_error_analysis_by_group_difficulty.ipynb  # Error distribution by difficulty × group (RQ1 extended)
-└── 04_language_analysis.ipynb                   # Language distribution & error patterns by language
+├── 04_language_analysis.ipynb                   # Language distribution & error patterns by language
+└── 05_resolution_rate.ipynb                     # Problem resolution rate by difficulty & proficiency group
 
 data/
 ├── Project_CodeNet/          # Raw dataset (not versioned — 8GB)
@@ -101,6 +102,8 @@ The pipeline runs in phases and produces in `data/processed/`:
 - `atcoder_language_distribution.csv` — language distribution per difficulty level
 - `atcoder_language_by_group.csv` — language distribution per difficulty × group
 - `atcoder_error_by_language.csv` — error distribution per language × difficulty
+- `atcoder_resolution_by_difficulty.csv` — resolution, abandon & first try rates per difficulty level
+- `atcoder_resolution_by_group.csv` — resolution metrics per difficulty × proficiency group
 
 ---
 
@@ -115,9 +118,8 @@ The pipeline runs in phases and produces in `data/processed/`:
 | Language distribution by difficulty & proficiency group | ✅ Done |
 | Error patterns by language × difficulty (TLE, AC, CE) | ✅ Done |
 | Error patterns by language × proficiency group | ⏳ Planned |
-| Error resolution rate after first failure (RQ2) | ⏳ Planned |
+| Resolution rate by difficulty & proficiency group | ✅ Done |
 | Streamlit dashboard | ⏳ Planned |
-
 ---
 
 ## Dataset

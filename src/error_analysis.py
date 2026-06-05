@@ -38,8 +38,9 @@ EXT_TO_LANGUAGE = {
 LANGUAGE_ORDER = ["C++", "Python", "Java", "C", "Ruby", "C#", "Rust", "Go", "Other"]
 
 # Display order for charts and terminal output
-STATUS_ORDER = ["AC", "WA", "TLE", "RE", "CE", "Other"]
+STATUS_ORDER     = ["AC", "WA", "TLE", "RE", "CE", "Other"]
 DIFFICULTY_ORDER = ["A", "B", "C", "D", "E", "F"]
+GROUP_ORDER      = ["G1", "G2", "G3", "G4", "G5", "G6"]
 
 
 def compute_error_distribution(
@@ -406,5 +407,220 @@ def compute_error_by_language(
         )
         if not subset.is_empty():
             print(f"    {lang:<10} {subset['pct'].item():>5.1f}%")
+    print()
+    return result
+
+
+# ── Resolution rate analysis ───────────────────────────────────────────────────
+
+def _compute_user_problem_stats(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Internal helper — builds per-(user, problem) resolution metrics.
+
+    For each (user, problem) pair, ranks submissions chronologically using the
+    Unix timestamp, then determines:
+      - whether the problem was ever solved (is_resolved)
+      - whether it was solved on the first submission (first_try_ac)
+      - how many submissions it took to reach the first AC (attempts_to_ac)
+
+    Collects eagerly because the ranking window function cannot stay lazy
+    when the result is used in two separate downstream aggregations.
+
+    Returns:
+        DataFrame with columns:
+        user_id, problem_id, difficulty,
+        is_resolved, first_try_ac, total_attempts,
+        attempts_to_ac (null if never resolved)
+    """
+    lazy_labels = df_abc.lazy().select(["problem_id", "difficulty"])
+
+    # Rank each submission by timestamp within (user, problem) — rank 1 = earliest
+    # rank("ordinal") assigns unique ranks based on value: smallest timestamp → rank 1
+    with_rank = (
+        lazy_subs
+        .select(["problem_id", "user_id", "status", "date"])
+        .join(lazy_labels, on="problem_id", how="inner")
+        .with_columns(
+            pl.col("date")
+              .rank("ordinal")
+              .over(["user_id", "problem_id"])
+              .cast(pl.Int32)
+              .alias("submission_rank")
+        )
+        .collect()  # collect early — window function + used twice downstream
+    )
+
+    # Find the rank of the first AC submission per (user, problem)
+    # = number of attempts needed to reach AC (inclusive)
+    first_ac_rank = (
+        with_rank
+        .filter(pl.col("status") == "Accepted")
+        .group_by(["user_id", "problem_id"])
+        .agg(pl.col("submission_rank").min().alias("attempts_to_ac"))
+    )
+
+    # Aggregate to one row per (user, problem)
+    user_problem = (
+        with_rank
+        .group_by(["user_id", "problem_id", "difficulty"])
+        .agg([
+            # Status of the earliest submission (submission_rank == 1)
+            pl.col("status").sort_by("submission_rank").first().alias("first_status"),
+            (pl.col("status") == "Accepted").any().alias("is_resolved"),
+            pl.len().alias("total_attempts"),
+        ])
+        .with_columns(
+            (pl.col("first_status") == "Accepted").alias("first_try_ac")
+        )
+        .drop("first_status")
+        .join(first_ac_rank, on=["user_id", "problem_id"], how="left")
+    )
+
+    return user_problem
+
+
+def compute_resolution_by_difficulty(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Computes problem resolution metrics per difficulty level (A–F).
+
+    For each difficulty level, aggregates across all (user, problem) pairs:
+      - resolution_rate   : % of pairs eventually resolved (any number of attempts)
+      - abandon_rate      : % of pairs attempted but never resolved
+      - first_try_rate    : % of pairs resolved on the very first submission
+      - avg_attempts_to_ac: mean submissions before first AC (resolved pairs only)
+
+    Args:
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, user_id, status, date)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty)
+
+    Returns:
+        DataFrame with columns:
+        difficulty | n_pairs | resolution_rate | abandon_rate |
+        first_try_rate | avg_attempts_to_ac
+    """
+    stats = _compute_user_problem_stats(lazy_subs, df_abc)
+
+    # avg_attempts_to_ac computed separately — only over resolved pairs
+    avg_attempts = (
+        stats
+        .filter(pl.col("is_resolved"))
+        .group_by("difficulty")
+        .agg(pl.col("attempts_to_ac").mean().round(2).alias("avg_attempts_to_ac"))
+    )
+
+    result = (
+        stats
+        .group_by("difficulty")
+        .agg([
+            pl.len().alias("n_pairs"),
+            pl.col("is_resolved").sum().alias("n_resolved"),
+            pl.col("first_try_ac").sum().alias("n_first_try"),
+        ])
+        .join(avg_attempts, on="difficulty", how="left")
+        .with_columns([
+            (pl.col("n_resolved") / pl.col("n_pairs") * 100).round(2).alias("resolution_rate"),
+            ((pl.col("n_pairs") - pl.col("n_resolved")) / pl.col("n_pairs") * 100).round(2).alias("abandon_rate"),
+            (pl.col("n_first_try") / pl.col("n_pairs") * 100).round(2).alias("first_try_rate"),
+        ])
+        .drop(["n_resolved", "n_first_try"])
+        .sort("difficulty")
+    )
+
+    # Terminal summary
+    total_pairs = result["n_pairs"].sum()
+    print(f"  Total (user, problem) pairs: {total_pairs:,}\n")
+    print(f"  {'Level':<8} {'Resolved':>10} {'Abandoned':>11} {'First Try':>11} {'Avg attempts':>14}")
+    print(f"  {'-'*56}")
+    for row in result.iter_rows(named=True):
+        print(
+            f"  {row['difficulty']:<8}"
+            f" {row['resolution_rate']:>9.1f}%"
+            f" {row['abandon_rate']:>10.1f}%"
+            f" {row['first_try_rate']:>10.1f}%"
+            f" {row['avg_attempts_to_ac']:>13.2f}"
+        )
+    print()
+    return result
+
+
+def compute_resolution_by_group(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+    df_users: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Computes problem resolution metrics per (difficulty level × proficiency group).
+
+    Same metrics as compute_resolution_by_difficulty, broken down by G1–G6.
+    Only classified users (non-null proficiency_group) are included.
+
+    Args:
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, user_id, status, date)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty)
+        df_users:  User profile DataFrame
+                   (required columns: user_id, proficiency_group)
+
+    Returns:
+        DataFrame with columns:
+        difficulty | proficiency_group | n_pairs | resolution_rate |
+        abandon_rate | first_try_rate | avg_attempts_to_ac
+    """
+    stats = _compute_user_problem_stats(lazy_subs, df_abc)
+
+    # Join with proficiency groups — exclude unclassified users
+    lazy_groups = (
+        df_users.lazy()
+        .select(["user_id", "proficiency_group"])
+        .filter(pl.col("proficiency_group").is_not_null())
+        .collect()
+    )
+    stats_with_group = stats.join(lazy_groups, on="user_id", how="inner")
+
+    # avg_attempts_to_ac over resolved pairs only
+    avg_attempts = (
+        stats_with_group
+        .filter(pl.col("is_resolved"))
+        .group_by(["difficulty", "proficiency_group"])
+        .agg(pl.col("attempts_to_ac").mean().round(2).alias("avg_attempts_to_ac"))
+    )
+
+    result = (
+        stats_with_group
+        .group_by(["difficulty", "proficiency_group"])
+        .agg([
+            pl.len().alias("n_pairs"),
+            pl.col("is_resolved").sum().alias("n_resolved"),
+            pl.col("first_try_ac").sum().alias("n_first_try"),
+        ])
+        .join(avg_attempts, on=["difficulty", "proficiency_group"], how="left")
+        .with_columns([
+            (pl.col("n_resolved") / pl.col("n_pairs") * 100).round(2).alias("resolution_rate"),
+            ((pl.col("n_pairs") - pl.col("n_resolved")) / pl.col("n_pairs") * 100).round(2).alias("abandon_rate"),
+            (pl.col("n_first_try") / pl.col("n_pairs") * 100).round(2).alias("first_try_rate"),
+        ])
+        .drop(["n_resolved", "n_first_try"])
+        .sort(["difficulty", "proficiency_group"])
+    )
+
+    # Terminal summary — resolution rate on level A by group
+    total_pairs = result["n_pairs"].sum()
+    print(f"  Total (user, problem) pairs: {total_pairs:,}\n")
+    print(f"  Resolution rate on level A by group:")
+    for g in GROUP_ORDER:
+        subset = result.filter(
+            (pl.col("difficulty") == "A") & (pl.col("proficiency_group") == g)
+        )
+        if not subset.is_empty():
+            print(f"    {g}  resolved: {subset['resolution_rate'].item():>5.1f}%  first try: {subset['first_try_rate'].item():>5.1f}%")
     print()
     return result
