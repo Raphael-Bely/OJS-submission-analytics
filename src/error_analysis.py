@@ -158,7 +158,7 @@ def compute_error_by_group_and_difficulty(
         .filter(pl.col("proficiency_group").is_not_null())
     )
 
-    # Three-way join: submissions × difficulty labels × user groups
+    # Three-way join: submissions x difficulty labels x user groups
     joined = (
         lazy_subs
         .select(["problem_id", "user_id", "status"])
@@ -472,9 +472,12 @@ def _compute_user_problem_stats(
             (pl.col("status") == "Accepted").any().alias("is_resolved"),
             pl.len().alias("total_attempts"),
         ])
-        .with_columns(
-            (pl.col("first_status") == "Accepted").alias("first_try_ac")
-        )
+        .with_columns([
+            (pl.col("first_status") == "Accepted").alias("first_try_ac"),
+            pl.col("first_status")
+              .replace(STATUS_MAP, default="Other")
+              .alias("first_error_type"),
+        ])
         .drop("first_status")
         .join(first_ac_rank, on=["user_id", "problem_id"], how="left")
     )
@@ -557,7 +560,7 @@ def compute_resolution_by_group(
     df_users: pl.DataFrame,
 ) -> pl.DataFrame:
     """
-    Computes problem resolution metrics per (difficulty level × proficiency group).
+    Computes problem resolution metrics per (difficulty level x proficiency group).
 
     Same metrics as compute_resolution_by_difficulty, broken down by G1–G6.
     Only classified users (non-null proficiency_group) are included.
@@ -622,5 +625,320 @@ def compute_resolution_by_group(
         )
         if not subset.is_empty():
             print(f"    {g}  resolved: {subset['resolution_rate'].item():>5.1f}%  first try: {subset['first_try_rate'].item():>5.1f}%")
+    print()
+    return result
+
+
+# ── First-error resolution analysis ───────────────────────────────────────────
+
+ERROR_ORDER = ["WA", "TLE", "CE", "RE", "Other"]
+
+
+def compute_resolution_by_first_error(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Computes resolution metrics conditioned on the type of the first error.
+
+    Only considers (user, problem) pairs where the first submission was NOT AC
+    (i.e., the user encountered at least one error before resolving or abandoning).
+
+    For each (difficulty x first_error_type), aggregates:
+      - n_pairs          : number of pairs that started with this error
+      - resolution_rate  : % of such pairs eventually resolved
+      - abandon_rate     : % never resolved
+      - avg_attempts_to_ac: mean submissions to first AC (resolved pairs only)
+
+    Args:
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, user_id, status, date)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty)
+
+    Returns:
+        DataFrame with columns:
+        difficulty | first_error_type | n_pairs | resolution_rate |
+        abandon_rate | avg_attempts_to_ac
+    """
+    stats = _compute_user_problem_stats(lazy_subs, df_abc)
+
+    # Only pairs where the first submission was an error (not AC)
+    stats_with_error = stats.filter(pl.col("first_error_type") != "AC")
+
+    avg_attempts = (
+        stats_with_error
+        .filter(pl.col("is_resolved"))
+        .group_by(["difficulty", "first_error_type"])
+        .agg(pl.col("attempts_to_ac").mean().round(2).alias("avg_attempts_to_ac"))
+    )
+
+    result = (
+        stats_with_error
+        .group_by(["difficulty", "first_error_type"])
+        .agg([
+            pl.len().alias("n_pairs"),
+            pl.col("is_resolved").sum().alias("n_resolved"),
+        ])
+        .join(avg_attempts, on=["difficulty", "first_error_type"], how="left")
+        .with_columns([
+            (pl.col("n_resolved") / pl.col("n_pairs") * 100).round(2).alias("resolution_rate"),
+            ((pl.col("n_pairs") - pl.col("n_resolved")) / pl.col("n_pairs") * 100).round(2).alias("abandon_rate"),
+        ])
+        .drop("n_resolved")
+        .sort(["difficulty", "first_error_type"])
+    )
+
+    # Terminal summary
+    total_pairs = result["n_pairs"].sum()
+    print(f"  Total pairs with first error: {total_pairs:,}\n")
+    print(f"  {'Level':<8} {'Error':<8} {'Resolved':>10} {'Abandoned':>11} {'Avg attempts':>14}")
+    print(f"  {'-'*54}")
+    for diff in DIFFICULTY_ORDER:
+        for err in ERROR_ORDER:
+            subset = result.filter(
+                (pl.col("difficulty") == diff) & (pl.col("first_error_type") == err)
+            )
+            if not subset.is_empty():
+                row = subset.row(0, named=True)
+                avg = row["avg_attempts_to_ac"]
+                avg_str = f"{avg:>13.2f}" if avg is not None else f"{'—':>13}"
+                print(
+                    f"  {diff:<8} {err:<8}"
+                    f" {row['resolution_rate']:>9.1f}%"
+                    f" {row['abandon_rate']:>10.1f}%"
+                    f"{avg_str}"
+                )
+    print()
+    return result
+
+
+def compute_resolution_by_first_error_and_group(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+    df_users: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Computes resolution metrics conditioned on first error type x proficiency group.
+
+    Same methodology as compute_resolution_by_first_error, broken down by G1–G6.
+    Only classified users (non-null proficiency_group) are included.
+
+    Args:
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, user_id, status, date)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty)
+        df_users:  User profile DataFrame
+                   (required columns: user_id, proficiency_group)
+
+    Returns:
+        DataFrame with columns:
+        difficulty | proficiency_group | first_error_type | n_pairs |
+        resolution_rate | abandon_rate | avg_attempts_to_ac
+    """
+    stats = _compute_user_problem_stats(lazy_subs, df_abc)
+
+    lazy_groups = (
+        df_users.lazy()
+        .select(["user_id", "proficiency_group"])
+        .filter(pl.col("proficiency_group").is_not_null())
+        .collect()
+    )
+
+    stats_with_group = (
+        stats
+        .join(lazy_groups, on="user_id", how="inner")
+        .filter(pl.col("first_error_type") != "AC")
+    )
+
+    avg_attempts = (
+        stats_with_group
+        .filter(pl.col("is_resolved"))
+        .group_by(["difficulty", "proficiency_group", "first_error_type"])
+        .agg(pl.col("attempts_to_ac").mean().round(2).alias("avg_attempts_to_ac"))
+    )
+
+    result = (
+        stats_with_group
+        .group_by(["difficulty", "proficiency_group", "first_error_type"])
+        .agg([
+            pl.len().alias("n_pairs"),
+            pl.col("is_resolved").sum().alias("n_resolved"),
+        ])
+        .join(avg_attempts, on=["difficulty", "proficiency_group", "first_error_type"], how="left")
+        .with_columns([
+            (pl.col("n_resolved") / pl.col("n_pairs") * 100).round(2).alias("resolution_rate"),
+            ((pl.col("n_pairs") - pl.col("n_resolved")) / pl.col("n_pairs") * 100).round(2).alias("abandon_rate"),
+        ])
+        .drop("n_resolved")
+        .sort(["difficulty", "proficiency_group", "first_error_type"])
+    )
+
+    # Terminal summary — WA resolution rate on level D by group
+    total_pairs = result["n_pairs"].sum()
+    print(f"  Total pairs with first error: {total_pairs:,}\n")
+    print(f"  WA resolution rate on level D by group:")
+    for g in GROUP_ORDER:
+        subset = result.filter(
+            (pl.col("difficulty") == "D") &
+            (pl.col("proficiency_group") == g) &
+            (pl.col("first_error_type") == "WA")
+        )
+        if not subset.is_empty():
+            row = subset.row(0, named=True)
+            avg = row["avg_attempts_to_ac"]
+            avg_str = f"{avg:.2f}" if avg is not None else "—"
+            print(f"    {g}  resolved: {row['resolution_rate']:>5.1f}%  avg attempts: {avg_str}")
+    print()
+    return result
+
+
+# ── Error sequence analysis ────────────────────────────────────────────────────
+
+def compute_error_sequences(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+    df_users: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Builds aggregated error path counts for each (difficulty, group, first_error).
+
+    For each (user, problem) pair where the first submission was NOT AC:
+      - Ranks submissions chronologically
+      - Truncates the sequence at the first AC (inclusive)
+      - Builds the path string: "TLE→WA→AC" or "TLE→TLE" (abandoned)
+
+    Then aggregates: for each (difficulty, proficiency_group, first_error, sequence),
+    counts the number of pairs that followed that exact path.
+
+    Pairs solved on the first try are excluded.
+    Only classified users (G1–G6) are included.
+
+    Args:
+        lazy_subs: LazyFrame of ABC submissions
+                   (required columns: problem_id, user_id, status, date)
+        df_abc:    Labeled ABC problem DataFrame
+                   (required columns: problem_id, difficulty)
+        df_users:  User profile DataFrame
+                   (required columns: user_id, proficiency_group)
+
+    Returns:
+        DataFrame with columns:
+        difficulty | proficiency_group | first_error |
+        sequence | sequence_length | resolved | n_pairs | proportion_pct
+        Sorted by (difficulty, proficiency_group, first_error, n_pairs desc).
+    """
+    lazy_labels = df_abc.lazy().select(["problem_id", "difficulty"])
+    lazy_groups = (
+        df_users.lazy()
+        .select(["user_id", "proficiency_group"])
+        .filter(pl.col("proficiency_group").is_not_null())
+    )
+
+    # Step 1 — rank submissions chronologically + normalize status → error_type
+    with_rank = (
+        lazy_subs
+        .select(["problem_id", "user_id", "status", "date"])
+        .join(lazy_labels, on="problem_id", how="inner")
+        .join(lazy_groups, on="user_id", how="inner")
+        .with_columns([
+            pl.col("date")
+              .rank("ordinal")
+              .over(["user_id", "problem_id"])
+              .cast(pl.Int32)
+              .alias("submission_rank"),
+            pl.col("status")
+              .replace(STATUS_MAP, default="Other")
+              .alias("error_type"),
+        ])
+        .collect()
+    )
+
+    # Step 2 — find rank of first AC per (user, problem)
+    first_ac = (
+        with_rank
+        .filter(pl.col("status") == "Accepted")
+        .group_by(["user_id", "problem_id"])
+        .agg(pl.col("submission_rank").min().alias("first_ac_rank"))
+    )
+
+    # Step 3 — truncate each sequence at first AC (inclusive)
+    # For abandoned pairs (no AC), first_ac_rank is null → keep all submissions
+    with_truncation = (
+        with_rank
+        .join(first_ac, on=["user_id", "problem_id"], how="left")
+        .filter(
+            pl.col("first_ac_rank").is_null() |
+            (pl.col("submission_rank") <= pl.col("first_ac_rank"))
+        )
+    )
+
+    # Step 4 — identify first_error per pair, exclude first-try AC pairs
+    first_sub = (
+        with_truncation
+        .filter(pl.col("submission_rank") == 1)
+        .select(["user_id", "problem_id", "error_type"])
+        .rename({"error_type": "first_error"})
+    )
+
+    with_first_error = (
+        with_truncation
+        .join(first_sub, on=["user_id", "problem_id"], how="left")
+        .filter(pl.col("first_error") != "AC")
+    )
+
+    # Step 5 — build one sequence string per (user, problem) pair
+    per_pair = (
+        with_first_error
+        .sort(["user_id", "problem_id", "submission_rank"])
+        .group_by(["user_id", "problem_id", "difficulty", "proficiency_group", "first_error"])
+        .agg(pl.col("error_type").alias("sequence_list"))
+        .with_columns([
+            pl.col("sequence_list").list.join("→").alias("sequence"),
+            pl.col("sequence_list").list.len().alias("sequence_length"),
+            (pl.col("sequence_list").list.last() == "AC").alias("resolved"),
+        ])
+        .drop("sequence_list")
+    )
+
+    # Step 6 — aggregate path counts
+    totals = (
+        per_pair
+        .group_by(["difficulty", "proficiency_group", "first_error"])
+        .agg(pl.len().alias("total_pairs"))
+    )
+
+    result = (
+        per_pair
+        .group_by(["difficulty", "proficiency_group", "first_error", "sequence",
+                   "sequence_length", "resolved"])
+        .agg(pl.len().alias("n_pairs"))
+        .join(totals, on=["difficulty", "proficiency_group", "first_error"], how="left")
+        .with_columns(
+            (pl.col("n_pairs") / pl.col("total_pairs") * 100)
+              .round(2)
+              .alias("proportion_pct")
+        )
+        .drop("total_pairs")
+        .sort(
+            ["difficulty", "proficiency_group", "first_error", "n_pairs"],
+            descending=[False, False, False, True]
+        )
+    )
+
+    # Terminal summary
+    total_pairs = per_pair.shape[0]
+    unique_paths = result.shape[0]
+    print(f"  Total (user, problem) pairs with first error: {total_pairs:,}")
+    print(f"  Unique error paths: {unique_paths:,}\n")
+    print(f"  Top 5 paths — TLE / level D / G4:")
+    sample = result.filter(
+        (pl.col("difficulty") == "D") &
+        (pl.col("proficiency_group") == "G4") &
+        (pl.col("first_error") == "TLE")
+    ).head(5)
+    for row in sample.iter_rows(named=True):
+        print(f"    {row['sequence']:<30} {row['n_pairs']:>6} pairs  ({row['proportion_pct']:.1f}%)")
     print()
     return result

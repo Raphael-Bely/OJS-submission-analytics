@@ -26,6 +26,9 @@ from error_analysis import (
     compute_error_by_language,
     compute_resolution_by_difficulty,
     compute_resolution_by_group,
+    compute_resolution_by_first_error,
+    compute_resolution_by_first_error_and_group,
+    compute_error_sequences,
 )
 
 
@@ -128,7 +131,7 @@ def main():
     df_lang.write_csv(PROCESSED_DATA_DIR / "atcoder_language_distribution.csv")
     print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_language_distribution.csv'}")
 
-    # ── PHASE 4b: Language distribution by difficulty × group ─────────────────
+    # ── PHASE 4b: Language distribution by difficulty x group ─────────────────
     print_section("PHASE 4b — Language Distribution by Difficulty x Group")
 
     lazy_lang_group = load_submissions_lazy(abc_ids, columns=["problem_id", "user_id", "filename_ext"])
@@ -136,7 +139,7 @@ def main():
     df_lang_group.write_csv(PROCESSED_DATA_DIR / "atcoder_language_by_group.csv")
     print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_language_by_group.csv'}")
 
-    # ── PHASE 4c: Error distribution by language × difficulty ─────────────────
+    # ── PHASE 4c: Error distribution by language x difficulty ─────────────────
     print_section("PHASE 4c — Error Distribution by Language x Difficulty")
 
     lazy_lang_err = load_submissions_lazy(abc_ids, columns=["problem_id", "filename_ext", "status"])
@@ -155,7 +158,7 @@ def main():
     df_resolution.write_csv(PROCESSED_DATA_DIR / "atcoder_resolution_by_difficulty.csv")
     print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_resolution_by_difficulty.csv'}")
 
-    # ── PHASE 5b: Resolution rate by difficulty × group ───────────────────────
+    # ── PHASE 5b: Resolution rate by difficulty x group ───────────────────────
     print_section("PHASE 5b — Resolution Rate by Difficulty x Group")
 
     lazy_resolution_group = load_submissions_lazy(
@@ -165,6 +168,41 @@ def main():
     df_resolution_group = compute_resolution_by_group(lazy_resolution_group, df_abc, df_users)
     df_resolution_group.write_csv(PROCESSED_DATA_DIR / "atcoder_resolution_by_group.csv")
     print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_resolution_by_group.csv'}")
+
+    # ── PHASE 6a: Resolution rate by first error type x difficulty ────────────
+    print_section("PHASE 6a — Resolution Rate by First Error Type x Difficulty")
+
+    lazy_first_error = load_submissions_lazy(
+        abc_ids,
+        columns=["problem_id", "user_id", "status", "date"]
+    )
+    df_first_error = compute_resolution_by_first_error(lazy_first_error, df_abc)
+    df_first_error.write_csv(PROCESSED_DATA_DIR / "atcoder_resolution_by_first_error.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_resolution_by_first_error.csv'}")
+
+    # ── PHASE 6b: Resolution rate by first error type x difficulty x group ───
+    print_section("PHASE 6b — Resolution Rate by First Error Type x Difficulty x Group")
+
+    lazy_first_error_group = load_submissions_lazy(
+        abc_ids,
+        columns=["problem_id", "user_id", "status", "date"]
+    )
+    df_first_error_group = compute_resolution_by_first_error_and_group(
+        lazy_first_error_group, df_abc, df_users
+    )
+    df_first_error_group.write_csv(PROCESSED_DATA_DIR / "atcoder_resolution_by_first_error_group.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_resolution_by_first_error_group.csv'}")
+    
+    # ── PHASE 7: Error sequence paths × difficulty × group ────────────────────
+    print_section("PHASE 7 — Error Sequence Paths × Difficulty × Group")
+
+    lazy_sequences = load_submissions_lazy(
+        abc_ids,
+        columns=["problem_id", "user_id", "status", "date"]
+    )
+    df_sequences = compute_error_sequences(lazy_sequences, df_abc, df_users)
+    df_sequences.write_csv(PROCESSED_DATA_DIR / "atcoder_error_sequences.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_error_sequences.csv'}")
 
     print_section("Pipeline completed successfully")
 

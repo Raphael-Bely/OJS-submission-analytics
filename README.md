@@ -40,8 +40,8 @@ Distinguishing errors that are easy to predict from those that are not, to shed 
 ### Iterative Roadmap
 
 ```
-[ CSV Metadata ]  →  V0: Classical ML & Profiling  →  Dashboard V0  ✅
-[ Source Code   ]  →  V1: Embeddings & NLP          →  Dashboard V1  ⏳
+[ CSV Metadata ]  →  V0: Classical ML & Profiling  →  Dashboard V0  ⏳ Planned
+[ Source Code   ]  →  V1: Embeddings & NLP          →  Dashboard V1  ⏳ Planned
 [ Code Graphs   ]  →  V2: Deep Learning             →  Predictive Model
 ```
 
@@ -57,12 +57,13 @@ src/
 └── error_analysis.py         # Computes error distributions (by difficulty, group, language)
 
 playground/
-├── 00_exploration_score_based_DEPRECATED.ipynb  # Initial exploration (archived)
 ├── 01_user_classification_G1G6.ipynb            # G1–G6 classification & validation vs Shimizu
 ├── 02_error_analysis_RQ1.ipynb                  # Error distribution by difficulty (RQ1)
 ├── 03_error_analysis_by_group_difficulty.ipynb  # Error distribution by difficulty × group (RQ1 extended)
 ├── 04_language_analysis.ipynb                   # Language distribution & error patterns by language
-└── 05_resolution_rate.ipynb                     # Problem resolution rate by difficulty & proficiency group
+├── 05_resolution_rate.ipynb                     # Problem resolution rate by difficulty & proficiency group
+├── 06_resolution_by_first_error.ipynb           # Resolution rate conditioned on first error type (CE/WA/TLE/RE)
+└── 07_error_sequences.ipynb                     # Error sequence paths & Sankey diagrams by difficulty × group
 
 data/
 ├── Project_CodeNet/          # Raw dataset (not versioned — 8GB)
@@ -104,6 +105,9 @@ The pipeline runs in phases and produces in `data/processed/`:
 - `atcoder_error_by_language.csv` — error distribution per language × difficulty
 - `atcoder_resolution_by_difficulty.csv` — resolution, abandon & first try rates per difficulty level
 - `atcoder_resolution_by_group.csv` — resolution metrics per difficulty × proficiency group
+- `atcoder_resolution_by_first_error.csv` — resolution rate conditioned on first error type × difficulty
+- `atcoder_resolution_by_first_error_group.csv` — same, broken down by proficiency group
+- `atcoder_error_sequences.csv` — full error path counts (e.g. TLE→WA→AC) per difficulty × group × first_error
 
 ---
 
@@ -119,6 +123,8 @@ The pipeline runs in phases and produces in `data/processed/`:
 | Error patterns by language × difficulty (TLE, AC, CE) | ✅ Done |
 | Error patterns by language × proficiency group | ⏳ Planned |
 | Resolution rate by difficulty & proficiency group | ✅ Done |
+| Resolution rate by first error type × difficulty × group | ✅ Done |
+| Error sequence paths & Sankey diagrams (difficulty × group) | ✅ Done |
 | Streamlit dashboard | ⏳ Planned |
 ---
 

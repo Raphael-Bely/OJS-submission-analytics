@@ -1,4 +1,4 @@
-*.csv
+
 *.json
 *~
 __pycache__/
@@ -12,6 +12,10 @@ env/
 *.tar.gz
 *.zip
 *.pdf
-data/
+data/Project_CodeNet*
 .claudeignore
 CLAUDE.md
+*.tex
+*.log
+*.png
+figures/

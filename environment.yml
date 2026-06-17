@@ -158,4 +158,3 @@ dependencies:
       - websocket-client==1.9.0
       - websockets==16.0
       - widgetsnbextension==4.0.15
-prefix: /opt/homebrew/Caskroom/miniconda/base/envs/codenet

@@ -1,0 +1,660 @@
+problem_id,contest,difficulty,name,dataset,time_limit,memory_limit,rating,tags,complexity,score
+p04043,AtCoder Beginner Contest 042,A,AtCoder Beginner Contest 042 - Iroha and Haiku (ABC Edition),AtCoder,2000,262144,,,,100
+p04044,AtCoder Beginner Contest 042,B,AtCoder Beginner Contest 042 - Iroha Loves Strings (ABC Edition),AtCoder,2000,262144,,,,200
+p04045,AtCoder Beginner Contest 042,C,AtCoder Beginner Contest 042 - Iroha's Obsession,AtCoder,2000,262144,,,,300
+p04046,AtCoder Beginner Contest 042,D,AtCoder Beginner Contest 042 - Iroha and a Grid,AtCoder,2000,262144,,,,400
+p04029,AtCoder Beginner Contest 043,A,AtCoder Beginner Contest 043 - Children and Candies (ABC Edit),AtCoder,2000,262144,,,,100
+p04030,AtCoder Beginner Contest 043,B,AtCoder Beginner Contest 043 - Unhappy Hacking (ABC Edit),AtCoder,2000,262144,,,,200
+p04031,AtCoder Beginner Contest 043,C,AtCoder Beginner Contest 043 - Be Together,AtCoder,2000,262144,,,,200
+p04032,AtCoder Beginner Contest 043,D,AtCoder Beginner Contest 043 - Unbalanced,AtCoder,2000,262144,,,,400
+p04011,AtCoder Beginner Contest 044,A,AtCoder Beginner Contest 044 - Tak and Hotels (ABC Edit),AtCoder,2000,262144,,,,100
+p04012,AtCoder Beginner Contest 044,B,AtCoder Beginner Contest 044 - Beautiful Strings,AtCoder,2000,262144,,,,200
+p04013,AtCoder Beginner Contest 044,C,AtCoder Beginner Contest 044 - Tak and Cards,AtCoder,2000,262144,,,,300
+p04014,AtCoder Beginner Contest 044,D,AtCoder Beginner Contest 044 - Digit Sum,AtCoder,2000,262144,,,,500
+p03997,AtCoder Beginner Contest 045,A,AtCoder Beginner Contest 045 - Trapezoids,AtCoder,2000,262144,,,,100
+p03998,AtCoder Beginner Contest 045,B,AtCoder Beginner Contest 045 - Card Game for Three (ABC Edit),AtCoder,2000,262144,,,,200
+p03999,AtCoder Beginner Contest 045,C,AtCoder Beginner Contest 045 - Many Formulas,AtCoder,2000,262144,,,,300
+p04000,AtCoder Beginner Contest 045,D,AtCoder Beginner Contest 045 - Snuke's Coloring,AtCoder,3000,262144,,,,400
+p03962,AtCoder Beginner Contest 046,A,AtCoder Beginner Contest 046 - AtCoDeer and Paint Cans,AtCoder,2000,262144,,,,100
+p03963,AtCoder Beginner Contest 046,B,AtCoder Beginner Contest 046 - Painting Balls with AtCoDeer,AtCoder,2000,262144,,,,200
+p03964,AtCoder Beginner Contest 046,C,AtCoder Beginner Contest 046 - AtCoDeer and Election Report,AtCoder,2000,262144,,,,300
+p03965,AtCoder Beginner Contest 046,D,AtCoder Beginner Contest 046 - AtCoDeer and Rock-Paper,AtCoder,2000,262144,,,,300
+p03943,AtCoder Beginner Contest 047,A,AtCoder Beginner Contest 047 - Fighting over Candies,AtCoder,2000,262144,,,,100
+p03944,AtCoder Beginner Contest 047,B,AtCoder Beginner Contest 047 - Snuke's Coloring 2 (ABC Edit),AtCoder,2000,262144,,,,200
+p03945,AtCoder Beginner Contest 047,C,AtCoder Beginner Contest 047 - 1D Reversi,AtCoder,2000,262144,,,,300
+p03946,AtCoder Beginner Contest 047,D,AtCoder Beginner Contest 047 - An Invisible Hand,AtCoder,2000,262144,,,,400
+p03860,AtCoder Beginner Contest 048,A,AtCoder Beginner Contest 048 - AtCoder *** Contest,AtCoder,2000,262144,,,,100
+p03861,AtCoder Beginner Contest 048,B,AtCoder Beginner Contest 048 - Between a and b ...,AtCoder,2000,262144,,,,200
+p03862,AtCoder Beginner Contest 048,C,AtCoder Beginner Contest 048 - Boxes and Candies,AtCoder,2000,262144,,,,300
+p03863,AtCoder Beginner Contest 048,D,AtCoder Beginner Contest 048 - An Ordinary Game,AtCoder,2000,262144,,,,500
+p03852,AtCoder Beginner Contest 049,A,AtCoder Beginner Contest 049 - UOIAUAI,AtCoder,2000,262144,,,,100
+p03853,AtCoder Beginner Contest 049,B,AtCoder Beginner Contest 049 - Thin,AtCoder,2000,262144,,,,200
+p03854,AtCoder Beginner Contest 049,C,AtCoder Beginner Contest 049 - Daydream,AtCoder,2000,262144,,,,300
+p03855,AtCoder Beginner Contest 049,D,AtCoder Beginner Contest 049 - Connectivity,AtCoder,2000,262144,,,,400
+p03844,AtCoder Beginner Contest 050,A,AtCoder Beginner Contest 050 - Addition and Subtraction Easy,AtCoder,2000,262144,,,,100
+p03845,AtCoder Beginner Contest 050,B,AtCoder Beginner Contest 050 - Contest with Drinks Easy,AtCoder,2000,262144,,,,200
+p03846,AtCoder Beginner Contest 050,C,AtCoder Beginner Contest 050 - Lining Up,AtCoder,2000,262144,,,,300
+p03847,AtCoder Beginner Contest 050,D,AtCoder Beginner Contest 050 - Xor Sum,AtCoder,2000,262144,,,,600
+p03834,AtCoder Beginner Contest 051,A,AtCoder Beginner Contest 051 - Haiku,AtCoder,2000,262144,,,,100
+p03835,AtCoder Beginner Contest 051,B,AtCoder Beginner Contest 051 - Sum of Three Integers,AtCoder,2000,262144,,,,200
+p03836,AtCoder Beginner Contest 051,C,AtCoder Beginner Contest 051 - Back and Forth,AtCoder,2000,262144,,,,300
+p03837,AtCoder Beginner Contest 051,D,AtCoder Beginner Contest 051 - Candidates of No Shortest Paths,AtCoder,2000,262144,,,,400
+p03826,AtCoder Beginner Contest 052,A,AtCoder Beginner Contest 052 - Two Rectangles,AtCoder,2000,262144,,,,100
+p03827,AtCoder Beginner Contest 052,B,AtCoder Beginner Contest 052 - Increment Decrement,AtCoder,2000,262144,,,,200
+p03828,AtCoder Beginner Contest 052,C,AtCoder Beginner Contest 052 - Factors of Factorial,AtCoder,2000,262144,,,,300
+p03829,AtCoder Beginner Contest 052,D,AtCoder Beginner Contest 052 - Walk and Teleport,AtCoder,2000,262144,,,,500
+p03813,AtCoder Beginner Contest 053,A,AtCoder Beginner Contest 053 - ABC/ARC,AtCoder,2000,262144,,,,100
+p03814,AtCoder Beginner Contest 053,B,AtCoder Beginner Contest 053 - A to Z String,AtCoder,2000,262144,,,,200
+p03815,AtCoder Beginner Contest 053,C,AtCoder Beginner Contest 053 - X: Yet Another Die Game,AtCoder,2000,262144,,,,300
+p03816,AtCoder Beginner Contest 053,D,AtCoder Beginner Contest 053 - Card Eater,AtCoder,2000,262144,,,,400
+p03803,AtCoder Beginner Contest 054,A,AtCoder Beginner Contest 054 - One Card Poker,AtCoder,2000,262144,,,,100
+p03804,AtCoder Beginner Contest 054,B,AtCoder Beginner Contest 054 - Template Matching,AtCoder,2000,262144,,,,200
+p03805,AtCoder Beginner Contest 054,C,AtCoder Beginner Contest 054 - One-stroke Path,AtCoder,2000,262144,,,,300
+p03806,AtCoder Beginner Contest 054,D,AtCoder Beginner Contest 054 - Mixing Experiment,AtCoder,2000,262144,,,,400
+p03795,AtCoder Beginner Contest 055,A,AtCoder Beginner Contest 055 - Restaurant,AtCoder,2000,262144,,,,100
+p03796,AtCoder Beginner Contest 055,B,AtCoder Beginner Contest 055 - Training Camp,AtCoder,2000,262144,,,,200
+p03797,AtCoder Beginner Contest 055,C,AtCoder Beginner Contest 055 - Scc Puzzle,AtCoder,2000,262144,,,,300
+p03798,AtCoder Beginner Contest 055,D,AtCoder Beginner Contest 055 - Menagerie,AtCoder,2000,262144,,,,500
+p03777,AtCoder Beginner Contest 056,A,AtCoder Beginner Contest 056 - HonestOrDishonest,AtCoder,2000,262144,,,,100
+p03778,AtCoder Beginner Contest 056,B,AtCoder Beginner Contest 056 - NarrowRectanglesEasy,AtCoder,2000,262144,,,,200
+p03779,AtCoder Beginner Contest 056,C,AtCoder Beginner Contest 056 - Go Home,AtCoder,2000,262144,,,,200
+p03780,AtCoder Beginner Contest 056,D,AtCoder Beginner Contest 056 - No Need,AtCoder,2000,262144,,,,600
+p03773,AtCoder Beginner Contest 057,A,AtCoder Beginner Contest 057 - Remaining Time,AtCoder,2000,262144,,,,100
+p03774,AtCoder Beginner Contest 057,B,AtCoder Beginner Contest 057 - Checkpoints,AtCoder,2000,262144,,,,200
+p03775,AtCoder Beginner Contest 057,C,AtCoder Beginner Contest 057 - Digits in Multiplication,AtCoder,2000,262144,,,,300
+p03776,AtCoder Beginner Contest 057,D,AtCoder Beginner Contest 057 - Maximum Average Sets,AtCoder,2000,262144,,,,400
+p03759,AtCoder Beginner Contest 058,A,AtCoder Beginner Contest 058 - ι⊥l,AtCoder,2000,262144,,,,100
+p03760,AtCoder Beginner Contest 058,B,AtCoder Beginner Contest 058 - ∵∴∵,AtCoder,2000,262144,,,,200
+p03761,AtCoder Beginner Contest 058,C,AtCoder Beginner Contest 058 - Dubious Document,AtCoder,2000,262144,,,,300
+p03762,AtCoder Beginner Contest 058,D,AtCoder Beginner Contest 058 - ###,AtCoder,2000,262144,,,,500
+p03737,AtCoder Beginner Contest 059,A,AtCoder Beginner Contest 059 - Three-letter acronym,AtCoder,2000,262144,,,,100
+p03738,AtCoder Beginner Contest 059,B,AtCoder Beginner Contest 059 - Comparison,AtCoder,2000,262144,,,,200
+p03739,AtCoder Beginner Contest 059,C,AtCoder Beginner Contest 059 - Sequence,AtCoder,2000,262144,,,,300
+p03740,AtCoder Beginner Contest 059,D,AtCoder Beginner Contest 059 - Alice&Brown,AtCoder,2000,262144,,,,500
+p03729,AtCoder Beginner Contest 060,A,AtCoder Beginner Contest 060 - Shiritori,AtCoder,2000,262144,,,,100
+p03730,AtCoder Beginner Contest 060,B,AtCoder Beginner Contest 060 - Choose Integers,AtCoder,2000,262144,,,,200
+p03731,AtCoder Beginner Contest 060,C,AtCoder Beginner Contest 060 - Sentou,AtCoder,2000,262144,,,,300
+p03732,AtCoder Beginner Contest 060,D,AtCoder Beginner Contest 060 - Simple Knapsack,AtCoder,2000,262144,,,,400
+p03719,AtCoder Beginner Contest 061,A,AtCoder Beginner Contest 061 - Between Two Integers,AtCoder,2000,262144,,,,100
+p03720,AtCoder Beginner Contest 061,B,AtCoder Beginner Contest 061 - Counting Roads,AtCoder,2000,262144,,,,200
+p03721,AtCoder Beginner Contest 061,C,AtCoder Beginner Contest 061 - Big Array,AtCoder,2000,262144,,,,300
+p03722,AtCoder Beginner Contest 061,D,AtCoder Beginner Contest 061 - Score Attack,AtCoder,2000,262144,,,,400
+p03711,AtCoder Beginner Contest 062,A,AtCoder Beginner Contest 062 - Grouping,AtCoder,2000,262144,,,,100
+p03712,AtCoder Beginner Contest 062,B,AtCoder Beginner Contest 062 - Picture Frame,AtCoder,2000,262144,,,,200
+p03713,AtCoder Beginner Contest 062,C,AtCoder Beginner Contest 062 - Chocolate Bar,AtCoder,2000,262144,,,,400
+p03714,AtCoder Beginner Contest 062,D,AtCoder Beginner Contest 062 - 3N Numbers,AtCoder,2000,262144,,,,500
+p03697,AtCoder Beginner Contest 063,A,AtCoder Beginner Contest 063 - Restricted,AtCoder,2000,262144,,,,100
+p03698,AtCoder Beginner Contest 063,B,AtCoder Beginner Contest 063 - Varied,AtCoder,2000,262144,,,,200
+p03699,AtCoder Beginner Contest 063,C,AtCoder Beginner Contest 063 - Bugged,AtCoder,2000,262144,,,,300
+p03700,AtCoder Beginner Contest 063,D,AtCoder Beginner Contest 063 - Widespread,AtCoder,2000,262144,,,,400
+p03693,AtCoder Beginner Contest 064,A,AtCoder Beginner Contest 064 - RGB Cards,AtCoder,2000,262144,,,,100
+p03694,AtCoder Beginner Contest 064,B,AtCoder Beginner Contest 064 - Traveling AtCoDeer Problem,AtCoder,2000,262144,,,,200
+p03695,AtCoder Beginner Contest 064,C,AtCoder Beginner Contest 064 - Colorful Leaderboard,AtCoder,2000,262144,,,,300
+p03696,AtCoder Beginner Contest 064,D,AtCoder Beginner Contest 064 - Insertion,AtCoder,2000,262144,,,,400
+p03679,AtCoder Beginner Contest 065,A,AtCoder Beginner Contest 065 - Expired?,AtCoder,2000,262144,,,,100
+p03680,AtCoder Beginner Contest 065,B,AtCoder Beginner Contest 065 - Trained?,AtCoder,2000,262144,,,,200
+p03681,AtCoder Beginner Contest 065,C,AtCoder Beginner Contest 065 - Reconciled?,AtCoder,2000,262144,,,,300
+p03682,AtCoder Beginner Contest 065,D,AtCoder Beginner Contest 065 - Built?,AtCoder,2000,262144,,,,500
+p03671,AtCoder Beginner Contest 066,A,AtCoder Beginner Contest 066 - ringring,AtCoder,2000,262144,,,,100
+p03672,AtCoder Beginner Contest 066,B,AtCoder Beginner Contest 066 - ss,AtCoder,2000,262144,,,,200
+p03673,AtCoder Beginner Contest 066,C,AtCoder Beginner Contest 066 - pushpush,AtCoder,2000,262144,,,,300
+p03674,AtCoder Beginner Contest 066,D,AtCoder Beginner Contest 066 - 11,AtCoder,2000,262144,,,,600
+p03657,AtCoder Beginner Contest 067,A,AtCoder Beginner Contest 067 - Sharing Cookies,AtCoder,2000,262144,,,,100
+p03658,AtCoder Beginner Contest 067,B,AtCoder Beginner Contest 067 - Snake Toy,AtCoder,2000,262144,,,,200
+p03659,AtCoder Beginner Contest 067,C,AtCoder Beginner Contest 067 - Splitting Pile,AtCoder,2000,262144,,,,300
+p03660,AtCoder Beginner Contest 067,D,AtCoder Beginner Contest 067 - Fennec VS. Snuke,AtCoder,2000,262144,,,,400
+p03643,AtCoder Beginner Contest 068,A,AtCoder Beginner Contest 068 - ABCxxx,AtCoder,2000,262144,,,,100
+p03644,AtCoder Beginner Contest 068,B,AtCoder Beginner Contest 068 - Break Number,AtCoder,2000,262144,,,,200
+p03645,AtCoder Beginner Contest 068,C,AtCoder Beginner Contest 068 - Cat Snuke and a Voyage,AtCoder,2000,262144,,,,300
+p03646,AtCoder Beginner Contest 068,D,AtCoder Beginner Contest 068 - Decrease (Contestant ver.),AtCoder,2000,262144,,,,600
+p03635,AtCoder Beginner Contest 069,A,AtCoder Beginner Contest 069 - K-City,AtCoder,2000,262144,,,,100
+p03636,AtCoder Beginner Contest 069,B,AtCoder Beginner Contest 069 - i18n,AtCoder,2000,262144,,,,200
+p03637,AtCoder Beginner Contest 069,C,AtCoder Beginner Contest 069 - 4-adjacent,AtCoder,2000,262144,,,,400
+p03638,AtCoder Beginner Contest 069,D,AtCoder Beginner Contest 069 - Grid Coloring,AtCoder,2000,262144,,,,400
+p03631,AtCoder Beginner Contest 070,A,AtCoder Beginner Contest 070 - Palindromic Number,AtCoder,2000,262144,,,,100
+p03632,AtCoder Beginner Contest 070,B,AtCoder Beginner Contest 070 - Two Switches,AtCoder,2000,262144,,,,200
+p03633,AtCoder Beginner Contest 070,C,AtCoder Beginner Contest 070 - Multiple Clocks,AtCoder,2000,262144,,,,300
+p03634,AtCoder Beginner Contest 070,D,AtCoder Beginner Contest 070 - Transit Tree Path,AtCoder,2000,262144,,,,400
+p03623,AtCoder Beginner Contest 071,A,AtCoder Beginner Contest 071 - Meal Delivery,AtCoder,2000,262144,,,,100
+p03624,AtCoder Beginner Contest 071,B,AtCoder Beginner Contest 071 - Not Found,AtCoder,2000,262144,,,,200
+p03625,AtCoder Beginner Contest 071,C,AtCoder Beginner Contest 071 - Make a Rectangle,AtCoder,2000,262144,,,,300
+p03626,AtCoder Beginner Contest 071,D,AtCoder Beginner Contest 071 - Coloring Dominoes,AtCoder,2000,262144,,,,400
+p03609,AtCoder Beginner Contest 072,A,AtCoder Beginner Contest 072 - Sandglass2,AtCoder,2000,262144,,,,100
+p03610,AtCoder Beginner Contest 072,B,AtCoder Beginner Contest 072 - OddString,AtCoder,2000,262144,,,,200
+p03611,AtCoder Beginner Contest 072,C,AtCoder Beginner Contest 072 - Together,AtCoder,2000,262144,,,,300
+p03612,AtCoder Beginner Contest 072,D,AtCoder Beginner Contest 072 - Derangement,AtCoder,2000,262144,,,,400
+p03605,AtCoder Beginner Contest 073,A,AtCoder Beginner Contest 073 - September 9,AtCoder,2000,262144,,,,100
+p03606,AtCoder Beginner Contest 073,B,AtCoder Beginner Contest 073 - Theater,AtCoder,2000,262144,,,,200
+p03607,AtCoder Beginner Contest 073,C,AtCoder Beginner Contest 073 - Write and Erase,AtCoder,2000,262144,,,,300
+p03608,AtCoder Beginner Contest 073,D,AtCoder Beginner Contest 073 - joisino's travel,AtCoder,2000,262144,,,,400
+p03597,AtCoder Beginner Contest 074,A,AtCoder Beginner Contest 074 - Bichrome Cells,AtCoder,2000,262144,,,,100
+p03598,AtCoder Beginner Contest 074,B,AtCoder Beginner Contest 074 - Collecting Balls (Easy Version),AtCoder,2000,262144,,,,200
+p03599,AtCoder Beginner Contest 074,C,AtCoder Beginner Contest 074 - Sugar Water,AtCoder,3000,262144,,,,300
+p03600,AtCoder Beginner Contest 074,D,AtCoder Beginner Contest 074 - Restoring Road Network,AtCoder,2000,262144,,,,500
+p03573,AtCoder Beginner Contest 075,A,AtCoder Beginner Contest 075 - One out of Three,AtCoder,2000,262144,,,,100
+p03574,AtCoder Beginner Contest 075,B,AtCoder Beginner Contest 075 - Minesweeper,AtCoder,2000,262144,,,,200
+p03575,AtCoder Beginner Contest 075,C,AtCoder Beginner Contest 075 - Bridge,AtCoder,2000,262144,,,,300
+p03576,AtCoder Beginner Contest 075,D,AtCoder Beginner Contest 075 - Axis-Parallel Rectangle,AtCoder,2000,262144,,,,400
+p03563,AtCoder Beginner Contest 076,A,AtCoder Beginner Contest 076 - Rating Goal,AtCoder,2000,262144,,,,100
+p03564,AtCoder Beginner Contest 076,B,AtCoder Beginner Contest 076 - Addition and Multiplication,AtCoder,2000,262144,,,,200
+p03565,AtCoder Beginner Contest 076,C,AtCoder Beginner Contest 076 - Dubious Document 2,AtCoder,2000,262144,,,,300
+p03566,AtCoder Beginner Contest 076,D,AtCoder Beginner Contest 076 - AtCoder Express,AtCoder,2000,262144,,,,400
+p03555,AtCoder Beginner Contest 077,A,AtCoder Beginner Contest 077 - Rotation,AtCoder,2000,262144,,,,100
+p03556,AtCoder Beginner Contest 077,B,AtCoder Beginner Contest 077 - Around Square,AtCoder,2000,262144,,,,200
+p03557,AtCoder Beginner Contest 077,C,AtCoder Beginner Contest 077 - Snuke Festival,AtCoder,2000,262144,,,,300
+p03558,AtCoder Beginner Contest 077,D,AtCoder Beginner Contest 077 - Small Multiple,AtCoder,2000,262144,,,,700
+p03547,AtCoder Beginner Contest 078,A,AtCoder Beginner Contest 078 - HEX,AtCoder,2000,262144,,,,100
+p03548,AtCoder Beginner Contest 078,B,AtCoder Beginner Contest 078 - ISU,AtCoder,2000,262144,,,,200
+p03549,AtCoder Beginner Contest 078,C,AtCoder Beginner Contest 078 - HSI,AtCoder,2000,262144,,,,300
+p03550,AtCoder Beginner Contest 078,D,AtCoder Beginner Contest 078 - ABS,AtCoder,2000,262144,,,,500
+p03543,AtCoder Beginner Contest 079,A,AtCoder Beginner Contest 079 - Good Integer,AtCoder,2000,262144,,,,100
+p03544,AtCoder Beginner Contest 079,B,AtCoder Beginner Contest 079 - Lucas Number,AtCoder,2000,262144,,,,200
+p03545,AtCoder Beginner Contest 079,C,AtCoder Beginner Contest 079 - Train Ticket,AtCoder,2000,262144,,,,300
+p03546,AtCoder Beginner Contest 079,D,AtCoder Beginner Contest 079 - Wall,AtCoder,2000,262144,,,,400
+p03501,AtCoder Beginner Contest 080,A,AtCoder Beginner Contest 080 - Parking,AtCoder,2000,262144,,,,100
+p03502,AtCoder Beginner Contest 080,B,AtCoder Beginner Contest 080 - Harshad Number,AtCoder,2000,262144,,,,200
+p03503,AtCoder Beginner Contest 080,C,AtCoder Beginner Contest 080 - Shopping Street,AtCoder,2000,262144,,,,300
+p03504,AtCoder Beginner Contest 080,D,AtCoder Beginner Contest 080 - Recording,AtCoder,2000,262144,,,,400
+p03493,AtCoder Beginner Contest 081,A,AtCoder Beginner Contest 081 - Placing Marbles,AtCoder,2000,262144,,,,100
+p03494,AtCoder Beginner Contest 081,B,AtCoder Beginner Contest 081 - Shift only,AtCoder,2000,262144,,,,200
+p03495,AtCoder Beginner Contest 081,C,AtCoder Beginner Contest 081 - Not so Diverse,AtCoder,2000,262144,,,,300
+p03496,AtCoder Beginner Contest 081,D,AtCoder Beginner Contest 081 - Non-decreasing,AtCoder,2000,262144,,,,600
+p03485,AtCoder Beginner Contest 082,A,AtCoder Beginner Contest 082 - Round Up the Mean,AtCoder,2000,262144,,,,100
+p03486,AtCoder Beginner Contest 082,B,AtCoder Beginner Contest 082 - Two Anagrams,AtCoder,2000,262144,,,,200
+p03487,AtCoder Beginner Contest 082,C,AtCoder Beginner Contest 082 - Good Sequence,AtCoder,2000,262144,,,,300
+p03488,AtCoder Beginner Contest 082,D,AtCoder Beginner Contest 082 - FT Robot,AtCoder,2000,524288,,,,500
+p03477,AtCoder Beginner Contest 083,A,AtCoder Beginner Contest 083 - Libra,AtCoder,2000,262144,,,,100
+p03478,AtCoder Beginner Contest 083,B,AtCoder Beginner Contest 083 - Some Sums,AtCoder,2000,262144,,,,200
+p03479,AtCoder Beginner Contest 083,C,AtCoder Beginner Contest 083 - Multiple Gift,AtCoder,2000,262144,,,,300
+p03480,AtCoder Beginner Contest 083,D,AtCoder Beginner Contest 083 - Wide Flip,AtCoder,2000,262144,,,,500
+p03473,AtCoder Beginner Contest 084,A,AtCoder Beginner Contest 084 - New Year,AtCoder,2000,262144,,,,100
+p03474,AtCoder Beginner Contest 084,B,AtCoder Beginner Contest 084 - Postal Code,AtCoder,2000,262144,,,,200
+p03475,AtCoder Beginner Contest 084,C,AtCoder Beginner Contest 084 - Special Trains,AtCoder,3000,262144,,,,300
+p03476,AtCoder Beginner Contest 084,D,AtCoder Beginner Contest 084 - 2017-like Number,AtCoder,2000,262144,,,,400
+p03469,AtCoder Beginner Contest 085,A,AtCoder Beginner Contest 085 - Already 2018,AtCoder,2000,262144,,,,100
+p03470,AtCoder Beginner Contest 085,B,AtCoder Beginner Contest 085 - Kagami Mochi,AtCoder,2000,262144,,,,200
+p03471,AtCoder Beginner Contest 085,C,AtCoder Beginner Contest 085 - Otoshidama,AtCoder,2000,262144,,,,300
+p03472,AtCoder Beginner Contest 085,D,AtCoder Beginner Contest 085 - Katana Thrower,AtCoder,2000,262144,,,,400
+p03455,AtCoder Beginner Contest 086,A,AtCoder Beginner Contest 086 - Product,AtCoder,2000,262144,,,,100
+p03456,AtCoder Beginner Contest 086,B,AtCoder Beginner Contest 086 - 1 21,AtCoder,2000,262144,,,,200
+p03457,AtCoder Beginner Contest 086,C,AtCoder Beginner Contest 086 - Traveling,AtCoder,2000,262144,,,,300
+p03458,AtCoder Beginner Contest 086,D,AtCoder Beginner Contest 086 - Checker,AtCoder,2000,262144,,,,500
+p03447,AtCoder Beginner Contest 087,A,AtCoder Beginner Contest 087 - Buying Sweets,AtCoder,2000,262144,,,,100
+p03448,AtCoder Beginner Contest 087,B,AtCoder Beginner Contest 087 - Coins,AtCoder,2000,262144,,,,200
+p03449,AtCoder Beginner Contest 087,C,AtCoder Beginner Contest 087 - Candies,AtCoder,2000,262144,,,,300
+p03450,AtCoder Beginner Contest 087,D,AtCoder Beginner Contest 087 - People on a Line,AtCoder,2000,262144,,,,400
+p03433,AtCoder Beginner Contest 088,A,AtCoder Beginner Contest 088 - Infinite Coins,AtCoder,2000,262144,,,,100
+p03434,AtCoder Beginner Contest 088,B,AtCoder Beginner Contest 088 - Card Game for Two,AtCoder,2000,262144,,,,200
+p03435,AtCoder Beginner Contest 088,C,AtCoder Beginner Contest 088 - Takahashi's Information,AtCoder,2000,262144,,,,300
+p03436,AtCoder Beginner Contest 088,D,AtCoder Beginner Contest 088 - Grid Repainting,AtCoder,2000,262144,,,,400
+p03423,AtCoder Beginner Contest 089,A,AtCoder Beginner Contest 089 - Grouping 2,AtCoder,2000,262144,,,,100
+p03424,AtCoder Beginner Contest 089,B,AtCoder Beginner Contest 089 - Hina Arare,AtCoder,2000,262144,,,,200
+p03425,AtCoder Beginner Contest 089,C,AtCoder Beginner Contest 089 - March,AtCoder,2000,262144,,,,300
+p03426,AtCoder Beginner Contest 089,D,AtCoder Beginner Contest 089 - Practical Skill Test,AtCoder,2000,262144,,,,400
+p03415,AtCoder Beginner Contest 090,A,AtCoder Beginner Contest 090 - Diagonal String,AtCoder,2000,262144,,,,100
+p03416,AtCoder Beginner Contest 090,B,AtCoder Beginner Contest 090 - Palindromic Numbers,AtCoder,2000,262144,,,,200
+p03417,AtCoder Beginner Contest 090,C,AtCoder Beginner Contest 090 - Flip Flip  and Flip......,AtCoder,2000,262144,,,,300
+p03418,AtCoder Beginner Contest 090,D,AtCoder Beginner Contest 090 - Remainder Reminder,AtCoder,2000,262144,,,,400
+p03407,AtCoder Beginner Contest 091,A,AtCoder Beginner Contest 091 - Two Coins,AtCoder,2000,262144,,,,100
+p03408,AtCoder Beginner Contest 091,B,AtCoder Beginner Contest 091 - Two Colors Card Game,AtCoder,2000,262144,,,,200
+p03409,AtCoder Beginner Contest 091,C,AtCoder Beginner Contest 091 - 2D Plane 2N Points,AtCoder,2000,262144,,,,400
+p03410,AtCoder Beginner Contest 091,D,AtCoder Beginner Contest 091 - Two Sequences,AtCoder,3000,262144,,,,500
+p03399,AtCoder Beginner Contest 092,A,AtCoder Beginner Contest 092 - Traveling Budget,AtCoder,2000,262144,,,,100
+p03400,AtCoder Beginner Contest 092,B,AtCoder Beginner Contest 092 - Chocolate,AtCoder,2000,262144,,,,200
+p03401,AtCoder Beginner Contest 092,C,AtCoder Beginner Contest 092 - Traveling Plan,AtCoder,2000,262144,,,,300
+p03402,AtCoder Beginner Contest 092,D,AtCoder Beginner Contest 092 - Grid Components,AtCoder,2000,262144,,,,500
+p03385,AtCoder Beginner Contest 093,A,AtCoder Beginner Contest 093 - abc of ABC,AtCoder,2000,262144,,,,100
+p03386,AtCoder Beginner Contest 093,B,AtCoder Beginner Contest 093 - Small and Large Integers,AtCoder,2000,262144,,,,200
+p03387,AtCoder Beginner Contest 093,C,AtCoder Beginner Contest 093 - Same Integers,AtCoder,2000,262144,,,,300
+p03388,AtCoder Beginner Contest 093,D,AtCoder Beginner Contest 093 - Worst Case,AtCoder,2000,262144,,,,700
+p03377,AtCoder Beginner Contest 094,A,AtCoder Beginner Contest 094 - Cats and Dogs,AtCoder,2000,262144,,,,100
+p03378,AtCoder Beginner Contest 094,B,AtCoder Beginner Contest 094 - Toll Gates,AtCoder,2000,262144,,,,200
+p03379,AtCoder Beginner Contest 094,C,AtCoder Beginner Contest 094 - Many Medians,AtCoder,2000,262144,,,,300
+p03380,AtCoder Beginner Contest 094,D,AtCoder Beginner Contest 094 - Binomial Coefficients,AtCoder,2000,262144,,,,400
+p03369,AtCoder Beginner Contest 095,A,AtCoder Beginner Contest 095 - Something on It,AtCoder,2000,262144,,,,100
+p03370,AtCoder Beginner Contest 095,B,AtCoder Beginner Contest 095 - Bitter Alchemy,AtCoder,2000,262144,,,,200
+p03371,AtCoder Beginner Contest 095,C,AtCoder Beginner Contest 095 - Half and Half,AtCoder,2000,262144,,,,300
+p03372,AtCoder Beginner Contest 095,D,AtCoder Beginner Contest 095 - Static Sushi,AtCoder,2000,262144,,,,500
+p03359,AtCoder Beginner Contest 096,A,AtCoder Beginner Contest 096 - Day of Takahashi,AtCoder,2000,262144,,,,100
+p03360,AtCoder Beginner Contest 096,B,AtCoder Beginner Contest 096 - Maximum Sum,AtCoder,2000,262144,,,,200
+p03361,AtCoder Beginner Contest 096,C,AtCoder Beginner Contest 096 - Grid Repainting 2,AtCoder,2000,262144,,,,300
+p03362,AtCoder Beginner Contest 096,D,AtCoder Beginner Contest 096 - Five  Five Everywhere,AtCoder,2000,262144,,,,400
+p03351,AtCoder Beginner Contest 097,A,AtCoder Beginner Contest 097 - Colorful Transceivers,AtCoder,2000,1048576,,,,100
+p03352,AtCoder Beginner Contest 097,B,AtCoder Beginner Contest 097 - Exponential,AtCoder,2000,1048576,,,,200
+p03353,AtCoder Beginner Contest 097,C,AtCoder Beginner Contest 097 - K-th Substring,AtCoder,2000,1048576,,,,300
+p03354,AtCoder Beginner Contest 097,D,AtCoder Beginner Contest 097 - Equals,AtCoder,2000,1048576,,,,400
+p03337,AtCoder Beginner Contest 098,A,AtCoder Beginner Contest 098 - Add Sub Mul,AtCoder,2000,1048576,,,,100
+p03338,AtCoder Beginner Contest 098,B,AtCoder Beginner Contest 098 - Cut and Count,AtCoder,2000,1048576,,,,200
+p03339,AtCoder Beginner Contest 098,C,AtCoder Beginner Contest 098 - Attention,AtCoder,2000,1048576,,,,300
+p03340,AtCoder Beginner Contest 098,D,AtCoder Beginner Contest 098 - Xor Sum 2,AtCoder,2000,1048576,,,,500
+p03327,AtCoder Beginner Contest 099,A,AtCoder Beginner Contest 099 - ABD,AtCoder,2000,262144,,,,100
+p03328,AtCoder Beginner Contest 099,B,AtCoder Beginner Contest 099 - Stone Monument,AtCoder,2000,262144,,,,200
+p03329,AtCoder Beginner Contest 099,C,AtCoder Beginner Contest 099 - Strange Bank,AtCoder,2000,262144,,,,300
+p03330,AtCoder Beginner Contest 099,D,AtCoder Beginner Contest 099 - Good Grid,AtCoder,2000,262144,,,,400
+p03323,AtCoder Beginner Contest 100,A,AtCoder Beginner Contest 100 - Happy Birthday!,AtCoder,2000,1024000,,,,100
+p03324,AtCoder Beginner Contest 100,B,AtCoder Beginner Contest 100 - Ringo's Favorite Numbers,AtCoder,2000,1024000,,,,200
+p03325,AtCoder Beginner Contest 100,C,AtCoder Beginner Contest 100 - *3 or /2,AtCoder,2000,1024000,,,,300
+p03326,AtCoder Beginner Contest 100,D,AtCoder Beginner Contest 100 - Patisserie ABC,AtCoder,2000,1024000,,,,400
+p03315,AtCoder Beginner Contest 101,A,AtCoder Beginner Contest 101 - Eating Symbols Easy,AtCoder,2000,1048576,,,,100
+p03316,AtCoder Beginner Contest 101,B,AtCoder Beginner Contest 101 - Digit Sums,AtCoder,2000,1048576,,,,200
+p03317,AtCoder Beginner Contest 101,C,AtCoder Beginner Contest 101 - Minimization,AtCoder,2000,1048576,,,,300
+p03318,AtCoder Beginner Contest 101,D,AtCoder Beginner Contest 101 - Snuke Numbers,AtCoder,2000,1048576,,,,500
+p03307,AtCoder Beginner Contest 102,A,AtCoder Beginner Contest 102 - Multiple of 2 and N,AtCoder,2000,1048576,,,,100
+p03308,AtCoder Beginner Contest 102,B,AtCoder Beginner Contest 102 - Maximum Difference,AtCoder,2000,1048576,,,,200
+p03309,AtCoder Beginner Contest 102,C,AtCoder Beginner Contest 102 - Linear Approximation,AtCoder,2000,1048576,,,,300
+p03310,AtCoder Beginner Contest 102,D,AtCoder Beginner Contest 102 - Equal Cut,AtCoder,2000,1048576,,,,600
+p03292,AtCoder Beginner Contest 103,A,AtCoder Beginner Contest 103 - Task Scheduling Problem,AtCoder,2000,1048576,,,,100
+p03293,AtCoder Beginner Contest 103,B,AtCoder Beginner Contest 103 - String Rotation,AtCoder,2000,1048576,,,,200
+p03294,AtCoder Beginner Contest 103,C,AtCoder Beginner Contest 103 - Modulo Summation,AtCoder,2000,1048576,,,,300
+p03295,AtCoder Beginner Contest 103,D,AtCoder Beginner Contest 103 - Islands War,AtCoder,2000,1048576,,,,400
+p03288,AtCoder Beginner Contest 104,A,AtCoder Beginner Contest 104 - Rated for Me,AtCoder,2000,1048576,,,,100
+p03289,AtCoder Beginner Contest 104,B,AtCoder Beginner Contest 104 - AcCepted,AtCoder,2000,1048576,,,,200
+p03290,AtCoder Beginner Contest 104,C,AtCoder Beginner Contest 104 - All Green,AtCoder,2000,1048576,,,,300
+p03291,AtCoder Beginner Contest 104,D,AtCoder Beginner Contest 104 - We Love ABC,AtCoder,2000,1048576,,,,400
+p03284,AtCoder Beginner Contest 105,A,AtCoder Beginner Contest 105 - AtCoder Crackers,AtCoder,2000,1048576,,,,100
+p03285,AtCoder Beginner Contest 105,B,AtCoder Beginner Contest 105 - Cakes and Donuts,AtCoder,2000,1048576,,,,200
+p03286,AtCoder Beginner Contest 105,C,AtCoder Beginner Contest 105 - Base -2 Number,AtCoder,2000,1048576,,,,300
+p03287,AtCoder Beginner Contest 105,D,AtCoder Beginner Contest 105 - Candy Distribution,AtCoder,2000,1048576,,,,400
+p03280,AtCoder Beginner Contest 106,A,AtCoder Beginner Contest 106 - Garden,AtCoder,2000,1024000,,,,100
+p03281,AtCoder Beginner Contest 106,B,AtCoder Beginner Contest 106 - 105,AtCoder,2000,1024000,,,,200
+p03282,AtCoder Beginner Contest 106,C,AtCoder Beginner Contest 106 - To Infinity,AtCoder,2000,1024000,,,,300
+p03283,AtCoder Beginner Contest 106,D,AtCoder Beginner Contest 106 - AtCoder Express 2,AtCoder,3000,1024000,,,,400
+p03272,AtCoder Beginner Contest 107,A,AtCoder Beginner Contest 107 - Train,AtCoder,2000,1048576,,,,100
+p03273,AtCoder Beginner Contest 107,B,AtCoder Beginner Contest 107 - Grid Compression,AtCoder,2000,1048576,,,,200
+p03274,AtCoder Beginner Contest 107,C,AtCoder Beginner Contest 107 - Candles,AtCoder,2000,1048576,,,,300
+p03275,AtCoder Beginner Contest 107,D,AtCoder Beginner Contest 107 - Median of Medians,AtCoder,2000,1048576,,,,700
+p03264,AtCoder Beginner Contest 108,A,AtCoder Beginner Contest 108 - Pair,AtCoder,2000,1048576,,,,100
+p03265,AtCoder Beginner Contest 108,B,AtCoder Beginner Contest 108 - Ruined Square,AtCoder,2000,1048576,,,,200
+p03266,AtCoder Beginner Contest 108,C,AtCoder Beginner Contest 108 - Triangular Relationship,AtCoder,2000,1048576,,,,300
+p03267,AtCoder Beginner Contest 108,D,AtCoder Beginner Contest 108 - All Your Paths are Different Lengths,AtCoder,2000,1048576,,,,700
+p03260,AtCoder Beginner Contest 109,A,AtCoder Beginner Contest 109 - ABC333,AtCoder,2000,1048576,,,,100
+p03261,AtCoder Beginner Contest 109,B,AtCoder Beginner Contest 109 - Shiritori,AtCoder,2000,1048576,,,,200
+p03262,AtCoder Beginner Contest 109,C,AtCoder Beginner Contest 109 - Skip,AtCoder,2000,1048576,,,,300
+p03263,AtCoder Beginner Contest 109,D,AtCoder Beginner Contest 109 - Make Them Even,AtCoder,2000,1048576,,,,400
+p03250,AtCoder Beginner Contest 110,A,AtCoder Beginner Contest 110 - Maximize the Formula,AtCoder,2000,1048576,,,,100
+p03251,AtCoder Beginner Contest 110,B,AtCoder Beginner Contest 110 - 1 Dimensional World's Tale,AtCoder,2000,1048576,,,,200
+p03252,AtCoder Beginner Contest 110,C,AtCoder Beginner Contest 110 - String Transformation,AtCoder,2000,1048576,,,,300
+p03253,AtCoder Beginner Contest 110,D,AtCoder Beginner Contest 110 - Factorization,AtCoder,2000,1048576,,,,400
+p03242,AtCoder Beginner Contest 111,A,AtCoder Beginner Contest 111 - AtCoder Beginner Contest 999,AtCoder,2000,1048576,,,,100
+p03243,AtCoder Beginner Contest 111,B,AtCoder Beginner Contest 111 - AtCoder Beginner Contest 111,AtCoder,2000,1048576,,,,200
+p03244,AtCoder Beginner Contest 111,C,AtCoder Beginner Contest 111 - /\/\/\/,AtCoder,2000,1048576,,,,300
+p03245,AtCoder Beginner Contest 111,D,AtCoder Beginner Contest 111 - Robot Arms,AtCoder,2000,1048576,,,,600
+p03238,AtCoder Beginner Contest 112,A,AtCoder Beginner Contest 112 - Programming Education,AtCoder,2000,1048576,,,,100
+p03239,AtCoder Beginner Contest 112,B,AtCoder Beginner Contest 112 - Time Limit Exceeded,AtCoder,2000,1048576,,,,200
+p03240,AtCoder Beginner Contest 112,C,AtCoder Beginner Contest 112 - Pyramid,AtCoder,3000,1048576,,,,300
+p03241,AtCoder Beginner Contest 112,D,AtCoder Beginner Contest 112 - Partition,AtCoder,2000,1048576,,,,400
+p03219,AtCoder Beginner Contest 113,A,AtCoder Beginner Contest 113 - Discount Fare,AtCoder,2000,1048576,,,,100
+p03220,AtCoder Beginner Contest 113,B,AtCoder Beginner Contest 113 - Palace,AtCoder,2000,1048576,,,,200
+p03221,AtCoder Beginner Contest 113,C,AtCoder Beginner Contest 113 - ID,AtCoder,2000,1048576,,,,300
+p03222,AtCoder Beginner Contest 113,D,AtCoder Beginner Contest 113 - Number of Amidakuji,AtCoder,2000,1048576,,,,400
+p03210,AtCoder Beginner Contest 114,A,AtCoder Beginner Contest 114 - 753,AtCoder,2000,1048576,,,,100
+p03211,AtCoder Beginner Contest 114,B,AtCoder Beginner Contest 114 - 754,AtCoder,2000,1048576,,,,200
+p03212,AtCoder Beginner Contest 114,C,AtCoder Beginner Contest 114 - 755,AtCoder,2000,1048576,,,,300
+p03213,AtCoder Beginner Contest 114,D,AtCoder Beginner Contest 114 - 756,AtCoder,2000,1048576,,,,400
+p03206,AtCoder Beginner Contest 115,A,AtCoder Beginner Contest 115 - Christmas Eve Eve Eve,AtCoder,2000,1048576,,,,100
+p03207,AtCoder Beginner Contest 115,B,AtCoder Beginner Contest 115 - Christmas Eve Eve,AtCoder,2000,1048576,,,,200
+p03208,AtCoder Beginner Contest 115,C,AtCoder Beginner Contest 115 - Christmas Eve,AtCoder,2000,1048576,,,,300
+p03209,AtCoder Beginner Contest 115,D,AtCoder Beginner Contest 115 - Christmas,AtCoder,2000,1048576,,,,400
+p03145,AtCoder Beginner Contest 116,A,AtCoder Beginner Contest 116 - Right Triangle,AtCoder,2000,1048576,,,,100
+p03146,AtCoder Beginner Contest 116,B,AtCoder Beginner Contest 116 - Collatz Problem,AtCoder,2000,1048576,,,,200
+p03147,AtCoder Beginner Contest 116,C,AtCoder Beginner Contest 116 - Grand Garden,AtCoder,2000,1048576,,,,300
+p03148,AtCoder Beginner Contest 116,D,AtCoder Beginner Contest 116 - Various Sushi,AtCoder,2000,1048576,,,,400
+p03135,AtCoder Beginner Contest 117,A,AtCoder Beginner Contest 117 - Entrance Examination,AtCoder,2000,1048576,,,,100
+p03136,AtCoder Beginner Contest 117,B,AtCoder Beginner Contest 117 - Polygon,AtCoder,2000,1048576,,,,200
+p03137,AtCoder Beginner Contest 117,C,AtCoder Beginner Contest 117 - Streamline,AtCoder,2000,1048576,,,,300
+p03138,AtCoder Beginner Contest 117,D,AtCoder Beginner Contest 117 - XXOR,AtCoder,2000,1048576,,,,400
+p03125,AtCoder Beginner Contest 118,A,AtCoder Beginner Contest 118 - B +/- A,AtCoder,2000,1048576,,,,100
+p03126,AtCoder Beginner Contest 118,B,AtCoder Beginner Contest 118 - Foods Loved by Everyone,AtCoder,2000,1048576,,,,200
+p03127,AtCoder Beginner Contest 118,C,AtCoder Beginner Contest 118 - Monsters Battle Royale,AtCoder,2000,1048576,,,,300
+p03128,AtCoder Beginner Contest 118,D,AtCoder Beginner Contest 118 - Match Matching,AtCoder,2000,1048576,,,,400
+p03109,AtCoder Beginner Contest 119,A,AtCoder Beginner Contest 119 - Still TBD,AtCoder,2000,1048576,,,,100
+p03110,AtCoder Beginner Contest 119,B,AtCoder Beginner Contest 119 - Digital Gifts,AtCoder,2000,1048576,,,,200
+p03111,AtCoder Beginner Contest 119,C,AtCoder Beginner Contest 119 - Synthetic Kadomatsu,AtCoder,2000,1048576,,,,300
+p03112,AtCoder Beginner Contest 119,D,AtCoder Beginner Contest 119 - Lazy Faith,AtCoder,2000,1048576,,,,400
+p03105,AtCoder Beginner Contest 120,A,AtCoder Beginner Contest 120 - Favorite Sound,AtCoder,2000,1048576,,,,100
+p03106,AtCoder Beginner Contest 120,B,AtCoder Beginner Contest 120 - K-th Common Divisor,AtCoder,2000,1048576,,,,200
+p03107,AtCoder Beginner Contest 120,C,AtCoder Beginner Contest 120 - Unification,AtCoder,2000,1048576,,,,300
+p03108,AtCoder Beginner Contest 120,D,AtCoder Beginner Contest 120 - Decayed Bridges,AtCoder,2000,1048576,,,,400
+p03101,AtCoder Beginner Contest 121,A,AtCoder Beginner Contest 121 - White Cells,AtCoder,2000,1048576,,,,100
+p03102,AtCoder Beginner Contest 121,B,AtCoder Beginner Contest 121 - Can you solve this?,AtCoder,2000,1048576,,,,200
+p03103,AtCoder Beginner Contest 121,C,AtCoder Beginner Contest 121 - Energy Drink Collector,AtCoder,2000,1048576,,,,300
+p03104,AtCoder Beginner Contest 121,D,AtCoder Beginner Contest 121 - XOR World,AtCoder,2000,1048576,,,,400
+p03085,AtCoder Beginner Contest 122,A,AtCoder Beginner Contest 122 - Double Helix,AtCoder,2000,1048576,,,,100
+p03086,AtCoder Beginner Contest 122,B,AtCoder Beginner Contest 122 - ATCoder,AtCoder,2000,1048576,,,,200
+p03087,AtCoder Beginner Contest 122,C,AtCoder Beginner Contest 122 - GeT AC,AtCoder,2000,1048576,,,,300
+p03088,AtCoder Beginner Contest 122,D,AtCoder Beginner Contest 122 - We Like AGC,AtCoder,2000,1048576,,,,400
+p03075,AtCoder Beginner Contest 123,A,AtCoder Beginner Contest 123 - Five Antennas,AtCoder,2000,1048576,,,,100
+p03076,AtCoder Beginner Contest 123,B,AtCoder Beginner Contest 123 - Five Dishes,AtCoder,2000,1048576,,,,200
+p03077,AtCoder Beginner Contest 123,C,AtCoder Beginner Contest 123 - Five Transportations,AtCoder,2000,1048576,,,,300
+p03078,AtCoder Beginner Contest 123,D,AtCoder Beginner Contest 123 - Cake 123,AtCoder,2000,1048576,,,,400
+p03071,AtCoder Beginner Contest 124,A,AtCoder Beginner Contest 124 - Buttons,AtCoder,2000,1048576,,,,100
+p03072,AtCoder Beginner Contest 124,B,AtCoder Beginner Contest 124 - Great Ocean View,AtCoder,2000,1048576,,,,200
+p03073,AtCoder Beginner Contest 124,C,AtCoder Beginner Contest 124 - Coloring Colorfully,AtCoder,2000,1048576,,,,300
+p03074,AtCoder Beginner Contest 124,D,AtCoder Beginner Contest 124 - Handstand,AtCoder,2000,1048576,,,,400
+p03059,AtCoder Beginner Contest 125,A,AtCoder Beginner Contest 125 - Biscuit Generator,AtCoder,2000,1048576,,,,100
+p03060,AtCoder Beginner Contest 125,B,AtCoder Beginner Contest 125 - Resale,AtCoder,2000,1048576,,,,200
+p03061,AtCoder Beginner Contest 125,C,AtCoder Beginner Contest 125 - GCD on Blackboard,AtCoder,2000,1048576,,,,300
+p03062,AtCoder Beginner Contest 125,D,AtCoder Beginner Contest 125 - Flipping Signs,AtCoder,2000,1048576,,,,400
+p03041,AtCoder Beginner Contest 126,A,AtCoder Beginner Contest 126 - Changing a Character,AtCoder,2000,1048576,,,,100
+p03042,AtCoder Beginner Contest 126,B,AtCoder Beginner Contest 126 - YYMM or MMYY,AtCoder,2000,1048576,,,,200
+p03043,AtCoder Beginner Contest 126,C,AtCoder Beginner Contest 126 - Dice and Coin,AtCoder,2000,1048576,,,,300
+p03044,AtCoder Beginner Contest 126,D,AtCoder Beginner Contest 126 - Even Relation,AtCoder,2000,1048576,,,,400
+p03045,AtCoder Beginner Contest 126,E,AtCoder Beginner Contest 126 - 1 or 2,AtCoder,2000,1048576,,,,500
+p03046,AtCoder Beginner Contest 126,F,AtCoder Beginner Contest 126 - XOR Matching,AtCoder,2000,1048576,,,,600
+p03035,AtCoder Beginner Contest 127,A,AtCoder Beginner Contest 127 - Ferris Wheel,AtCoder,2000,1048576,,,,100
+p03036,AtCoder Beginner Contest 127,B,AtCoder Beginner Contest 127 - Algae,AtCoder,2000,1048576,,,,200
+p03037,AtCoder Beginner Contest 127,C,AtCoder Beginner Contest 127 - Prison,AtCoder,2000,1048576,,,,300
+p03038,AtCoder Beginner Contest 127,D,AtCoder Beginner Contest 127 - Integer Cards,AtCoder,2000,1048576,,,,400
+p03039,AtCoder Beginner Contest 127,E,AtCoder Beginner Contest 127 - Cell Distance,AtCoder,2000,1048576,,,,500
+p03040,AtCoder Beginner Contest 127,F,AtCoder Beginner Contest 127 - Absolute Minima,AtCoder,2000,1048576,,,,600
+p03029,AtCoder Beginner Contest 128,A,AtCoder Beginner Contest 128 - Apple Pie,AtCoder,2000,1048576,,,,100
+p03030,AtCoder Beginner Contest 128,B,AtCoder Beginner Contest 128 - Guidebook,AtCoder,2000,1048576,,,,200
+p03031,AtCoder Beginner Contest 128,C,AtCoder Beginner Contest 128 - Switches,AtCoder,2000,1048576,,,,300
+p03032,AtCoder Beginner Contest 128,D,AtCoder Beginner Contest 128 - equeue,AtCoder,2000,1048576,,,,400
+p03033,AtCoder Beginner Contest 128,E,AtCoder Beginner Contest 128 - Roadwork,AtCoder,2000,1048576,,,,500
+p03034,AtCoder Beginner Contest 128,F,AtCoder Beginner Contest 128 - Frog Jump,AtCoder,2000,1048576,,,,600
+p03011,AtCoder Beginner Contest 129,A,AtCoder Beginner Contest 129 - Airplane,AtCoder,2000,1048576,,,,100
+p03012,AtCoder Beginner Contest 129,B,AtCoder Beginner Contest 129 - Balance,AtCoder,2000,1048576,,,,200
+p03013,AtCoder Beginner Contest 129,C,AtCoder Beginner Contest 129 - Typical Stairs,AtCoder,2000,1048576,,,,300
+p03014,AtCoder Beginner Contest 129,D,AtCoder Beginner Contest 129 - Lamp,AtCoder,2000,1048576,,,,400
+p03015,AtCoder Beginner Contest 129,E,AtCoder Beginner Contest 129 - Sum Equals Xor,AtCoder,2000,1048576,,,,500
+p03016,AtCoder Beginner Contest 129,F,AtCoder Beginner Contest 129 - Takahashi's Basics in Education and Learning,AtCoder,3000,1048576,,,,600
+p02999,AtCoder Beginner Contest 130,A,AtCoder Beginner Contest 130 - Rounding,AtCoder,2000,1048576,,,,100
+p03000,AtCoder Beginner Contest 130,B,AtCoder Beginner Contest 130 - Bounding,AtCoder,2000,1048576,,,,200
+p03001,AtCoder Beginner Contest 130,C,AtCoder Beginner Contest 130 - Rectangle Cutting,AtCoder,2000,1048576,,,,300
+p03002,AtCoder Beginner Contest 130,D,AtCoder Beginner Contest 130 - Enough Array,AtCoder,2000,1048576,,,,400
+p03003,AtCoder Beginner Contest 130,E,AtCoder Beginner Contest 130 - Common Subsequence,AtCoder,2000,1048576,,,,500
+p03004,AtCoder Beginner Contest 130,F,AtCoder Beginner Contest 130 - Minimum Bounding Box,AtCoder,5000,1048576,,,,600
+p02993,AtCoder Beginner Contest 131,A,AtCoder Beginner Contest 131 - Security,AtCoder,2000,1048576,,,,100
+p02994,AtCoder Beginner Contest 131,B,AtCoder Beginner Contest 131 - Bite Eating,AtCoder,2000,1048576,,,,200
+p02995,AtCoder Beginner Contest 131,C,AtCoder Beginner Contest 131 - Anti-Division,AtCoder,2000,1048576,,,,300
+p02996,AtCoder Beginner Contest 131,D,AtCoder Beginner Contest 131 - Megalomania,AtCoder,2000,1048576,,,,400
+p02997,AtCoder Beginner Contest 131,E,AtCoder Beginner Contest 131 - Friendships,AtCoder,2000,1048576,,,,500
+p02998,AtCoder Beginner Contest 131,F,AtCoder Beginner Contest 131 - Must Be Rectangular!,AtCoder,2000,1048576,,,,600
+p02987,AtCoder Beginner Contest 132,A,AtCoder Beginner Contest 132 - Fifty-Fifty,AtCoder,2000,1048576,,,,100
+p02988,AtCoder Beginner Contest 132,B,AtCoder Beginner Contest 132 - Ordinary Number,AtCoder,2000,1048576,,,,200
+p02989,AtCoder Beginner Contest 132,C,AtCoder Beginner Contest 132 - Divide the Problems,AtCoder,2000,1048576,,,,300
+p02990,AtCoder Beginner Contest 132,D,AtCoder Beginner Contest 132 - Blue and Red Balls,AtCoder,2000,1048576,,,,400
+p02991,AtCoder Beginner Contest 132,E,AtCoder Beginner Contest 132 - Hopscotch Addict,AtCoder,2000,1048576,,,,500
+p02992,AtCoder Beginner Contest 132,F,AtCoder Beginner Contest 132 - Small Products,AtCoder,2000,1048576,,,,600
+p02981,AtCoder Beginner Contest 133,A,AtCoder Beginner Contest 133 - T or T,AtCoder,2000,1048576,,,,100
+p02982,AtCoder Beginner Contest 133,B,AtCoder Beginner Contest 133 - Good Distance,AtCoder,2000,1048576,,,,200
+p02983,AtCoder Beginner Contest 133,C,AtCoder Beginner Contest 133 - Remainder Minimization 2019,AtCoder,2000,1048576,,,,300
+p02984,AtCoder Beginner Contest 133,D,AtCoder Beginner Contest 133 - Rain Flows into Dams,AtCoder,2000,1048576,,,,400
+p02985,AtCoder Beginner Contest 133,E,AtCoder Beginner Contest 133 - Virus Tree 2,AtCoder,2000,1048576,,,,500
+p02986,AtCoder Beginner Contest 133,F,AtCoder Beginner Contest 133 - Colorful Tree,AtCoder,4000,1048576,,,,600
+p02969,AtCoder Beginner Contest 134,A,AtCoder Beginner Contest 134 - Dodecagon,AtCoder,2000,1048576,,,,100
+p02970,AtCoder Beginner Contest 134,B,AtCoder Beginner Contest 134 - Golden Apple,AtCoder,2000,1048576,,,,200
+p02971,AtCoder Beginner Contest 134,C,AtCoder Beginner Contest 134 - Exception Handling,AtCoder,2000,1048576,,,,300
+p02972,AtCoder Beginner Contest 134,D,AtCoder Beginner Contest 134 - Preparing Boxes,AtCoder,2000,1048576,,,,400
+p02973,AtCoder Beginner Contest 134,E,AtCoder Beginner Contest 134 - Sequence Decomposing,AtCoder,2000,1048576,,,,500
+p02974,AtCoder Beginner Contest 134,F,AtCoder Beginner Contest 134 - Permutation Oddness,AtCoder,2000,1048576,,,,600
+p02957,AtCoder Beginner Contest 135,A,AtCoder Beginner Contest 135 - Harmony,AtCoder,2000,1048576,,,,100
+p02958,AtCoder Beginner Contest 135,B,AtCoder Beginner Contest 135 - 0 or 1 Swap,AtCoder,2000,1048576,,,,200
+p02959,AtCoder Beginner Contest 135,C,AtCoder Beginner Contest 135 - City Savers,AtCoder,2000,1048576,,,,300
+p02960,AtCoder Beginner Contest 135,D,AtCoder Beginner Contest 135 - Digits Parade,AtCoder,2000,1048576,,,,400
+p02961,AtCoder Beginner Contest 135,E,AtCoder Beginner Contest 135 - Golf,AtCoder,2000,1048576,,,,500
+p02962,AtCoder Beginner Contest 135,F,AtCoder Beginner Contest 135 - Strings of Eternity,AtCoder,2000,1048576,,,,600
+p02951,AtCoder Beginner Contest 136,A,AtCoder Beginner Contest 136 - Transfer,AtCoder,2000,1048576,,,,100
+p02952,AtCoder Beginner Contest 136,B,AtCoder Beginner Contest 136 - Uneven Numbers,AtCoder,2000,1048576,,,,200
+p02953,AtCoder Beginner Contest 136,C,AtCoder Beginner Contest 136 - Build Stairs,AtCoder,2000,1048576,,,,300
+p02954,AtCoder Beginner Contest 136,D,AtCoder Beginner Contest 136 - Gathering Children,AtCoder,2000,1048576,,,,400
+p02955,AtCoder Beginner Contest 136,E,AtCoder Beginner Contest 136 - Max GCD,AtCoder,2000,1048576,,,,500
+p02956,AtCoder Beginner Contest 136,F,AtCoder Beginner Contest 136 - Enclosed Points,AtCoder,2000,1048576,,,,600
+p02945,AtCoder Beginner Contest 137,A,AtCoder Beginner Contest 137 - +-x,AtCoder,2000,1048576,,,,100
+p02946,AtCoder Beginner Contest 137,B,AtCoder Beginner Contest 137 - One Clue,AtCoder,2000,1048576,,,,200
+p02947,AtCoder Beginner Contest 137,C,AtCoder Beginner Contest 137 - Green Bin,AtCoder,2000,1048576,,,,300
+p02948,AtCoder Beginner Contest 137,D,AtCoder Beginner Contest 137 - Summer Vacation,AtCoder,2000,1048576,,,,400
+p02949,AtCoder Beginner Contest 137,E,AtCoder Beginner Contest 137 - Coins Respawn,AtCoder,2000,1048576,,,,500
+p02950,AtCoder Beginner Contest 137,F,AtCoder Beginner Contest 137 - Polynomial Construction,AtCoder,2000,1048576,,,,600
+p02933,AtCoder Beginner Contest 138,A,AtCoder Beginner Contest 138 - Red or Not,AtCoder,2000,1048576,,,,100
+p02934,AtCoder Beginner Contest 138,B,AtCoder Beginner Contest 138 - Resistors in Parallel,AtCoder,2000,1048576,,,,200
+p02935,AtCoder Beginner Contest 138,C,AtCoder Beginner Contest 138 - Alchemist,AtCoder,2000,1048576,,,,300
+p02936,AtCoder Beginner Contest 138,D,AtCoder Beginner Contest 138 - Ki,AtCoder,2000,1048576,,,,400
+p02937,AtCoder Beginner Contest 138,E,AtCoder Beginner Contest 138 - Strings of Impurity,AtCoder,2000,1048576,,,,500
+p02938,AtCoder Beginner Contest 138,F,AtCoder Beginner Contest 138 - Coincidence,AtCoder,2000,1048576,,,,600
+p02921,AtCoder Beginner Contest 139,A,AtCoder Beginner Contest 139 - Tenki,AtCoder,2000,1048576,,,,100
+p02922,AtCoder Beginner Contest 139,B,AtCoder Beginner Contest 139 - Power Socket,AtCoder,2000,1048576,,,,200
+p02923,AtCoder Beginner Contest 139,C,AtCoder Beginner Contest 139 - Lower,AtCoder,2000,1048576,,,,300
+p02924,AtCoder Beginner Contest 139,D,AtCoder Beginner Contest 139 - ModSum,AtCoder,2000,1048576,,,,400
+p02925,AtCoder Beginner Contest 139,E,AtCoder Beginner Contest 139 - League,AtCoder,2000,1048576,,,,500
+p02926,AtCoder Beginner Contest 139,F,AtCoder Beginner Contest 139 - Engines,AtCoder,2000,1048576,,,,600
+p02915,AtCoder Beginner Contest 140,A,AtCoder Beginner Contest 140 - Password,AtCoder,2000,1048576,,,,100
+p02916,AtCoder Beginner Contest 140,B,AtCoder Beginner Contest 140 - Buffet,AtCoder,2000,1048576,,,,200
+p02917,AtCoder Beginner Contest 140,C,AtCoder Beginner Contest 140 - Maximal Value,AtCoder,2000,1048576,,,,300
+p02918,AtCoder Beginner Contest 140,D,AtCoder Beginner Contest 140 - Face Produces Unhappiness,AtCoder,2000,1048576,,,,400
+p02919,AtCoder Beginner Contest 140,E,AtCoder Beginner Contest 140 - Second Sum,AtCoder,2000,1048576,,,,500
+p02920,AtCoder Beginner Contest 140,F,AtCoder Beginner Contest 140 - Many Slimes,AtCoder,2000,1048576,,,,600
+p02909,AtCoder Beginner Contest 141,A,AtCoder Beginner Contest 141 - Weather Prediction,AtCoder,2000,1048576,,,,100
+p02910,AtCoder Beginner Contest 141,B,AtCoder Beginner Contest 141 - Tap Dance,AtCoder,2000,1048576,,,,200
+p02911,AtCoder Beginner Contest 141,C,AtCoder Beginner Contest 141 - Attack Survival,AtCoder,2000,1048576,,,,300
+p02912,AtCoder Beginner Contest 141,D,AtCoder Beginner Contest 141 - Powerful Discount Tickets,AtCoder,2000,1048576,,,,400
+p02913,AtCoder Beginner Contest 141,E,AtCoder Beginner Contest 141 - Who Says a Pun?,AtCoder,2000,1048576,,,,500
+p02914,AtCoder Beginner Contest 141,F,AtCoder Beginner Contest 141 - Xor Sum 3,AtCoder,2000,1048576,,,,600
+p02897,AtCoder Beginner Contest 142,A,AtCoder Beginner Contest 142 - Odds of Oddness,AtCoder,2000,1048576,,,,100
+p02898,AtCoder Beginner Contest 142,B,AtCoder Beginner Contest 142 - Roller Coaster,AtCoder,2000,1048576,,,,200
+p02899,AtCoder Beginner Contest 142,C,AtCoder Beginner Contest 142 - Go to School,AtCoder,2000,1048576,,,,300
+p02900,AtCoder Beginner Contest 142,D,AtCoder Beginner Contest 142 - Disjoint Set of Common Divisors,AtCoder,2000,1048576,,,,400
+p02901,AtCoder Beginner Contest 142,E,AtCoder Beginner Contest 142 - Get Everything,AtCoder,2000,1048576,,,,500
+p02902,AtCoder Beginner Contest 142,F,AtCoder Beginner Contest 142 - Pure,AtCoder,2000,1048576,,,,600
+p02885,AtCoder Beginner Contest 143,A,AtCoder Beginner Contest 143 - Curtain,AtCoder,2000,1048576,,,,100
+p02886,AtCoder Beginner Contest 143,B,AtCoder Beginner Contest 143 - TAKOYAKI FESTIVAL 2019,AtCoder,2000,1048576,,,,200
+p02887,AtCoder Beginner Contest 143,C,AtCoder Beginner Contest 143 - Slimes,AtCoder,2000,1048576,,,,300
+p02888,AtCoder Beginner Contest 143,D,AtCoder Beginner Contest 143 - Triangles,AtCoder,2000,1048576,,,,400
+p02889,AtCoder Beginner Contest 143,E,AtCoder Beginner Contest 143 - Travel by Car,AtCoder,2000,1048576,,,,500
+p02890,AtCoder Beginner Contest 143,F,AtCoder Beginner Contest 143 - Distinct Numbers,AtCoder,2000,1048576,,,,600
+p02879,AtCoder Beginner Contest 144,A,AtCoder Beginner Contest 144 - 9x9,AtCoder,2000,1048576,,,,100
+p02880,AtCoder Beginner Contest 144,B,AtCoder Beginner Contest 144 - 81,AtCoder,2000,1048576,,,,200
+p02881,AtCoder Beginner Contest 144,C,AtCoder Beginner Contest 144 - Walk on Multiplication Table,AtCoder,2000,1048576,,,,300
+p02882,AtCoder Beginner Contest 144,D,AtCoder Beginner Contest 144 - Water Bottle,AtCoder,2000,1048576,,,,400
+p02883,AtCoder Beginner Contest 144,E,AtCoder Beginner Contest 144 - Gluttony,AtCoder,2000,1048576,,,,500
+p02884,AtCoder Beginner Contest 144,F,AtCoder Beginner Contest 144 - Fork in the Road,AtCoder,2000,1048576,,,,600
+p02859,AtCoder Beginner Contest 145,A,AtCoder Beginner Contest 145 - Circle,AtCoder,2000,1048576,,,,100
+p02860,AtCoder Beginner Contest 145,B,AtCoder Beginner Contest 145 - Echo,AtCoder,2000,1048576,,,,200
+p02861,AtCoder Beginner Contest 145,C,AtCoder Beginner Contest 145 - Average Length,AtCoder,2000,1048576,,,,300
+p02862,AtCoder Beginner Contest 145,D,AtCoder Beginner Contest 145 - Knight,AtCoder,2000,1048576,,,,400
+p02863,AtCoder Beginner Contest 145,E,AtCoder Beginner Contest 145 - All-you-can-eat,AtCoder,2000,1048576,,,,500
+p02864,AtCoder Beginner Contest 145,F,AtCoder Beginner Contest 145 - Laminate,AtCoder,2000,1048576,,,,600
+p02847,AtCoder Beginner Contest 146,A,AtCoder Beginner Contest 146 - Can't Wait for Holiday,AtCoder,2000,1048576,,,,100
+p02848,AtCoder Beginner Contest 146,B,AtCoder Beginner Contest 146 - ROT N,AtCoder,2000,1048576,,,,200
+p02849,AtCoder Beginner Contest 146,C,AtCoder Beginner Contest 146 - Buy an Integer,AtCoder,2000,1048576,,,,300
+p02850,AtCoder Beginner Contest 146,D,AtCoder Beginner Contest 146 - Coloring Edges on Tree,AtCoder,2000,1048576,,,,400
+p02851,AtCoder Beginner Contest 146,E,AtCoder Beginner Contest 146 - Rem of Sum is Num,AtCoder,2000,1048576,,,,500
+p02852,AtCoder Beginner Contest 146,F,AtCoder Beginner Contest 146 - Sugoroku,AtCoder,2000,1048576,,,,600
+p02835,AtCoder Beginner Contest 147,A,AtCoder Beginner Contest 147 - Blackjack,AtCoder,2000,1048576,,,,100
+p02836,AtCoder Beginner Contest 147,B,AtCoder Beginner Contest 147 - Palindrome-philia,AtCoder,2000,1048576,,,,200
+p02837,AtCoder Beginner Contest 147,C,AtCoder Beginner Contest 147 - HonestOrUnkind2,AtCoder,2000,1048576,,,,300
+p02838,AtCoder Beginner Contest 147,D,AtCoder Beginner Contest 147 - Xor Sum 4,AtCoder,2000,1048576,,,,400
+p02839,AtCoder Beginner Contest 147,E,AtCoder Beginner Contest 147 - Balanced Path,AtCoder,2000,1048576,,,,500
+p02840,AtCoder Beginner Contest 147,F,AtCoder Beginner Contest 147 - Sum Difference,AtCoder,2000,1048576,,,,600
+p02829,AtCoder Beginner Contest 148,A,AtCoder Beginner Contest 148 - Round One,AtCoder,2000,1048576,,,,100
+p02830,AtCoder Beginner Contest 148,B,AtCoder Beginner Contest 148 - Strings with the Same Length,AtCoder,2000,1048576,,,,200
+p02831,AtCoder Beginner Contest 148,C,AtCoder Beginner Contest 148 - Snack,AtCoder,2000,1048576,,,,300
+p02832,AtCoder Beginner Contest 148,D,AtCoder Beginner Contest 148 - Brick Break,AtCoder,2000,1048576,,,,400
+p02833,AtCoder Beginner Contest 148,E,AtCoder Beginner Contest 148 - Double Factorial,AtCoder,2000,1048576,,,,500
+p02834,AtCoder Beginner Contest 148,F,AtCoder Beginner Contest 148 - Playing Tag on Tree,AtCoder,2000,1048576,,,,600
+p02817,AtCoder Beginner Contest 149,A,AtCoder Beginner Contest 149 - Strings,AtCoder,2000,1048576,,,,100
+p02818,AtCoder Beginner Contest 149,B,AtCoder Beginner Contest 149 - Greedy Takahashi,AtCoder,2000,1048576,,,,200
+p02819,AtCoder Beginner Contest 149,C,AtCoder Beginner Contest 149 - Next Prime,AtCoder,2000,1048576,,,,300
+p02820,AtCoder Beginner Contest 149,D,AtCoder Beginner Contest 149 - Prediction and Restriction,AtCoder,2000,1048576,,,,400
+p02821,AtCoder Beginner Contest 149,E,AtCoder Beginner Contest 149 - Handshake,AtCoder,2000,1048576,,,,500
+p02822,AtCoder Beginner Contest 149,F,AtCoder Beginner Contest 149 - Surrounded Nodes,AtCoder,2000,1048576,,,,600
+p02811,AtCoder Beginner Contest 150,A,AtCoder Beginner Contest 150 - 500 Yen Coins,AtCoder,2000,1048576,,,,100
+p02812,AtCoder Beginner Contest 150,B,AtCoder Beginner Contest 150 - Count ABC,AtCoder,2000,1048576,,,,200
+p02813,AtCoder Beginner Contest 150,C,AtCoder Beginner Contest 150 - Count Order,AtCoder,2000,1048576,,,,300
+p02814,AtCoder Beginner Contest 150,D,AtCoder Beginner Contest 150 - Semi Common Multiple,AtCoder,2000,1048576,,,,400
+p02815,AtCoder Beginner Contest 150,E,AtCoder Beginner Contest 150 - Change a Little Bit,AtCoder,2000,1048576,,,,500
+p02816,AtCoder Beginner Contest 150,F,AtCoder Beginner Contest 150 - Xor Shift,AtCoder,2000,1048576,,,,600
+p02801,AtCoder Beginner Contest 151,A,AtCoder Beginner Contest 151 - Next Alphabet,AtCoder,2000,1048576,,,,100
+p02802,AtCoder Beginner Contest 151,B,AtCoder Beginner Contest 151 - Welcome to AtCoder,AtCoder,2000,1048576,,,,300
+p02803,AtCoder Beginner Contest 151,C,AtCoder Beginner Contest 151 - Maze Master,AtCoder,2000,1048576,,,,400
+p02804,AtCoder Beginner Contest 151,D,AtCoder Beginner Contest 151 - Max-Min Sums,AtCoder,2000,1048576,,,,500
+p02805,AtCoder Beginner Contest 151,E,AtCoder Beginner Contest 151 - Enclose All,AtCoder,2000,1048576,,,,600
+p02789,AtCoder Beginner Contest 152,A,AtCoder Beginner Contest 152 - AC or WA,AtCoder,2000,1048576,,,,100
+p02790,AtCoder Beginner Contest 152,B,AtCoder Beginner Contest 152 - Comparing Strings,AtCoder,2000,1048576,,,,200
+p02791,AtCoder Beginner Contest 152,C,AtCoder Beginner Contest 152 - Low Elements,AtCoder,2000,1048576,,,,300
+p02792,AtCoder Beginner Contest 152,D,AtCoder Beginner Contest 152 - Handstand 2,AtCoder,2000,1048576,,,,400
+p02793,AtCoder Beginner Contest 152,E,AtCoder Beginner Contest 152 - Flatten,AtCoder,2000,1048576,,,,500
+p02794,AtCoder Beginner Contest 152,F,AtCoder Beginner Contest 152 - Tree and Constraints,AtCoder,4000,1048576,,,,600
+p02783,AtCoder Beginner Contest 153,A,AtCoder Beginner Contest 153 - Serval vs Monster,AtCoder,2000,1048576,,,,100
+p02784,AtCoder Beginner Contest 153,B,AtCoder Beginner Contest 153 - Common Raccoon vs Monster,AtCoder,2000,1048576,,,,200
+p02785,AtCoder Beginner Contest 153,C,AtCoder Beginner Contest 153 - Fennec vs Monster,AtCoder,2000,1048576,,,,300
+p02786,AtCoder Beginner Contest 153,D,AtCoder Beginner Contest 153 - Caracal vs Monster,AtCoder,2000,1048576,,,,400
+p02787,AtCoder Beginner Contest 153,E,AtCoder Beginner Contest 153 - Crested Ibis vs Monster,AtCoder,2000,1048576,,,,500
+p02788,AtCoder Beginner Contest 153,F,AtCoder Beginner Contest 153 - Silver Fox vs Monster,AtCoder,2000,1048576,,,,600
+p02777,AtCoder Beginner Contest 154,A,AtCoder Beginner Contest 154 - Remaining Balls,AtCoder,2000,1048576,,,,100
+p02778,AtCoder Beginner Contest 154,B,AtCoder Beginner Contest 154 - I miss you...,AtCoder,2000,1048576,,,,200
+p02779,AtCoder Beginner Contest 154,C,AtCoder Beginner Contest 154 - Distinct or Not,AtCoder,2000,1048576,,,,300
+p02780,AtCoder Beginner Contest 154,D,AtCoder Beginner Contest 154 - Dice in Line,AtCoder,2000,1048576,,,,400
+p02781,AtCoder Beginner Contest 154,E,AtCoder Beginner Contest 154 - Almost Everywhere Zero,AtCoder,2000,1048576,,,,500
+p02782,AtCoder Beginner Contest 154,F,AtCoder Beginner Contest 154 - Many Many Paths,AtCoder,2000,1048576,,,,600
+p02771,AtCoder Beginner Contest 155,A,AtCoder Beginner Contest 155 - Poor,AtCoder,2000,1048576,,,,100
+p02772,AtCoder Beginner Contest 155,B,AtCoder Beginner Contest 155 - Papers  Please,AtCoder,2000,1048576,,,,200
+p02773,AtCoder Beginner Contest 155,C,AtCoder Beginner Contest 155 - Poll,AtCoder,2000,1048576,,,,300
+p02774,AtCoder Beginner Contest 155,D,AtCoder Beginner Contest 155 - Pairs,AtCoder,2000,1048576,,,,400
+p02775,AtCoder Beginner Contest 155,E,AtCoder Beginner Contest 155 - Payment,AtCoder,2000,1048576,,,,500
+p02776,AtCoder Beginner Contest 155,F,AtCoder Beginner Contest 155 - Perils in Parallel,AtCoder,2000,1048576,,,,600
+p02765,AtCoder Beginner Contest 156,A,AtCoder Beginner Contest 156 - Beginner,AtCoder,2000,1048576,,,,100
+p02766,AtCoder Beginner Contest 156,B,AtCoder Beginner Contest 156 - Digits,AtCoder,2000,1048576,,,,200
+p02767,AtCoder Beginner Contest 156,C,AtCoder Beginner Contest 156 - Rally,AtCoder,2000,1048576,,,,300
+p02768,AtCoder Beginner Contest 156,D,AtCoder Beginner Contest 156 - Bouquet,AtCoder,2000,1048576,,,,400
+p02769,AtCoder Beginner Contest 156,E,AtCoder Beginner Contest 156 - Roaming,AtCoder,2000,1048576,,,,500
+p02770,AtCoder Beginner Contest 156,F,AtCoder Beginner Contest 156 - Modularness,AtCoder,2000,1048576,,,,600
+p02759,AtCoder Beginner Contest 157,A,AtCoder Beginner Contest 157 - Duplex Printing,AtCoder,2000,1048576,,,,100
+p02760,AtCoder Beginner Contest 157,B,AtCoder Beginner Contest 157 - Bingo,AtCoder,2000,1048576,,,,200
+p02761,AtCoder Beginner Contest 157,C,AtCoder Beginner Contest 157 - Guess The Number,AtCoder,2000,1048576,,,,300
+p02762,AtCoder Beginner Contest 157,D,AtCoder Beginner Contest 157 - Friend Suggestions,AtCoder,2000,1048576,,,,400
+p02763,AtCoder Beginner Contest 157,E,AtCoder Beginner Contest 157 - Simple String Queries,AtCoder,2000,1048576,,,,500
+p02764,AtCoder Beginner Contest 157,F,AtCoder Beginner Contest 157 - Yakiniku Optimization Problem,AtCoder,2000,1048576,,,,600
+p02753,AtCoder Beginner Contest 158,A,AtCoder Beginner Contest 158 - Station and Bus,AtCoder,2000,1048576,,,,100
+p02754,AtCoder Beginner Contest 158,B,AtCoder Beginner Contest 158 - Count Balls,AtCoder,2000,1048576,,,,200
+p02755,AtCoder Beginner Contest 158,C,AtCoder Beginner Contest 158 - Tax Increase,AtCoder,2000,1048576,,,,300
+p02756,AtCoder Beginner Contest 158,D,AtCoder Beginner Contest 158 - String Formation,AtCoder,2000,1048576,,,,400
+p02757,AtCoder Beginner Contest 158,E,AtCoder Beginner Contest 158 - Divisible Substring,AtCoder,2000,1048576,,,,500
+p02758,AtCoder Beginner Contest 158,F,AtCoder Beginner Contest 158 - Removing Robots,AtCoder,2000,1048576,,,,600
+p02729,AtCoder Beginner Contest 159,A,AtCoder Beginner Contest 159 - The Number of Even Pairs,AtCoder,2000,1048576,,,,100
+p02730,AtCoder Beginner Contest 159,B,AtCoder Beginner Contest 159 - String Palindrome,AtCoder,2000,1048576,,,,200
+p02731,AtCoder Beginner Contest 159,C,AtCoder Beginner Contest 159 - Maximum Volume,AtCoder,2000,1048576,,,,300
+p02732,AtCoder Beginner Contest 159,D,AtCoder Beginner Contest 159 - Banned K,AtCoder,2000,1048576,,,,400
+p02733,AtCoder Beginner Contest 159,E,AtCoder Beginner Contest 159 - Dividing Chocolate,AtCoder,2000,1048576,,,,500
+p02734,AtCoder Beginner Contest 159,F,AtCoder Beginner Contest 159 - Knapsack for All Segments,AtCoder,2000,1048576,,,,600
+p02723,AtCoder Beginner Contest 160,A,AtCoder Beginner Contest 160 - Coffee,AtCoder,2000,1048576,,,,100
+p02724,AtCoder Beginner Contest 160,B,AtCoder Beginner Contest 160 - Golden Coins,AtCoder,2000,1048576,,,,200
+p02725,AtCoder Beginner Contest 160,C,AtCoder Beginner Contest 160 - Traveling Salesman around Lake,AtCoder,2000,1048576,,,,300
+p02726,AtCoder Beginner Contest 160,D,AtCoder Beginner Contest 160 - Line++,AtCoder,2000,1048576,,,,400
+p02727,AtCoder Beginner Contest 160,E,AtCoder Beginner Contest 160 - Red and Green Apples,AtCoder,2000,1048576,,,,500
+p02728,AtCoder Beginner Contest 160,F,AtCoder Beginner Contest 160 - Distributing Integers,AtCoder,3000,1048576,,,,600
+p02717,AtCoder Beginner Contest 161,A,AtCoder Beginner Contest 161 - ABC Swap,AtCoder,2000,1048576,,,,100
+p02718,AtCoder Beginner Contest 161,B,AtCoder Beginner Contest 161 - Popular Vote,AtCoder,2000,1048576,,,,200
+p02719,AtCoder Beginner Contest 161,C,AtCoder Beginner Contest 161 - Replacing Integer,AtCoder,2000,1048576,,,,300
+p02720,AtCoder Beginner Contest 161,D,AtCoder Beginner Contest 161 - Lunlun Number,AtCoder,2000,1048576,,,,400
+p02721,AtCoder Beginner Contest 161,E,AtCoder Beginner Contest 161 - Yutori,AtCoder,2000,1048576,,,,500
+p02722,AtCoder Beginner Contest 161,F,AtCoder Beginner Contest 161 - Division or Subtraction,AtCoder,2000,1048576,,,,600
+p02711,AtCoder Beginner Contest 162,A,AtCoder Beginner Contest 162 - Lucky 7,AtCoder,2000,1048576,,,,100
+p02712,AtCoder Beginner Contest 162,B,AtCoder Beginner Contest 162 - FizzBuzz Sum,AtCoder,2000,1048576,,,,200
+p02713,AtCoder Beginner Contest 162,C,AtCoder Beginner Contest 162 - Sum of gcd of Tuples (Easy),AtCoder,2000,1048576,,,,300
+p02714,AtCoder Beginner Contest 162,D,AtCoder Beginner Contest 162 - RGB Triplets,AtCoder,2000,1048576,,,,400
+p02715,AtCoder Beginner Contest 162,E,AtCoder Beginner Contest 162 - Sum of gcd of Tuples (Hard),AtCoder,2000,1048576,,,,500
+p02716,AtCoder Beginner Contest 162,F,AtCoder Beginner Contest 162 - Select Half,AtCoder,2000,1048576,,,,600
+p02705,AtCoder Beginner Contest 163,A,AtCoder Beginner Contest 163 - Circle Pond,AtCoder,2000,1048576,,,,100
+p02706,AtCoder Beginner Contest 163,B,AtCoder Beginner Contest 163 - Homework,AtCoder,2000,1048576,,,,200
+p02707,AtCoder Beginner Contest 163,C,AtCoder Beginner Contest 163 - management,AtCoder,2000,1048576,,,,300
+p02708,AtCoder Beginner Contest 163,D,AtCoder Beginner Contest 163 - Sum of Large Numbers,AtCoder,2000,1048576,,,,400
+p02709,AtCoder Beginner Contest 163,E,AtCoder Beginner Contest 163 - Active Infants,AtCoder,2000,1048576,,,,500
+p02710,AtCoder Beginner Contest 163,F,AtCoder Beginner Contest 163 - path pass i,AtCoder,2000,1048576,,,,600
+p02699,AtCoder Beginner Contest 164,A,AtCoder Beginner Contest 164 - Sheep and Wolves,AtCoder,2000,1048576,,,,100
+p02700,AtCoder Beginner Contest 164,B,AtCoder Beginner Contest 164 - Battle,AtCoder,2000,1048576,,,,200
+p02701,AtCoder Beginner Contest 164,C,AtCoder Beginner Contest 164 - gacha,AtCoder,2000,1048576,,,,300
+p02702,AtCoder Beginner Contest 164,D,AtCoder Beginner Contest 164 - Multiple of 2019,AtCoder,2000,1048576,,,,400
+p02703,AtCoder Beginner Contest 164,E,AtCoder Beginner Contest 164 - Two Currencies,AtCoder,2000,1048576,,,,500
+p02704,AtCoder Beginner Contest 164,F,AtCoder Beginner Contest 164 - I hate Matrix Construction,AtCoder,2000,1048576,,,,600
+p02693,AtCoder Beginner Contest 165,A,AtCoder Beginner Contest 165 - We Love Golf,AtCoder,2000,1048576,,,,100
+p02694,AtCoder Beginner Contest 165,B,AtCoder Beginner Contest 165 - 1%,AtCoder,2000,1048576,,,,200
+p02695,AtCoder Beginner Contest 165,C,AtCoder Beginner Contest 165 - Many Requirements,AtCoder,2000,1048576,,,,300
+p02696,AtCoder Beginner Contest 165,D,AtCoder Beginner Contest 165 - Floor Function,AtCoder,2000,1048576,,,,400
+p02697,AtCoder Beginner Contest 165,E,AtCoder Beginner Contest 165 - Rotation Matching,AtCoder,2000,1048576,,,,500
+p02698,AtCoder Beginner Contest 165,F,AtCoder Beginner Contest 165 - LIS on Tree,AtCoder,2000,1048576,,,,600
+p02687,AtCoder Beginner Contest 166,A,AtCoder Beginner Contest 166 - A?C,AtCoder,2000,1048576,,,,100
+p02688,AtCoder Beginner Contest 166,B,AtCoder Beginner Contest 166 - Trick or Treat,AtCoder,2000,1048576,,,,200
+p02689,AtCoder Beginner Contest 166,C,AtCoder Beginner Contest 166 - Peaks,AtCoder,2000,1048576,,,,300
+p02690,AtCoder Beginner Contest 166,D,AtCoder Beginner Contest 166 - I hate Factorization,AtCoder,2000,1048576,,,,400
+p02691,AtCoder Beginner Contest 166,E,AtCoder Beginner Contest 166 - This Message Will Self-Destruct in 5s,AtCoder,2000,1048576,,,,500
+p02692,AtCoder Beginner Contest 166,F,AtCoder Beginner Contest 166 - Three Variables Game,AtCoder,2000,1048576,,,,600
+p02681,AtCoder Beginner Contest 167,A,AtCoder Beginner Contest 167 - Registration,AtCoder,2000,1048576,,,,100
+p02682,AtCoder Beginner Contest 167,B,AtCoder Beginner Contest 167 - Easy Linear Programming,AtCoder,2000,1048576,,,,200
+p02683,AtCoder Beginner Contest 167,C,AtCoder Beginner Contest 167 - Skill Up,AtCoder,2000,1048576,,,,300
+p02684,AtCoder Beginner Contest 167,D,AtCoder Beginner Contest 167 - Teleporter,AtCoder,2000,1048576,,,,400
+p02685,AtCoder Beginner Contest 167,E,AtCoder Beginner Contest 167 - Colorful Blocks,AtCoder,2000,1048576,,,,500
+p02686,AtCoder Beginner Contest 167,F,AtCoder Beginner Contest 167 - Bracket Sequencing,AtCoder,2000,1048576,,,,600
+p02675,AtCoder Beginner Contest 168,A,AtCoder Beginner Contest 168 - ∴ (Therefore),AtCoder,2000,1048576,,,,100
+p02676,AtCoder Beginner Contest 168,B,AtCoder Beginner Contest 168 - ... (Triple Dots),AtCoder,2000,1048576,,,,200
+p02677,AtCoder Beginner Contest 168,C,AtCoder Beginner Contest 168 - : (Colon),AtCoder,2000,1048576,,,,300
+p02678,AtCoder Beginner Contest 168,D,AtCoder Beginner Contest 168 - .. (Double Dots),AtCoder,2000,1048576,,,,400
+p02679,AtCoder Beginner Contest 168,E,AtCoder Beginner Contest 168 - ∙ (Bullet),AtCoder,2000,1048576,,,,500
+p02680,AtCoder Beginner Contest 168,F,AtCoder Beginner Contest 168 - . (Single Dot),AtCoder,3000,1048576,,,,600
+p02657,AtCoder Beginner Contest 169,A,AtCoder Beginner Contest 169 - Multiplication 1,AtCoder,2000,1048576,,,,100
+p02658,AtCoder Beginner Contest 169,B,AtCoder Beginner Contest 169 - Multiplication 2,AtCoder,2000,1048576,,,,200
+p02659,AtCoder Beginner Contest 169,C,AtCoder Beginner Contest 169 - Multiplication 3,AtCoder,2000,1048576,,,,300
+p02660,AtCoder Beginner Contest 169,D,AtCoder Beginner Contest 169 - Div Game,AtCoder,2000,1048576,,,,400
+p02661,AtCoder Beginner Contest 169,E,AtCoder Beginner Contest 169 - Count Median,AtCoder,2000,1048576,,,,500
+p02662,AtCoder Beginner Contest 169,F,AtCoder Beginner Contest 169 - Knapsack for All Subsets,AtCoder,2000,1048576,,,,600
+p02639,AtCoder Beginner Contest 170,A,AtCoder Beginner Contest 170 - Five Variables,AtCoder,2000,1048576,,,,100
+p02640,AtCoder Beginner Contest 170,B,AtCoder Beginner Contest 170 - Crane and Turtle,AtCoder,2000,1048576,,,,200
+p02641,AtCoder Beginner Contest 170,C,AtCoder Beginner Contest 170 - Forbidden List,AtCoder,2000,1048576,,,,300
+p02642,AtCoder Beginner Contest 170,D,AtCoder Beginner Contest 170 - Not Divisible,AtCoder,2000,1048576,,,,400
+p02643,AtCoder Beginner Contest 170,E,AtCoder Beginner Contest 170 - Smart Infants,AtCoder,3500,1048576,,,,500
+p02644,AtCoder Beginner Contest 170,F,AtCoder Beginner Contest 170 - Pond Skater,AtCoder,3000,1048576,,,,600
+p02627,AtCoder Beginner Contest 171,A,AtCoder Beginner Contest 171 - αlphabet,AtCoder,2000,1048576,,,,100
+p02628,AtCoder Beginner Contest 171,B,AtCoder Beginner Contest 171 - Mix Juice,AtCoder,2000,1048576,,,,200
+p02629,AtCoder Beginner Contest 171,C,AtCoder Beginner Contest 171 - One Quadrillion and One Dalmatians,AtCoder,2000,1048576,,,,300
+p02630,AtCoder Beginner Contest 171,D,AtCoder Beginner Contest 171 - Replacing,AtCoder,2000,1048576,,,,400
+p02631,AtCoder Beginner Contest 171,E,AtCoder Beginner Contest 171 - Red Scarf,AtCoder,2000,1048576,,,,500
+p02632,AtCoder Beginner Contest 171,F,AtCoder Beginner Contest 171 - Strivore,AtCoder,2000,1048576,,,,600
+p02621,AtCoder Beginner Contest 172,A,AtCoder Beginner Contest 172 - Calc,AtCoder,2000,1048576,,,,100
+p02622,AtCoder Beginner Contest 172,B,AtCoder Beginner Contest 172 - Minor Change,AtCoder,2000,1048576,,,,200
+p02623,AtCoder Beginner Contest 172,C,AtCoder Beginner Contest 172 - Tsundoku,AtCoder,2000,1048576,,,,300
+p02624,AtCoder Beginner Contest 172,D,AtCoder Beginner Contest 172 - Sum of Divisors,AtCoder,3000,1048576,,,,400
+p02625,AtCoder Beginner Contest 172,E,AtCoder Beginner Contest 172 - NEQ,AtCoder,2000,1048576,,,,500
+p02626,AtCoder Beginner Contest 172,F,AtCoder Beginner Contest 172 - Unfair Nim,AtCoder,2000,1048576,,,,600
+p02612,AtCoder Beginner Contest 173,A,AtCoder Beginner Contest 173 - Payment,AtCoder,2000,1048576,,,,100
+p02613,AtCoder Beginner Contest 173,B,AtCoder Beginner Contest 173 - Judge Status Summary,AtCoder,2000,1048576,,,,200
+p02614,AtCoder Beginner Contest 173,C,AtCoder Beginner Contest 173 - H and V,AtCoder,1000,1048576,,,,300
+p02615,AtCoder Beginner Contest 173,D,AtCoder Beginner Contest 173 - Chat in a Circle,AtCoder,2000,1048576,,,,400
+p02616,AtCoder Beginner Contest 173,E,AtCoder Beginner Contest 173 - Multiplication 4,AtCoder,2000,1048576,,,,500
+p02617,AtCoder Beginner Contest 173,F,AtCoder Beginner Contest 173 - Intervals on Tree,AtCoder,2000,1048576,,,,600
+p02594,AtCoder Beginner Contest 174,A,AtCoder Beginner Contest 174 - Air Conditioner,AtCoder,2000,1048576,,,,100
+p02595,AtCoder Beginner Contest 174,B,AtCoder Beginner Contest 174 - Distance,AtCoder,2000,1048576,,,,200
+p02596,AtCoder Beginner Contest 174,C,AtCoder Beginner Contest 174 - Repsept,AtCoder,2000,1048576,,,,300
+p02597,AtCoder Beginner Contest 174,D,AtCoder Beginner Contest 174 - Alter Altar,AtCoder,2000,1048576,,,,400
+p02598,AtCoder Beginner Contest 174,E,AtCoder Beginner Contest 174 - Logs,AtCoder,2000,1048576,,,,500
+p02599,AtCoder Beginner Contest 174,F,AtCoder Beginner Contest 174 - Range Set Query,AtCoder,2000,1048576,,,,600
+p02582,AtCoder Beginner Contest 175,A,AtCoder Beginner Contest 175 - Rainy Season,AtCoder,2000,1048576,,,,100
+p02583,AtCoder Beginner Contest 175,B,AtCoder Beginner Contest 175 - Making Triangle,AtCoder,2000,1048576,,,,200
+p02584,AtCoder Beginner Contest 175,C,AtCoder Beginner Contest 175 - Walking Takahashi,AtCoder,2000,1048576,,,,300
+p02585,AtCoder Beginner Contest 175,D,AtCoder Beginner Contest 175 - Moving Piece,AtCoder,3000,1048576,,,,400
+p02586,AtCoder Beginner Contest 175,E,AtCoder Beginner Contest 175 - Picking Goods,AtCoder,3000,1048576,,,,500
+p02587,AtCoder Beginner Contest 175,F,AtCoder Beginner Contest 175 - Making Palindrome,AtCoder,2000,1048576,,,,600
+p02576,AtCoder Beginner Contest 176,A,AtCoder Beginner Contest 176 - Takoyaki,AtCoder,2000,1048576,,,,100
+p02577,AtCoder Beginner Contest 176,B,AtCoder Beginner Contest 176 - Multiple of 9,AtCoder,2000,1048576,,,,200
+p02578,AtCoder Beginner Contest 176,C,AtCoder Beginner Contest 176 - Step,AtCoder,2000,1048576,,,,300
+p02579,AtCoder Beginner Contest 176,D,AtCoder Beginner Contest 176 - Wizard in Maze,AtCoder,2000,1048576,,,,400
+p02580,AtCoder Beginner Contest 176,E,AtCoder Beginner Contest 176 - Bomber,AtCoder,3000,1048576,,,,500
+p02581,AtCoder Beginner Contest 176,F,AtCoder Beginner Contest 176 - Brave CHAIN,AtCoder,2000,1048576,,,,600
+p02570,AtCoder Beginner Contest 177,A,AtCoder Beginner Contest 177 - Don't be late,AtCoder,2000,1048576,,,,100
+p02571,AtCoder Beginner Contest 177,B,AtCoder Beginner Contest 177 - Substring,AtCoder,2000,1048576,,,,200
+p02572,AtCoder Beginner Contest 177,C,AtCoder Beginner Contest 177 - Sum of product of pairs,AtCoder,2000,1048576,,,,300
+p02573,AtCoder Beginner Contest 177,D,AtCoder Beginner Contest 177 - Friends,AtCoder,2000,1048576,,,,400
+p02574,AtCoder Beginner Contest 177,E,AtCoder Beginner Contest 177 - Coprime,AtCoder,2000,1048576,,,,500
+p02575,AtCoder Beginner Contest 177,F,AtCoder Beginner Contest 177 - I hate Shortest Path Problem,AtCoder,2000,1048576,,,,600
+p02552,AtCoder Beginner Contest 178,A,AtCoder Beginner Contest 178 - Not,AtCoder,2000,1048576,,,,100
+p02553,AtCoder Beginner Contest 178,B,AtCoder Beginner Contest 178 - Product Max,AtCoder,2000,1048576,,,,200
+p02554,AtCoder Beginner Contest 178,C,AtCoder Beginner Contest 178 - Ubiquity,AtCoder,2000,1048576,,,,300
+p02555,AtCoder Beginner Contest 178,D,AtCoder Beginner Contest 178 - Redistribution,AtCoder,2000,1048576,,,,400
+p02556,AtCoder Beginner Contest 178,E,AtCoder Beginner Contest 178 - Dist Max,AtCoder,2000,1048576,,,,500
+p02557,AtCoder Beginner Contest 178,F,AtCoder Beginner Contest 178 - Contrast,AtCoder,2000,1048576,,,,600
+p02546,AtCoder Beginner Contest 179,A,AtCoder Beginner Contest 179 - Plural Form,AtCoder,2000,1048576,,,,100
+p02547,AtCoder Beginner Contest 179,B,AtCoder Beginner Contest 179 - Go to Jail,AtCoder,2000,1048576,,,,200
+p02548,AtCoder Beginner Contest 179,C,AtCoder Beginner Contest 179 - A x B + C,AtCoder,2000,1048576,,,,300
+p02549,AtCoder Beginner Contest 179,D,AtCoder Beginner Contest 179 - Leaping Tak,AtCoder,2000,1048576,,,,400
+p02550,AtCoder Beginner Contest 179,E,AtCoder Beginner Contest 179 - Sequence Sum,AtCoder,2000,1048576,,,,500
+p02551,AtCoder Beginner Contest 179,F,AtCoder Beginner Contest 179 - Simplified Reversi,AtCoder,2000,1048576,,,,600
