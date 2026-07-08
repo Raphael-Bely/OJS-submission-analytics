@@ -929,6 +929,7 @@ def compute_error_sequences(
 
     # Terminal summary
     total_pairs = per_pair.shape[0]
+
     unique_paths = result.shape[0]
     print(f"  Total (user, problem) pairs with first error: {total_pairs:,}")
     print(f"  Unique error paths: {unique_paths:,}\n")
@@ -941,4 +942,202 @@ def compute_error_sequences(
     for row in sample.iter_rows(named=True):
         print(f"    {row['sequence']:<30} {row['n_pairs']:>6} pairs  ({row['proportion_pct']:.1f}%)")
     print()
+    return result
+
+
+# ── Average attempts by first error × group ───────────────────────────────────
+
+def compute_avg_attempts_by_first_error_group(
+    df_sequences: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    Computes average number of submissions before AC, conditioned on
+    first error type × difficulty × proficiency group.
+    Derived from the output of compute_error_sequences.
+    Only resolved pairs are included in the average (weighted by n_pairs).
+    """
+    resolved = df_sequences.filter(pl.col("resolved") == True)
+
+    avg = (
+        resolved
+        .group_by(["difficulty", "first_error", "proficiency_group"])
+        .agg([
+            (
+                (pl.col("sequence_length") * pl.col("n_pairs")).sum() /
+                pl.col("n_pairs").sum()
+            ).round(2).alias("avg_attempts_to_ac"),
+            pl.col("n_pairs").sum().alias("n_pairs_resolved"),
+        ])
+    )
+
+    total = (
+        df_sequences
+        .group_by(["difficulty", "first_error", "proficiency_group"])
+        .agg(pl.col("n_pairs").sum().alias("n_pairs_total"))
+    )
+
+    result = (
+        avg
+        .join(total, on=["difficulty", "first_error", "proficiency_group"], how="left")
+        .with_columns(
+            (pl.col("n_pairs_resolved") / pl.col("n_pairs_total") * 100)
+            .round(1)
+            .alias("resolution_rate")
+        )
+        .sort(["difficulty", "first_error", "proficiency_group"])
+    )
+
+    print(f"  Average attempts to AC — first error TLE / level A:")
+    sample = result.filter(
+        (pl.col("difficulty") == "A") & (pl.col("first_error") == "TLE")
+    )
+    for row in sample.iter_rows(named=True):
+        print(f"    {row['proficiency_group']}  avg: {row['avg_attempts_to_ac']:.1f}  "
+              f"resolved: {row['n_pairs_resolved']:,}")
+    print()
+    return result
+
+
+# ── TLE temporal intervals ────────────────────────────────────────────────────
+
+def compute_tle_intervals(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+    df_users: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    For each TLE submission, records the time (seconds) until the next
+    submission on the same (user, problem) pair and what that next submission was.
+
+    Rows where next_status = 'Abandon' mean no subsequent submission was made.
+    delta_seconds is null for those rows.
+
+    Returns:
+        DataFrame with columns:
+        difficulty | proficiency_group | delta_seconds | next_status
+    """
+    lazy_labels = df_abc.lazy().select(["problem_id", "difficulty"])
+    lazy_groups = (
+        df_users.lazy()
+        .select(["user_id", "proficiency_group"])
+        .filter(pl.col("proficiency_group").is_not_null())
+    )
+
+    result = (
+        lazy_subs
+        .select(["problem_id", "user_id", "status", "date"])
+        .join(lazy_labels, on="problem_id", how="inner")
+        .join(lazy_groups, on="user_id", how="inner")
+        .with_columns(pl.col("date").cast(pl.Int64).alias("ts"))
+        .sort(["user_id", "problem_id", "ts"])
+        .with_columns([
+            pl.col("status").shift(-1).over(["user_id", "problem_id"]).alias("next_status_raw"),
+            pl.col("ts").shift(-1).over(["user_id", "problem_id"]).alias("next_ts"),
+            pl.col("ts").rank("ordinal").over(["user_id", "problem_id"]).cast(pl.Int32).alias("submission_rank"),
+        ])
+        .filter(pl.col("status") == "Time Limit Exceeded")
+        .with_columns([
+            (pl.col("next_ts") - pl.col("ts")).alias("delta_seconds"),
+            pl.when(pl.col("next_status_raw").is_null())
+              .then(pl.lit("Abandon"))
+              .otherwise(
+                  pl.col("next_status_raw").replace(STATUS_MAP, default="Other")
+              )
+              .alias("next_status"),
+        ])
+        .select(["difficulty", "proficiency_group", "submission_rank", "delta_seconds", "next_status"])
+        .collect()
+    )
+
+    total = result.height
+    abandoned = result.filter(pl.col("next_status") == "Abandon").height
+    print(f"  TLE intervals — total: {total:,}  abandoned (no next sub): {abandoned:,} ({100*abandoned/total:.1f}%)")
+    return result
+
+
+# ── TLE chain analysis ────────────────────────────────────────────────────────
+
+def compute_tle_chains(
+    lazy_subs: pl.LazyFrame,
+    df_abc: pl.DataFrame,
+    df_users: pl.DataFrame,
+) -> pl.DataFrame:
+    """
+    For each consecutive TLE→TLE transition (same user, same problem),
+    records the inter-TLE delay and the eventual outcome of the TLE chain.
+
+    A chain = a run of consecutive TLE submissions by the same user on the same problem.
+    chain_final_outcome = status after the last TLE of the chain (AC, WA, RE, CE, Abandon).
+    is_intra_session = True when delta_seconds <= 14400 (4h session boundary).
+
+    Returns one row per TLE→TLE transition (chain terminators excluded).
+    """
+    lazy_labels = df_abc.lazy().select(["problem_id", "difficulty"])
+    lazy_groups = (
+        df_users.lazy()
+        .select(["user_id", "proficiency_group"])
+        .filter(pl.col("proficiency_group").is_not_null())
+    )
+    tle_seq = (
+        lazy_subs
+        .select(["problem_id", "user_id", "status", "date"])
+        .join(lazy_labels, on="problem_id", how="inner")
+        .join(lazy_groups, on="user_id", how="inner")
+        .with_columns(pl.col("date").cast(pl.Int64).alias("ts"))
+        .sort(["user_id", "problem_id", "ts"])
+        .with_columns([
+            pl.col("status").shift(-1).over(["user_id", "problem_id"]).alias("next_status_raw"),
+            pl.col("ts").shift(-1).over(["user_id", "problem_id"]).alias("next_ts"),
+        ])
+        .filter(pl.col("status") == "Time Limit Exceeded")
+        .with_columns([
+            (pl.col("next_ts") - pl.col("ts")).alias("delta_seconds"),
+            pl.when(pl.col("next_status_raw").is_null())
+              .then(pl.lit("Abandon"))
+              .otherwise(
+                  pl.col("next_status_raw").replace(STATUS_MAP, default="Other")
+              )
+              .alias("next_status"),
+        ])
+        .select([
+            "user_id", "problem_id", "difficulty", "proficiency_group",
+            "ts", "delta_seconds", "next_status",
+        ])
+        .collect()
+    )
+    # Within the TLE-only sequence (sorted by user, problem, ts), assign chain_id.
+    # A new chain starts when the previous TLE's next_status != "TLE" (or first row of group).
+    result = (
+        tle_seq
+        .sort(["user_id", "problem_id", "ts"])
+        .with_columns(
+            (
+                pl.col("next_status").shift(1).over(["user_id", "problem_id"]).is_null() |
+                (pl.col("next_status").shift(1).over(["user_id", "problem_id"]) != "TLE")
+            ).cast(pl.UInt32).cum_sum().over(["user_id", "problem_id"]).alias("chain_id")
+        )
+        .with_columns([
+            pl.col("next_status").last().over(["user_id", "problem_id", "chain_id"])
+              .alias("chain_final_outcome"),
+            pl.len().over(["user_id", "problem_id", "chain_id"])
+              .cast(pl.Int32).alias("chain_length"),
+            pl.col("ts").rank("ordinal").over(["user_id", "problem_id", "chain_id"])
+              .cast(pl.Int32).alias("chain_position"),
+        ])
+        .filter(pl.col("next_status") == "TLE")
+        .with_columns([
+            (pl.col("delta_seconds") <= 14400).alias("is_intra_session"),
+            pl.col("delta_seconds").sum().over(["user_id", "problem_id", "chain_id"])
+              .alias("chain_total_time"),
+        ])
+        .select([
+            "difficulty", "proficiency_group", "chain_position",
+            "chain_length", "delta_seconds", "is_intra_session",
+            "chain_final_outcome", "chain_total_time",
+        ])
+    )
+    total = result.height
+    intra = result.filter(pl.col("is_intra_session")).height
+    print(f"  TLE chains — TLE→TLE transitions: {total:,}")
+    print(f"  Intra-session (≤4h): {intra:,} ({100*intra/max(total,1):.1f}%)")
     return result

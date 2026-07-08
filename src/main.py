@@ -29,6 +29,9 @@ from error_analysis import (
     compute_resolution_by_first_error,
     compute_resolution_by_first_error_and_group,
     compute_error_sequences,
+    compute_avg_attempts_by_first_error_group,
+    compute_tle_intervals,
+    compute_tle_chains,
 )
 
 
@@ -203,6 +206,32 @@ def main():
     df_sequences = compute_error_sequences(lazy_sequences, df_abc, df_users)
     df_sequences.write_csv(PROCESSED_DATA_DIR / "atcoder_error_sequences.csv")
     print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_error_sequences.csv'}")
+
+    df_avg_attempts = compute_avg_attempts_by_first_error_group(df_sequences)
+    df_avg_attempts.write_csv(PROCESSED_DATA_DIR / "atcoder_avg_attempts_by_first_error_group.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_avg_attempts_by_first_error_group.csv'}")
+
+    # ── PHASE 8: TLE temporal intervals ──────────────────────────────────────────
+    print_section("PHASE 8 — TLE Temporal Intervals")
+
+    lazy_tle = load_submissions_lazy(
+        abc_ids,
+        columns=["problem_id", "user_id", "status", "date"]
+    )
+    df_tle_intervals = compute_tle_intervals(lazy_tle, df_abc, df_users)
+    df_tle_intervals.write_csv(PROCESSED_DATA_DIR / "atcoder_tle_intervals.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_tle_intervals.csv'}")
+
+    # ── PHASE 9: TLE chain analysis (consecutive TLE→TLE transitions) ────────
+    print_section("PHASE 9 — TLE Chain Analysis")
+
+    lazy_tle_chains = load_submissions_lazy(
+        abc_ids,
+        columns=["problem_id", "user_id", "status", "date"]
+    )
+    df_tle_chains = compute_tle_chains(lazy_tle_chains, df_abc, df_users)
+    df_tle_chains.write_csv(PROCESSED_DATA_DIR / "atcoder_tle_chains.csv")
+    print(f"\n  Saved: {PROCESSED_DATA_DIR / 'atcoder_tle_chains.csv'}")
 
     print_section("Pipeline completed successfully")
 

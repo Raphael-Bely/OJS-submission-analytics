@@ -23,7 +23,7 @@ The project focuses exclusively on **AtCoder** data (1,519 problems, ~12 million
 
 Reproducing Shota's proficiency classification (G1–G6) as a baseline, then analyzing error distributions (CE, WA, TLE, RE) across difficulty levels (A–F) and user groups.
 
-### RQ2 — Code-Level Semantic Analysis *(V1 — Planned)*
+### RQ2 — Code-Level Semantic Analysis *(V1 — In Progress)*
 > Do codes that are close to each other in vector space share similar error patterns?
 
 Using code embeddings (CodeBERT / GraphCodeBERT) to examine whether source codes with short distances in embedding space tend to share the same error characteristics. The tool should allow investigation of whether nearby codes share the same difficulty level or user proficiency group.
@@ -54,7 +54,8 @@ src/
 ├── difficulty_labeler.py     # Assigns A–F difficulty letters to ABC problems
 ├── problem_parser.py         # Extracts scores from HTML problem descriptions
 ├── user_profiling.py         # Builds user profiles and classifies into G1–G6
-└── error_analysis.py         # Computes error distributions (by difficulty, group, language)
+├── error_analysis.py         # Computes error distributions (by difficulty, group, language)
+└── embedding.py              # Code embedding pipeline — TF-IDF & CodeBERT (RQ2)
 
 playground/
 ├── 01_user_classification_G1G6.ipynb            # G1–G6 classification & validation vs Shimizu
@@ -63,7 +64,10 @@ playground/
 ├── 04_language_analysis.ipynb                   # Language distribution & error patterns by language
 ├── 05_resolution_rate.ipynb                     # Problem resolution rate by difficulty & proficiency group
 ├── 06_resolution_by_first_error.ipynb           # Resolution rate conditioned on first error type (CE/WA/TLE/RE)
-└── 07_error_sequences.ipynb                     # Error sequence paths & Sankey diagrams by difficulty × group
+├── 07_error_sequences.ipynb                     # Error sequence paths & Sankey diagrams by difficulty × group
+├── 08_tle_timing.ipynb                          # TLE correction timing — delay before next submission & outcome (S0–S2)
+├── 09_tle_chains.ipynb                          # TLE chain analysis — inter-TLE delay, persistence & chain length → outcome (S0–S7)
+└── 10_embeddings.ipynb                          # Code embeddings (TF-IDF / CodeBERT) — k-NN consistency & UMAP (RQ2)
 
 data/
 ├── Project_CodeNet/          # Raw dataset (not versioned — 8GB)
@@ -108,6 +112,9 @@ The pipeline runs in phases and produces in `data/processed/`:
 - `atcoder_resolution_by_first_error.csv` — resolution rate conditioned on first error type × difficulty
 - `atcoder_resolution_by_first_error_group.csv` — same, broken down by proficiency group
 - `atcoder_error_sequences.csv` — full error path counts (e.g. TLE→WA→AC) per difficulty × group × first_error
+- `atcoder_avg_attempts_by_first_error_group.csv` — average submissions before AC by first error × difficulty × group
+- `atcoder_tle_intervals.csv` — for each TLE submission: delay (seconds) to next submission and its outcome
+- `atcoder_tle_chains.csv` — for each consecutive TLE→TLE transition: chain position, chain length, inter-TLE delay, session type, and chain final outcome
 
 ---
 
@@ -125,6 +132,9 @@ The pipeline runs in phases and produces in `data/processed/`:
 | Resolution rate by difficulty & proficiency group | ✅ Done |
 | Resolution rate by first error type × difficulty × group | ✅ Done |
 | Error sequence paths & Sankey diagrams (difficulty × group) | ✅ Done |
+| TLE correction timing analysis (delay × outcome) | ✅ Done |
+| TLE chain analysis (persistence, chain length, inter-TLE delay) | ✅ Done |
+| Code embeddings — TF-IDF & CodeBERT, k-NN consistency, UMAP (RQ2) | ⏳ In progress |
 | Streamlit dashboard | ⏳ Planned |
 ---
 
