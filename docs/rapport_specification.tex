@@ -1,0 +1,294 @@
+\documentclass[11pt, a4paper]{article}
+
+% ── Encodage et langue ─────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% ── Mise en page ───────────────────────────────────────────────────────────────
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ── Typographie ────────────────────────────────────────────────────────────────
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ── Couleurs et liens ──────────────────────────────────────────────────────────
+\usepackage[dvipsnames]{xcolor}
+\definecolor{ritsu}{RGB}{0, 75, 135}
+
+\usepackage[
+  colorlinks=true,
+  linkcolor=ritsu,
+  urlcolor=ritsu,
+  citecolor=ritsu
+]{hyperref}
+
+% ── Titres ─────────────────────────────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\section}
+  {\large\bfseries\color{ritsu}}
+  {\thesection.}{0.6em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{ritsu!80}}
+  {\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}
+  {\normalsize\itshape}
+  {\thesubsubsection}{0.6em}{}
+
+% ── En-têtes et pieds de page ──────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{Rapport de spécification}}
+\fancyhead[R]{\small\textcolor{gray}{Raphael BELY}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Listes ─────────────────────────────────────────────────────────────────────
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=1.5em, itemsep=3pt, topsep=4pt}
+
+% ── Divers ─────────────────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{parskip}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Page de garde ──────────────────────────────────────────────────────────────
+\thispagestyle{empty}
+\begin{center}
+
+  \vspace*{1.5cm}
+  {\Large \textcolor{ritsu}{\textbf{Ritsumeikan University}}}\\[0.3cm]
+  {\large DDSE Laboratory — College of Information Science and Engineering}\\[0.2cm]
+  {\small Osaka Ibaraki Campus (OIC), Japon}
+
+  \vspace{1.5cm}
+  \textcolor{ritsu}{\rule{0.8\linewidth}{1.5pt}}
+  \vspace{0.5cm}
+
+  {\LARGE \textbf{Rapport de spécification — Stage 2A}}\\[0.2cm]
+
+  \vspace{0.5cm}
+  \textcolor{ritsu}{\rule{0.8\linewidth}{1.5pt}}
+
+  \vspace{1.5cm}
+
+  \begin{tabular}{rl}
+    \textbf{Stagiaire}       & Raphael BELY \\[4pt]
+    \textbf{École}           & ENSEIRB-MATMECA \\[4pt]
+    \textbf{Encadrante}      & Erina Makihara (Associate Professor) \\[4pt]
+    \textbf{Co-encadrants}   & Norihiro Yoshida (Professor) \& Shota Shimizu\\[4pt]
+    \textbf{Période}         & 25 mai 2026 -- 18 septembre 2026 \\[4pt]
+    \textbf{Transmis le}     & 14 juillet 2026 \\
+  \end{tabular}
+
+\vspace{0.5cm}
+  \includegraphics[height=4cm]{figures/logo_ritsumeikan.png}\hspace{1.5cm}
+  \includegraphics[height=2cm]{figures/logo_em.jpg}
+\end{center}
+\newpage
+
+% ── Table des matières ─────────────────────────────────────────────────────────
+\tableofcontents
+\newpage
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Présentation de l'entreprise et du service}
+
+\subsection{Ritsumeikan University}
+
+Héritière d'une académie fondée en 1869 à Kyoto par le prince Saionji
+Kinmochi, la Ritsumeikan University est créée en 1900 par Kojuro Nakagawa
+et obtient le statut d'université en 1922. Elle est aujourd'hui la
+troisième université du Japon par le nombre d'étudiants, avec environ
+36\,000 inscrits et un réseau de plus de 360\,000 diplômés. L'université
+est implantée sur trois campus : Kinugasa (Kyoto), Biwako-Kusatsu (Shiga)
+et Osaka Ibaraki (OIC, inauguré en 2015). Elle regroupe, au sein d'une
+même institution, 17 \textit{colleges} (premier cycle) et 22 \textit{graduate schools} (master et doctorat), couvrant un large spectre disciplinaire :
+droit, économie, commerce, lettres, psychologie, relations internationales,
+sport, arts, pharmacie, sciences de la vie, ingénierie et sciences de
+l'information. Sur le plan international, elle accueille plus de
+2\,400 étudiants étrangers issus de 68 pays et régions et a conclu des accords avec 447
+universités et institutions partenaires dans 66 pays et régions. Classée troisième
+université privée du Japon au \textit{QS World University Rankings} 2025, elle
+s'est également vu décerner la note maximale \og S \fg{} par le ministère
+japonais de l'Éducation (MEXT) lors de l'évaluation finale (2025) du
+\textit{Top Global University Project}, programme national
+d'internationalisation de l'enseignement supérieur lancé en 2014.
+
+\subsection{Le laboratoire DDSE}
+
+Dirigé par la professeure associée Erina Makihara, le laboratoire DDSE
+(\textit{Data-Driven Software Engineering Lab}) est rattaché au
+\textit{College of Information Science and Engineering} du campus OIC.
+Récemment créé, il compte 16 membres : une secrétaire, 4 étudiants de master
+et 11 étudiants de premier cycle. Ses recherches portent sur l'étude empirique
+du comportement des développeurs, l'enseignement de la programmation et la
+compréhension de programmes. Shota Shimizu, co-encadrant de ce stage, est
+l'auteur principal de l'article \textit{An Empirical Study of the Error
+Characteristics in an Online Judge System}, présenté à FSE 2025 et publié
+dans les actes FSE Companion '25. FSE est classée A* par le classement CORE,
+le rang le plus élevé pour une conférence de génie logiciel.
+
+\subsection{Contexte et positionnement du stage}
+
+Ce stage s'inscrit dans la continuité directe des travaux de Shimizu et
+al.\ (2025) : il en reprend le cadre d'analyse et l'étend selon des axes qui
+lui sont propres, détaillés en section~2. D'une durée de quatre mois
+(mai--septembre~2026), il se déroule au sein du laboratoire DDSE (campus OIC),
+sous la direction de la professeure associée Erina Makihara et la co-supervision de Shota Shimizu et du professeur Norihiro Yoshida.
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Présentation détaillée du sujet de stage}
+
+\subsection{Contexte et problématique}
+
+Les \textit{Online Judge Systems} (OJS) sont des plateformes permettant
+à des programmeurs de soumettre des solutions à des problèmes
+algorithmiques et d'obtenir un verdict automatique : \textit{Accepted}
+(AC), \textit{Wrong Answer} (WA), \textit{Time Limit Exceeded} (TLE),
+\textit{Compile Error} (CE) ou \textit{Runtime Error} (RE). Largement
+utilisés dans l'enseignement de la programmation et les compétitions
+algorithmiques, ils génèrent des traces d'exécution massives, source
+précieuse pour l'analyse empirique du comportement des programmeurs.
+
+Ce stage s'appuie sur le dataset \textbf{Project CodeNet} (Puri et al.,
+2021), qui recense $\approx$14 millions de soumissions issues de 4\,053
+problèmes dans 55 langages, collectées sur plusieurs plateformes OJS.
+Le sous-ensemble AtCoder constitue la source la plus volumineuse et la
+mieux structurée : $\approx$12 millions de soumissions, 1\,519 problèmes,
+124\,000 utilisateurs.
+
+L'enjeu pédagogique est central : en caractérisant la distribution des
+erreurs selon la difficulté du problème et le profil de l'utilisateur,
+il devient possible de mieux cibler les difficultés récurrentes des
+apprenants et d'améliorer la qualité du retour automatique offert par
+ces systèmes.
+
+\subsection{Questions de recherche}
+
+\textbf{RQ1 --- Patterns d'erreurs.} \textit{Comment les distributions
+d'erreurs varient-elles selon la difficulté du problème et le niveau de
+compétence de l'utilisateur ?} Il s'agit d'analyser la distribution des
+verdicts sur l'ensemble des soumissions du sous-ensemble AtCoder, croisée
+selon deux dimensions : la difficulté des problèmes (niveaux A à F des
+concours ABC) et le niveau de compétence des utilisateurs, estimé par une
+classification en six groupes (G1--G6) reprise de Shimizu et al. L'analyse
+couvre à la fois les distributions statiques (fréquence de chaque verdict par
+croisement difficulté $\times$ groupe) et les aspects dynamiques : séquences
+d'erreurs entre soumissions successives, taux de résolution, délais de
+correction.
+
+\textbf{RQ2 --- Analyse sémantique.} \textit{Des codes proches dans un espace
+vectoriel partagent-ils les mêmes patterns d'erreurs ?} Le code source des
+soumissions est projeté dans un espace vectoriel au moyen
+d'\textit{embeddings} (TF-IDF comme référence, CodeBERT pour la dimension
+sémantique). On mesure ensuite si les plus proches voisins d'une soumission
+partagent son verdict, sa difficulté ou le groupe de compétence de son auteur, ce qui revient à tester si la proximité des codes se traduit par une similarité des erreurs.
+
+\textbf{RQ3 --- Prédiction} \textit{(perspective)}\textbf{.} \textit{Les
+patterns identifiés permettent-ils de prédire les erreurs futures ?} Deux
+pistes sont envisagées : l'entraînement d'un modèle de classification sur les
+codes sources pour prédire le verdict d'une soumission avant son exécution,
+et l'intégration d'un LLM exécuté localement, spécialisé dans l'analyse de
+code, interrogé pour anticiper le type d'erreur. Cette question, exploratoire,
+vise à distinguer les erreurs prévisibles de celles qui ne le sont pas, et
+donc à éclairer la complexité intrinsèque des erreurs dans un OJS.
+
+\subsection{Phases et missions}
+
+Le travail est organisé en trois phases itératives, chacune adossée à l'une
+des questions de recherche.
+
+\textbf{Phase V0 --- Analyse statistique (RQ1, achevée --- mai--juillet).}
+Construction d'un pipeline de traitement reproductible (Python / Polars)
+couvrant environ 8,8 millions de soumissions issues des concours ABC : étiquetage des difficultés
+(A--F), classification des utilisateurs (G1--G6), distributions d'erreurs,
+taux de résolution (notamment selon la première erreur rencontrée), séquences
+d'erreurs (diagrammes de Sankey) et analyse temporelle des corrections,
+approfondie sur le cas des TLE (délais entre soumissions, chaînes d'erreurs
+répétées).
+
+\textbf{Phase V1 --- Analyse sémantique (RQ2, en cours --- juillet--août).} Génération
+d'\textit{embeddings} de code (TF-IDF, CodeBERT), mesure de la cohérence entre
+proximité vectorielle et verdicts (plus proches voisins), visualisation par
+réduction de dimension (UMAP).
+
+\textbf{Phase V2 --- Prédiction (RQ3, perspective --- septembre, selon l'avancement).} Mise en œuvre de l'une des deux pistes décrites en RQ3, selon l'avancement des phases précédentes.
+
+\subsection{Livrables attendus}
+
+\begin{itemize}
+  \item Pipeline de traitement reproductible et fichiers de données dérivées
+        (CSV), versionnés sur GitHub ;
+  \item Notebooks d'analyse documentés couvrant les phases V0 et V1 ;
+  \item Synthèse en anglais des résultats et de la méthodologie, remise au
+        laboratoire et réutilisable dans ses travaux ultérieurs ;
+  \item \textit{En option, selon l'avancement :} outil interactif
+        d'exploration des résultats (dashboard Streamlit).
+\end{itemize}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Compréhension des mécanismes et processus d'entreprise}
+
+\subsection{Thème retenu et justification}
+
+Parmi les thèmes proposés par l'ENSEIRB-MATMECA, le thème \textbf{sociétal} a
+été retenu, sous l'intitulé envisagé : \og Culture de travail et organisation
+sociale dans un laboratoire de recherche japonais \fg.
+
+Ce choix s'appuie sur un terrain d'observation privilégié. L'immersion
+quotidienne dans une équipe de recherche japonaise (réunions hebdomadaires,
+échanges avec les étudiants du laboratoire, encadrement par une professeure
+japonaise) offre une position d'observation participante qu'aucune étude
+documentaire ne peut remplacer. La formation
+reçue en France fournit par ailleurs un point de comparaison permettant une
+lecture contrastée des pratiques observées. Enfin, la compréhension de ces
+codes professionnels constitue une compétence directement utile à une
+carrière d'ingénieur au sein d'équipes internationales.
+
+\subsection{Contenu prévu dans le rapport final}
+
+Ce thème sera développé dans une annexe de 2--3 pages du rapport final,
+accompagnée d'une ou deux planches en soutenance, organisée en trois volets :
+
+\begin{itemize}[nosep]
+  \item \textbf{Éthique et traditions professionnelles} : rapport au travail
+        (ponctualité, engagement, discrétion), harmonie collective
+        (\textit{wa}), hiérarchie encadrant--étudiant ;
+  \item \textbf{Organisation du travail de recherche} : réunions et suivi
+        d'avancement, cycle de publication scientifique, communication
+        multiculturelle ;
+  \item \textbf{Intégration d'un stagiaire étranger} : barrière linguistique,
+        adaptation culturelle, codes sociaux informels.
+\end{itemize}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section*{Références}
+
+{\small
+\begin{enumerate}
+  \item Shimizu, S., Makihara, E., \& Yoshida, N. (2025).
+        \textit{An Empirical Study of the Error Characteristics in an Online
+        Judge System.} FSE Companion '25. ACM.
+  \item Puri, R. et al. (2021).
+        \textit{CodeNet: A Large-Scale AI for Code Dataset for Learning
+        a Diversity of Coding Tasks.} arXiv:2105.12655.
+  \item Ritsumeikan University, site officiel (données institutionnelles de
+        la section 1.1, pages consultées le 14 juillet 2026) :
+        page d'accueil (\url{https://www.ritsumei.ac.jp/}),
+        \textit{At a Glance} (\url{https://en.ritsumei.ac.jp/profile/glance/}),
+        \textit{History} (\url{https://en.ritsumei.ac.jp/profile/history/}),
+        \textit{About Our Campuses} (\url{https://en.ritsumei.ac.jp/skp/outline/campuses/}),
+        \textit{Academics} (\url{https://en.ritsumei.ac.jp/academics/}),
+        communiqués QS 2025 (\url{https://en.ritsumei.ac.jp/news/detail/?id=949})
+        et note \og S \fg{} du MEXT
+        (\url{https://en.ritsumei.ac.jp/news/detail/?id=1040}).
+\end{enumerate}
+}
+\end{document}

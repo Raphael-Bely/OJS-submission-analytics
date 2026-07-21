@@ -15,7 +15,11 @@ env/
 data/Project_CodeNet*
 .claudeignore
 CLAUDE.md
-*.tex
 *.log
 *.png
-figures/
+*.out
+*.aux
+*.toc
+*.fdb_latexmk
+*.fls
+data/processed/embeddings/

@@ -58,7 +58,7 @@ Le projet est découpé en trois phases incrémentales (V0, V1, V2) afin de séc
     2.  Vérifier empiriquement des phénomènes précis, comme la prédominance et la difficulté de résolution des erreurs de type *Time Limit Exceeded* (TLE), ou l'inversion des proportions d'erreurs de compilation (CE) vs logiques (TLE) selon la difficulté du problème.
 * **Méthodologie de Classification Adoptée** :
     * **Classification G1–G6 (Shimizu *et al.* 2025)** : Chaque utilisateur est classé selon la lettre de difficulté maximale résolue (Accepted) dans les AtCoder Beginner Contests. Les lettres A–F sont assignées par position ordinale au sein de chaque contest dans `problem_list.csv`. Cette méthode est la baseline principale.
-    * **K-Means + ACP (exploratoire)** : Utilisés dans la phase d'exploration initiale pour valider l'existence de clusters comportementaux naturels. Résultats archivés dans `playground/00_exploration_score_based_DEPRECATED.ipynb`.
+    * **K-Means + ACP (exploratoire)** : Utilisés dans la phase d'exploration initiale pour valider l'existence de clusters comportementaux naturels. Résultats archivés dans `notebooks/00_exploration_score_based_DEPRECATED.ipynb`.
 * **Livrable Interface** : Un tableau de bord Streamlit fonctionnel en local permettant de filtrer les distributions d'erreurs et les temps de résolution par niveau de difficulté (A à F) et par groupe de proficience (G1–G6), sur les données AtCoder uniquement.
 
 ### 2.2. Version 1 : Analyse Textuelle & Introduction aux Embeddings de Code

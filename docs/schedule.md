@@ -58,7 +58,7 @@ The project is divided into three incremental phases (V0, V1, V2) to secure func
     2.  Empirically verify specific phenomena, such as the prevalence and resolution difficulty of *Time Limit Exceeded* (TLE) errors, or the inversion of compilation error (CE) vs. logical error (TLE) proportions based on problem difficulty.
 * **Applied Machine Learning Algorithms**:
     * **G1–G6 Classification (Shimizu *et al.* 2025)**: Each user is classified by the maximum difficulty letter they successfully solved (Accepted) in AtCoder Beginner Contests. Letters A–F are assigned by ordinal position within each contest in `problem_list.csv`. This is the primary classification method.
-    * **K-Means + PCA (exploratory)**: Used in the initial exploration phase to validate the existence of natural behavioral clusters. Results archived in `playground/00_exploration_score_based_DEPRECATED.ipynb`.
+    * **K-Means + PCA (exploratory)**: Used in the initial exploration phase to validate the existence of natural behavioral clusters. Results archived in `notebooks/00_exploration_score_based_DEPRECATED.ipynb`.
 * **Interface Deliverable**: A functional local Streamlit dashboard allowing users to filter error distributions and resolution times by difficulty level (A to F) and proficiency group (G1–G6), on AtCoder data only.
 
 ### 2.2. Version 1: Textual Analysis & Introduction to Code Embeddings

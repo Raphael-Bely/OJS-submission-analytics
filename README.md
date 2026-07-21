@@ -57,7 +57,7 @@ src/
 ├── error_analysis.py         # Computes error distributions (by difficulty, group, language)
 └── embedding.py              # Code embedding pipeline — TF-IDF & CodeBERT (RQ2)
 
-playground/
+notebooks/
 ├── 01_user_classification_G1G6.ipynb            # G1–G6 classification & validation vs Shimizu
 ├── 02_error_analysis_RQ1.ipynb                  # Error distribution by difficulty (RQ1)
 ├── 03_error_analysis_by_group_difficulty.ipynb  # Error distribution by difficulty × group (RQ1 extended)
@@ -128,7 +128,6 @@ The pipeline runs in phases and produces in `data/processed/`:
 | Error distribution by difficulty × group (RQ1 extended) | ✅ Done |
 | Language distribution by difficulty & proficiency group | ✅ Done |
 | Error patterns by language × difficulty (TLE, AC, CE) | ✅ Done |
-| Error patterns by language × proficiency group | ⏳ Planned |
 | Resolution rate by difficulty & proficiency group | ✅ Done |
 | Resolution rate by first error type × difficulty × group | ✅ Done |
 | Error sequence paths & Sankey diagrams (difficulty × group) | ✅ Done |
