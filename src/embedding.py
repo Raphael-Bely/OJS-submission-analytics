@@ -45,6 +45,17 @@ STATUS_MAP = {
 
 # ── Step 1 — Sampling ─────────────────────────────────────────────────────────
 
+def _parse_problem_ids(problem_id: str | None) -> list[str] | None:
+    """
+    Splits a comma-separated problem_id string into a list (e.g. "p02616,p02642"
+    -> ["p02616", "p02642"]). A single id or None/"" pass through unchanged
+    (None means "no restriction").
+    """
+    if not problem_id:
+        return None
+    return [p.strip() for p in problem_id.split(",") if p.strip()]
+
+
 def _load_eligible(
     abc_ids: list[str],
     df_abc: pl.DataFrame,
@@ -58,8 +69,10 @@ def _load_eligible(
     Filtered to TARGET_DIFFICULTIES × TARGET_STATUSES.
     If language is given (e.g. "C++"), keeps only submissions whose language
     starts with that prefix (catches C++14, C++17, C++20, etc.).
-    If problem_id is given, restricts to that single problem only.
+    If problem_id is given (single id, or comma-separated list), restricts to
+    those problem(s) only.
     """
+    problem_ids = _parse_problem_ids(problem_id)
     lazy_frames = []
     for pid in abc_ids:
         fp = METADATA_DIR / f"{pid}.csv"
@@ -100,12 +113,12 @@ def _load_eligible(
         )
         .filter(pl.col("status_code").is_in(TARGET_STATUSES))
     )
-    if not problem_id:
+    if not problem_ids:
         lazy = lazy.filter(pl.col("difficulty").is_in(TARGET_DIFFICULTIES))
     if language:
         lazy = lazy.filter(pl.col("language").str.starts_with(language))
-    if problem_id:
-        lazy = lazy.filter(pl.col("problem_id") == problem_id)
+    if problem_ids:
+        lazy = lazy.filter(pl.col("problem_id").is_in(problem_ids))
     return (
         lazy
         .select([
@@ -127,10 +140,14 @@ def sample_submissions(
 ) -> pl.DataFrame:
     """
     Stratified sample: up to n_per_cell rows per (difficulty × status_code) cell.
-    If problem_id is given, samples per status_code only (difficulty is fixed).
+    If problem_id is given (single id, or comma-separated list), samples per
+    (problem_id × status_code) instead — stratifying by problem prevents the
+    largest problem in the list from dominating the pooled sample.
     """
+    problem_ids = _parse_problem_ids(problem_id)
     lang_str = f" (langage : {language}*)" if language else ""
-    pid_str  = f" (problème : {problem_id})" if problem_id else ""
+    pid_str  = f" ({len(problem_ids)} problèmes)" if problem_ids and len(problem_ids) > 1 \
+               else f" (problème : {problem_ids[0]})" if problem_ids else ""
     print(f"Loading submission metadata for sampling{lang_str}{pid_str}...")
     df_all = _load_eligible(abc_ids, df_abc, df_users, language=language, problem_id=problem_id)
     print(f"  Eligible submissions: {df_all.height:,}")
@@ -138,17 +155,20 @@ def sample_submissions(
     rng = random.Random(seed)
     sampled = []
 
-    if problem_id:
-        # Un seul problème → une seule difficulté, stratifier par status uniquement
-        for status in TARGET_STATUSES:
-            cell = df_all.filter(pl.col("status_code") == status)
-            n = min(n_per_cell, cell.height)
-            if n == 0:
-                print(f"  {status}: 0 — skipped")
-                continue
-            idx = sorted(rng.sample(range(cell.height), n))
-            sampled.append(cell[idx])
-            print(f"  {status}: {n:,}")
+    if problem_ids:
+        # Un ou plusieurs problèmes fixés → stratifier par (problème × status)
+        for pid in problem_ids:
+            for status in TARGET_STATUSES:
+                cell = df_all.filter(
+                    (pl.col("problem_id") == pid) & (pl.col("status_code") == status)
+                )
+                n = min(n_per_cell, cell.height)
+                if n == 0:
+                    print(f"  {pid} × {status}: 0 — skipped")
+                    continue
+                idx = sorted(rng.sample(range(cell.height), n))
+                sampled.append(cell[idx])
+                print(f"  {pid} × {status}: {n:,}")
     else:
         for diff in TARGET_DIFFICULTIES:
             for status in TARGET_STATUSES:
@@ -232,15 +252,25 @@ def embed_tfidf(codes: list[str]) -> np.ndarray:
     return matrix.toarray().astype(np.float32)
 
 
-# ── Step 3b — CodeBERT (slow, requires torch + transformers) ─────────────────
+# ── Step 3b — CodeBERT family (slow, requires torch + transformers) ──────────
+
+# method -> checkpoint HuggingFace. "graphcodebert" ici est la version naïve :
+# même pipeline que codebert (tokenisation brute, token CLS), sans construire le
+# graphe de flux de données attendu par le modèle — voir NB12 pour la discussion.
+CODEBERT_CHECKPOINTS = {
+    "codebert":      "microsoft/codebert-base",
+    "graphcodebert": "microsoft/graphcodebert-base",
+}
+
 
 def embed_codebert(
     codes: list[str],
     batch_size: int = 16,
     device: str = "cpu",
+    checkpoint: str = "microsoft/codebert-base",
 ) -> np.ndarray:
     """
-    Embeds source code with microsoft/codebert-base (CLS token, 768 dims).
+    Embeds source code with a CodeBERT-family checkpoint (CLS token, 768 dims).
     Returns float32 array of shape (N, 768).
 
     Requires: pip install transformers torch
@@ -249,9 +279,9 @@ def embed_codebert(
     import torch
     from transformers import AutoModel, AutoTokenizer
 
-    print(f"Loading microsoft/codebert-base on {device}...")
-    tokenizer = AutoTokenizer.from_pretrained("microsoft/codebert-base")
-    model     = AutoModel.from_pretrained("microsoft/codebert-base").to(device)
+    print(f"Loading {checkpoint} on {device}...")
+    tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    model     = AutoModel.from_pretrained(checkpoint).to(device)
     model.eval()
 
     embeddings = []
@@ -316,17 +346,26 @@ def run_pipeline(
     if len(codes) == 0:
         raise RuntimeError("No source code files found. Check CodeNet data path.")
 
+    problem_ids = _parse_problem_ids(problem_id)
     lang_tag = "_" + language.lower().replace("+", "p") if language else ""
-    pid_tag  = "_" + problem_id.replace("/", "-") if problem_id else ""
+    if not problem_ids:
+        pid_tag = ""
+    elif len(problem_ids) == 1:
+        pid_tag = "_" + problem_ids[0].replace("/", "-")
+    else:
+        pid_tag = f"_multi{len(problem_ids)}"
     method_tag = f"{method}{lang_tag}{pid_tag}"
 
     print(f"\nEmbedding with {method_tag}...")
     if method == "tfidf":
         emb = embed_tfidf(codes)
-    elif method == "codebert":
-        emb = embed_codebert(codes, batch_size=batch_size, device=device)
+    elif method in CODEBERT_CHECKPOINTS:
+        emb = embed_codebert(codes, batch_size=batch_size, device=device,
+                              checkpoint=CODEBERT_CHECKPOINTS[method])
     else:
-        raise ValueError(f"Unknown method '{method}'. Use 'tfidf' or 'codebert'.")
+        raise ValueError(
+            f"Unknown method '{method}'. Use 'tfidf', 'codebert', or 'graphcodebert'."
+        )
 
     save(emb, df_valid, method_tag)
 
@@ -337,24 +376,34 @@ HELP_TEXT = """\
 Usage : python src/embedding.py <méthode> [device] [langage] [problem_id]
 
 Méthodes :
-  tfidf        Baseline lexicale (TF-IDF sur tokens identifiants) — rapide, CPU
-  codebert     Encodeur sémantique microsoft/codebert-base (768 dims) — GPU conseillé
-  list [D]     Liste les problem_id valides (top 30 par volume de soumissions),
-               filtrable par difficulté : python src/embedding.py list D
-  help         Affiche cette aide
+  tfidf          Baseline lexicale (TF-IDF sur tokens identifiants) — rapide, CPU
+  codebert       Encodeur sémantique microsoft/codebert-base (768 dims) — GPU conseillé
+  graphcodebert  microsoft/graphcodebert-base, même pipeline que codebert (tokens
+                 bruts, token CLS) — version *naïve* : ne construit pas le graphe
+                 de flux de données que le modèle sait exploiter, teste seulement
+                 si le pré-entraînement structure-aware laisse une trace résiduelle
+                 dans les représentations de tokens. Voir NB12.
+  list [D]       Liste les problem_id valides (top 30 par volume de soumissions),
+                 filtrable par difficulté : python src/embedding.py list D
+  help           Affiche cette aide
 
 Arguments positionnels :
   device       cpu (défaut) | mps (Apple Silicon) | cuda (NVIDIA) — ignoré par tfidf
   langage      Préfixe de langage : "C++" (couvre C++14/17/20…), "Python", "Java"…
                "" (chaîne vide) = tous les langages
-  problem_id   Restreint à un seul problème (ex. p02616).
+  problem_id   Restreint à un ou plusieurs problèmes : un seul id (ex. p02616),
+               ou une liste séparée par virgules (ex. p02616,p02642,p02658).
                Sans problem_id : échantillon stratifié difficulté (B–E) × verdict,
                500 soumissions max par case.
-               Avec problem_id : stratifié par verdict uniquement.
+               Avec problem_id : stratifié par (problème × verdict) — chaque
+               problème listé reçoit son propre quota, qu'il y en ait un ou
+               plusieurs, pour que le plus gros ne domine pas l'échantillon.
 
 Sorties (data/processed/embeddings/) :
   embeddings_{méthode}[_{langage}][_{problème}].npy   matrice (N, D) float32
   metadata_{méthode}[_{langage}][_{problème}].csv     métadonnées alignées
+  Un seul problem_id -> tag exact (ex. _p02616) ; plusieurs -> _multi{N}
+  (le problem_id exact de chaque soumission reste dans le CSV de métadonnées).
   Les variantes ne s'écrasent jamais entre elles.
 
 Exemples — un par section du notebook 10_embeddings.ipynb :
@@ -367,6 +416,13 @@ Exemples — un par section du notebook 10_embeddings.ipynb :
                            python src/embedding.py codebert mps "" p02616
   S5  problème × langage   python src/embedding.py tfidf cpu "Python" p02616
                            python src/embedding.py codebert mps "Python" p02616
+
+Notebook 11_embeddings_generalization.ipynb — plusieurs problèmes, un langage :
+  python src/embedding.py tfidf cpu "Python" "p02658,p02718,p02922,p02659,p02623,p02761,p02642,p02714,p02900,p02616,p02574,p02793"
+  python src/embedding.py codebert mps "Python" "p02658,p02718,p02922,p02659,p02623,p02761,p02642,p02714,p02900,p02616,p02574,p02793"
+
+Notebook 12_graphcodebert.ipynb — GraphCodeBERT naïf, même problème/langage que S5 de NB10 :
+  python src/embedding.py graphcodebert mps "Python" p02616
 """
 
 

@@ -116,9 +116,38 @@ The pipeline runs in phases and produces in `data/processed/`:
 - `atcoder_tle_intervals.csv` — for each TLE submission: delay (seconds) to next submission and its outcome
 - `atcoder_tle_chains.csv` — for each consecutive TLE→TLE transition: chain position, chain length, inter-TLE delay, session type, and chain final outcome
 
+### 4. Generate code embeddings (RQ2)
+
+```bash
+python src/embedding.py help
+```
+
+`src/embedding.py` runs independently of the main pipeline. It samples source code stratified by difficulty × verdict (or by verdict only, if a single problem is targeted), embeds it with TF-IDF or CodeBERT, and feeds the k-NN / UMAP analysis in `notebooks/10_embeddings.ipynb`.
+
+```bash
+python src/embedding.py <method> [device] [language] [problem_id]
+```
+
+| Argument | Values | Notes |
+|---|---|---|
+| `method` | `tfidf` \| `codebert` \| `graphcodebert` \| `list [difficulty]` \| `help` | `tfidf` is a fast lexical baseline (CPU); `codebert` and `graphcodebert` are semantic encoders (GPU recommended) — `graphcodebert` currently runs the *naive* variant, same pipeline as `codebert`, no data-flow graph constructed; `list` prints candidate problem IDs ranked by submission volume, optionally filtered by difficulty letter |
+| `device` | `cpu` (default) \| `mps` \| `cuda` | ignored by `tfidf` |
+| `language` | e.g. `"C++"`, `"Python"`, or `""` for all languages | prefix match — `"C++"` covers C++14/17/20 |
+| `problem_id` | a single ID (`p02616`) or a comma-separated list (`p02616,p02642`) | restricts sampling to the given problem(s), stratified by (problem × verdict) so no single problem dominates the pooled sample; omit to sample across all ABC problems, difficulty B–E (stratified by difficulty × verdict) |
+
+Examples:
+```bash
+python src/embedding.py tfidf                            # global corpus, lexical baseline
+python src/embedding.py codebert mps "C++"                # single-language corpus
+python src/embedding.py list D                            # find candidate problem IDs at difficulty D
+python src/embedding.py codebert mps "Python" p02616       # single problem, single language
+```
+
+Outputs go to `data/processed/embeddings/` (not versioned — see `.gitignore`): `embeddings_{tag}.npy` (float32 matrix) and `metadata_{tag}.csv` (aligned submission metadata), where `{tag}` encodes the method and any language/problem restriction.
+
 ---
 
-## Current Status — V0
+## Current Status — V0 → V1
 
 | Step | Status |
 |---|---|
