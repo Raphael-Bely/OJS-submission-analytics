@@ -55,7 +55,8 @@ src/
 ├── problem_parser.py         # Extracts scores from HTML problem descriptions
 ├── user_profiling.py         # Builds user profiles and classifies into G1–G6
 ├── error_analysis.py         # Computes error distributions (by difficulty, group, language)
-└── embedding.py              # Code embedding pipeline — TF-IDF & CodeBERT (RQ2)
+├── embedding.py              # Code embedding pipeline — TF-IDF, CodeBERT & GraphCodeBERT (RQ2)
+└── parser/                   # Vendored official GraphCodeBERT parser (DFG.py, utils.py — MIT, microsoft/CodeBERT)
 
 notebooks/
 ├── 01_user_classification_G1G6.ipynb            # G1–G6 classification & validation vs Shimizu
@@ -67,7 +68,10 @@ notebooks/
 ├── 07_error_sequences.ipynb                     # Error sequence paths & Sankey diagrams by difficulty × group
 ├── 08_tle_timing.ipynb                          # TLE correction timing — delay before next submission & outcome (S0–S2)
 ├── 09_tle_chains.ipynb                          # TLE chain analysis — inter-TLE delay, persistence & chain length → outcome (S0–S7)
-└── 10_embeddings.ipynb                          # Code embeddings (TF-IDF / CodeBERT) — k-NN consistency & UMAP (RQ2)
+├── 10_embeddings.ipynb                          # Code embeddings (TF-IDF / CodeBERT) — k-NN consistency & UMAP (RQ2)
+├── 11_embeddings_generalization.ipynb           # Same analysis across multiple problems, one language (RQ2)
+├── 12_graphcodebert.ipynb                       # GraphCodeBERT naïve — residual structure-awareness after naive pooling (RQ2)
+└── 13_graphcodebert_ast.ipynb                   # GraphCodeBERT graph-guided (real DFG) — pilot validation (RQ2)
 
 data/
 ├── Project_CodeNet/          # Raw dataset (not versioned — 8GB)
@@ -122,18 +126,19 @@ The pipeline runs in phases and produces in `data/processed/`:
 python src/embedding.py help
 ```
 
-`src/embedding.py` runs independently of the main pipeline. It samples source code stratified by difficulty × verdict (or by verdict only, if a single problem is targeted), embeds it with TF-IDF or CodeBERT, and feeds the k-NN / UMAP analysis in `notebooks/10_embeddings.ipynb`.
+`src/embedding.py` runs independently of the main pipeline. It samples source code stratified by difficulty × verdict (or by verdict only, if a single problem is targeted), embeds it with TF-IDF, CodeBERT, or GraphCodeBERT (naive or graph-guided), and feeds the k-NN / UMAP analysis in `notebooks/10_embeddings.ipynb` (and its follow-ups, NB11–NB13).
 
 ```bash
-python src/embedding.py <method> [device] [language] [problem_id]
+python src/embedding.py <method> [device] [language] [problem_id] [n_per_cell]
 ```
 
 | Argument | Values | Notes |
 |---|---|---|
-| `method` | `tfidf` \| `codebert` \| `graphcodebert` \| `list [difficulty]` \| `help` | `tfidf` is a fast lexical baseline (CPU); `codebert` and `graphcodebert` are semantic encoders (GPU recommended) — `graphcodebert` currently runs the *naive* variant, same pipeline as `codebert`, no data-flow graph constructed; `list` prints candidate problem IDs ranked by submission volume, optionally filtered by difficulty letter |
+| `method` | `tfidf` \| `codebert` \| `graphcodebert` \| `graphcodebert_ast` \| `list [difficulty]` \| `help` | `tfidf` is a fast lexical baseline (CPU); `codebert` and `graphcodebert` are semantic encoders (GPU recommended) — `graphcodebert` runs the *naive* variant, same pipeline as `codebert`, no data-flow graph constructed; `graphcodebert_ast` builds the actual data-flow graph (tree-sitter + the official `DFG.py`, vendored under `src/parser/`) and uses GraphCodeBERT's graph-guided attention — restricted to languages with an official DFG extractor (Python, Java, Ruby, Go, PHP, JavaScript — not C/C++); `list` prints candidate problem IDs ranked by submission volume, optionally filtered by difficulty letter |
 | `device` | `cpu` (default) \| `mps` \| `cuda` | ignored by `tfidf` |
-| `language` | e.g. `"C++"`, `"Python"`, or `""` for all languages | prefix match — `"C++"` covers C++14/17/20 |
+| `language` | e.g. `"C++"`, `"Python"`, or `""` for all languages | prefix match — `"C++"` covers C++14/17/20; required (and restricted, see above) for `graphcodebert_ast` |
 | `problem_id` | a single ID (`p02616`) or a comma-separated list (`p02616,p02642`) | restricts sampling to the given problem(s), stratified by (problem × verdict) so no single problem dominates the pooled sample; omit to sample across all ABC problems, difficulty B–E (stratified by difficulty × verdict) |
+| `n_per_cell` | integer, default `500` | quota per (problem or difficulty) × verdict cell — same seeded stratified draw, just a smaller one; handy for a quick pilot before a full-scale run. A non-default value gets its own `_n{N}` tag so it never overwrites a default-quota run |
 
 Examples:
 ```bash
@@ -141,9 +146,10 @@ python src/embedding.py tfidf                            # global corpus, lexica
 python src/embedding.py codebert mps "C++"                # single-language corpus
 python src/embedding.py list D                            # find candidate problem IDs at difficulty D
 python src/embedding.py codebert mps "Python" p02616       # single problem, single language
+python src/embedding.py graphcodebert_ast mps "Python" p02659 5   # real DFG, small pilot (~20 submissions)
 ```
 
-Outputs go to `data/processed/embeddings/` (not versioned — see `.gitignore`): `embeddings_{tag}.npy` (float32 matrix) and `metadata_{tag}.csv` (aligned submission metadata), where `{tag}` encodes the method and any language/problem restriction.
+Outputs go to `data/processed/embeddings/` (not versioned — see `.gitignore`): `embeddings_{tag}.npy` (float32 matrix) and `metadata_{tag}.csv` (aligned submission metadata), where `{tag}` encodes the method and any language/problem/n_per_cell restriction.
 
 ---
 
