@@ -42,9 +42,9 @@ Distinguishing errors that are easy to predict from those that are not, to shed 
 ### Iterative Roadmap
 
 ```
-[ CSV Metadata ]  →  V0: Classical ML & Profiling  →  Dashboard V0  ⏳ Planned
-[ Source Code   ]  →  V1: Embeddings & NLP          →  Dashboard V1  ⏳ Planned
-[ Code Graphs   ]  →  V2: Deep Learning             →  Predictive Model
+[ CSV Metadata ]  →  V0: Classical ML & Profiling  →  RQ1
+[ Source Code   ]  →  V1: Embeddings & NLP          →  RQ2
+[ Code Graphs   ]  →  V2: Deep Learning             →  RQ3 (optional)
 ```
 
 ### Repository Structure
