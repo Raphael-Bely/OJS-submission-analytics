@@ -12,13 +12,15 @@ This project analyzes the **AtCoder** submission history from the [Project CodeN
 The work reproduces and extends the findings of:
 > Shimizu, S., Makihara, E., & Yoshida, N. (2025). *An Empirical Study of the Error Characteristics in an Online Judge System.* FSE Companion '25.
 
-The project focuses exclusively on **AtCoder** data (1,519 problems, ~12 million submissions), which provides the richest and most structured subset of CodeNet. Integration with AIZU and LeetCode is planned as optional extensions.
+The project focuses exclusively on **AtCoder** data (1,519 problems, ~12 million submissions, ~124K users), which provides the richest and most structured subset of CodeNet. Integration with AIZU and LeetCode is planned as optional extensions.
+
+All analysis so far (RQ1 and RQ2, all notebooks) runs on the **ABC contest subset** specifically — 659 problems (difficulty A–F), ~8.9M submissions, 96,207 users — since the A–F difficulty labeling and G1–G6 proficiency classification are both defined on ABC contests.
 
 ---
 
 ## Research Questions
 
-### RQ1 — Error Pattern Analysis *(V0 — In Progress)*
+### RQ1 — Error Pattern Analysis *(V0 — Done)*
 > How do programmers' error patterns differ across combinations of problem difficulty, and user proficiency?
 
 Reproducing Shota's proficiency classification (G1–G6) as a baseline, then analyzing error distributions (CE, WA, TLE, RE) across difficulty levels (A–F) and user groups.
@@ -71,15 +73,16 @@ notebooks/
 ├── 10_embeddings.ipynb                          # Code embeddings (TF-IDF / CodeBERT) — k-NN consistency & UMAP (RQ2)
 ├── 11_embeddings_generalization.ipynb           # Same analysis across multiple problems, one language (RQ2)
 ├── 12_graphcodebert.ipynb                       # GraphCodeBERT naïve — residual structure-awareness after naive pooling (RQ2)
-└── 13_graphcodebert_ast.ipynb                   # GraphCodeBERT graph-guided (real DFG) — pilot validation (RQ2)
+└── 13_graphcodebert_ast.ipynb                   # GraphCodeBERT graph-guided (real DFG), 4-method comparison & supervised probe (RQ2)
 
 data/
 ├── Project_CodeNet/          # Raw dataset (not versioned — 8GB)
 └── processed/                # Pipeline outputs (versioned)
 
 docs/
-├── planning.md               # Technical specifications & roadmap
-└── schedule.md               # 17-week internship timeline
+├── planning.md                    # Technical specifications & roadmap
+├── schedule.md                    # 17-week internship timeline
+└── rapport_specification.tex      # Internship specification report
 ```
 
 ---
@@ -168,14 +171,18 @@ Outputs go to `data/processed/embeddings/` (not versioned — see `.gitignore`):
 | Error sequence paths & Sankey diagrams (difficulty × group) | ✅ Done |
 | TLE correction timing analysis (delay × outcome) | ✅ Done |
 | TLE chain analysis (persistence, chain length, inter-TLE delay) | ✅ Done |
-| Code embeddings — TF-IDF & CodeBERT, k-NN consistency, UMAP (RQ2) | ⏳ In progress |
+| Code embeddings — TF-IDF vs CodeBERT, k-NN lift, UMAP & t-SNE (RQ2) | ✅ Done |
+| GraphCodeBERT — naive comparison across 12 problems (RQ2) | ✅ Done |
+| GraphCodeBERT — graph-guided, real data-flow graph + supervised probe (RQ2) | ✅ Done |
+| LLM-based error prediction / pattern detection | ⏳ Planned — final month |
 | Streamlit dashboard | ⏳ Planned |
 ---
 
 ## Dataset
 
 **Project CodeNet** — IBM Research (2021)  
-AtCoder subset: 1,519 problems · ~12M submissions · ~124K users
+AtCoder subset: 1,519 problems · ~12M submissions · ~124K users  
+Analyzed here (ABC contests only): 659 problems · ~8.9M submissions · 96,207 users
 
 ---
 

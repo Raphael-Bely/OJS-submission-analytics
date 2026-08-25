@@ -23,3 +23,10 @@ CLAUDE.md
 *.fdb_latexmk
 *.fls
 data/processed/embeddings/
+
+# Presentation deck — keep the compiled PDF and its source figures public
+!docs/slides_28aout/*.pdf
+!docs/slides_28aout/figures/*.png
+# ...except the old French draft (superseded, still has unfilled \todonote placeholders)
+docs/slides_28aout/slides.pdf
+docs/slides_28aout/slides.tex
