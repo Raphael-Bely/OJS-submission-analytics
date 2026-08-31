@@ -73,7 +73,8 @@ notebooks/
 ├── 10_embeddings.ipynb                          # Code embeddings (TF-IDF / CodeBERT) — k-NN consistency & UMAP (RQ2)
 ├── 11_embeddings_generalization.ipynb           # Same analysis across multiple problems, one language (RQ2)
 ├── 12_graphcodebert.ipynb                       # GraphCodeBERT naïve — residual structure-awareness after naive pooling (RQ2)
-└── 13_graphcodebert_ast.ipynb                   # GraphCodeBERT graph-guided (real DFG), 4-method comparison & supervised probe (RQ2)
+├── 13_graphcodebert_ast.ipynb                   # GraphCodeBERT graph-guided (real DFG), 4-method comparison & supervised probe (RQ2)
+└── 14_cluster_investigation.ipynb        # t-SNE cluster validation vs random code-similarity baseline; traces one outlier to a data-labeling bug (RQ2)
 
 data/
 ├── Project_CodeNet/          # Raw dataset (not versioned — 8GB)
