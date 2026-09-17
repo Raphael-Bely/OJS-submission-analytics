@@ -1,0 +1,4 @@
+submission_id,problem_id,language,difficulty,proficiency_group,verdict_true,verdict_pred,reasoning,parse_success,parse_method,code_truncated,model_name
+s588209632,p02659,Python,C,G6,AC,,,0,failed,0,data/models/mlx-community--Qwen3.5-9B-4bit
+s663914619,p02659,Python,C,G6,AC,,,0,failed,0,data/models/mlx-community--Qwen3.5-9B-4bit
+s975565560,p02659,Python,C,G4,AC,,,0,failed,0,data/models/mlx-community--Qwen3.5-9B-4bit

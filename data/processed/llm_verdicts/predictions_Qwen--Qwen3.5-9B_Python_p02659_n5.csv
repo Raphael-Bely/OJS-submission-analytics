@@ -1,0 +1,5 @@
+submission_id,problem_id,language,difficulty,proficiency_group,verdict_true,verdict_pred,reasoning,parse_success,parse_method,code_truncated,model_name
+s588209632,p02659,Python,C,G6,AC,,,0,failed,0,data/models/Qwen--Qwen3.5-9B/
+s663914619,p02659,Python,C,G6,AC,,,0,failed,0,data/models/Qwen--Qwen3.5-9B/
+s975565560,p02659,Python,C,G4,AC,,,0,failed,0,data/models/Qwen--Qwen3.5-9B/
+s089624618,p02659,Python,C,G5,AC,,,0,failed,0,data/models/Qwen--Qwen3.5-9B/
