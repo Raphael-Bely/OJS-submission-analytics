@@ -30,3 +30,28 @@ data/processed/embeddings/
 # ...except the old French draft (superseded, still has unfilled \todonote placeholders)
 docs/slides_28aout/slides.pdf
 docs/slides_28aout/slides.tex
+
+# v2_llm (RQ3) — downloaded local model weights, several GB, mechanically
+# re-downloadable via src/v2_llm/download_model.py
+data/models/
+
+# v2_llm (RQ3) — optional raw per-submission model output dumps (debug/qualitative
+# only); the analysis artifact is predictions_*.csv in data/processed/llm_verdicts/,
+# which is intentionally NOT listed here (small text labels, versioned like the
+# other data/processed/*.csv files)
+data/processed/llm_verdicts/raw_*/
+
+# reserved for a future non-local (API-based) model backend — unused today (local
+# inference is the near-term plan), but never let a stray API key get committed
+config/.env
+
+# MLX backend (RQ3 direct-prompting pipeline) — isolated venv, incompatible deps
+# with the main environment, ~450MB of binaries, trivially recreated with
+# `pip install -r` (see src/v2_llm/mlx_client.py's docstring)
+.venv_mlx/
+
+# Beamer build byproducts (slides_en.tex) — same idea as the *.aux/*.log/*.out
+# rules above, just the LaTeX classes those didn't cover
+*.nav
+*.snm
+*.vrb

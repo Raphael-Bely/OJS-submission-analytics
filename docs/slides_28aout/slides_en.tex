@@ -164,26 +164,8 @@
     \end{itemize}
     \column{0.48\textwidth}
     \centering
-    \includegraphics[height=3.1cm]{nb01_g1g6_vs_shimizu.png}\\[1mm]
-    \includegraphics[height=3.1cm]{nb01_winrate_panel.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Quick Detour: Language Matters --- Not as Expected}
-  \begin{columns}[T]
-    \column{0.52\textwidth}
-    \begin{itemize}
-      \item \textbf{Question}: does language choice influence the error
-        type?
-      \item \textbf{Result 1}: TLE $\sim$3$\times$ more frequent in Python
-        than C++ (23.2\% vs 8.2\%, level D)
-      \item \textbf{Result 2 (counter-intuitive)}: beginners (G1) do
-        \alert{not} mostly use Python --- 54.3\% in C++
-    \end{itemize}
-    \column{0.44\textwidth}
-    \centering
-    \includegraphics[height=3.1cm]{nb04_tle_by_language.png}\\[1mm]
-    \includegraphics[height=3.1cm]{nb04_language_by_group.png}
+    \includegraphics[height=3.0cm]{nb01_g1g6_vs_shimizu.png}\\[1mm]
+    \includegraphics[height=4.1cm]{nb01_winrate_panel.png}
   \end{columns}
 \end{frame}
 
@@ -192,8 +174,8 @@
     \column{0.48\textwidth}
     \textbf{CE$\leftrightarrow$TLE inversion}
     \begin{itemize}
-      \item AC rate: 73\%$\to$35\% (A$\to$F)
-      \item Replicates Shimizu Figure 4
+      \item Among \emph{failed} submissions only: CE 22.9\%$\to$3.8\%, TLE
+        0.5\%$\to$23.5\% (A$\to$F) --- crosses between B and C
     \end{itemize}
     \vspace{2mm}
     \textbf{Resolution \& first try}
@@ -203,8 +185,8 @@
     \end{itemize}
     \column{0.48\textwidth}
     \centering
-    \includegraphics[height=3.1cm]{nb02_ce_tle_inversion.png}\\[1mm]
-    \includegraphics[height=3.1cm]{nb05_resolution_by_difficulty.png}
+    \includegraphics[height=3.4cm]{nb02_ce_tle_inversion.png}\\[1mm]
+    \includegraphics[height=3.4cm]{nb05_resolution_by_difficulty.png}
   \end{columns}
 \end{frame}
 
@@ -221,8 +203,8 @@
     \end{itemize}
     \column{0.44\textwidth}
     \centering
-    \includegraphics[height=3.0cm]{nb06_resolution_by_error_pooled.png}\\[1mm]
-    \includegraphics[height=3.0cm]{nb06_expertise_leveld.png}\\
+    \includegraphics[height=3.3cm]{nb06_resolution_by_error_pooled.png}\\[1mm]
+    \includegraphics[height=3.3cm]{nb06_expertise_leveld.png}\\
     {\tiny\color{gray} Bottom: level D only (full grid: NB06, Sec. 4)}
   \end{columns}
 \end{frame}
@@ -267,7 +249,8 @@
 \begin{frame}{Sanity Check: Is the Embedding Credible At All?}
   \begin{itemize}
     \item Before asking whether it captures \emph{verdict}: does the
-      embedding capture \emph{anything} recognizable?
+      embedding capture \emph{anything} recognizable? (12 problems,
+      21,773 submissions)
     \item \alert{Yes} --- problem identity is trivial to see; verdict is
       not, on the exact same points
   \end{itemize}
@@ -279,8 +262,8 @@
   \begin{columns}[T]
     \column{0.52\textwidth}
     \begin{itemize}
-      \item \textbf{Question}: does a semantic embedding capture the
-        code$\leftrightarrow$verdict link better than plain TF-IDF?
+      \item \textbf{Question}: does CodeBERT (reads code semantically)
+        beat TF-IDF (counts tokens) at predicting verdict?
       \item \textbf{Method}: k-NN lift (k=10, cosine), control funnel
         language $\to$ problem $\to$ both
       \item \textbf{Result}: once fully controlled, \alert{CodeBERT
@@ -294,24 +277,48 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{Generalization --- and a Methodological Twist}
+\begin{frame}{Generalization --- Confirmed Across 12 Problems}
+  \begin{itemize}
+    \item Same k-NN lift test, scaled to \alert{12 problems} (21,773
+      submissions, Python)
+    \item On verdict (the actual RQ2 question): TF-IDF and CodeBERT near
+      tied (×1.37 vs ×1.35) but \alert{8/12} vs 4/12 wins
+  \end{itemize}
+  \vspace{2mm}
+  \centering
+  \includegraphics[width=0.7\linewidth]{nb11_verdict_lift_12problems.png}
+\end{frame}
+
+\begin{frame}{The Twist --- UMAP Shows Nothing}
   \begin{columns}[T]
-    \column{0.52\textwidth}
+    \column{0.46\textwidth}
     \begin{itemize}
-      \item Confirmed across 12 problems (21,773 submissions) --- on
-        \alert{verdict} (the actual RQ2 question), TF-IDF and CodeBERT are
-        near tied (×1.37 vs ×1.35, 7/12 vs 5/12 wins); group is where
-        TF-IDF pulls ahead, 11/12
-      \item \textbf{Twist}: UMAP shows \alert{no} visible separation --- but
-        t-SNE + a confusion heatmap reveal a real, highly localized signal
-        (AC/WA 69\%/68\% neighbor consistency, TLE nearly invisible at 3\%)
+      \item Same problem (p02659), same embeddings (TF-IDF, CodeBERT) ---
+        now colored by verdict
+      \item \alert{No} visible separation, either method --- if this were
+        the full picture, RQ2 would stop here
+      \item Different projection, different story: t-SNE on the same data
+        does show structure (next)
     \end{itemize}
-    \column{0.44\textwidth}
+    \column{0.52\textwidth}
     \centering
-    {\scriptsize UMAP --- p02659 (TF-IDF, verdict)}\\
-    \includegraphics[height=2.75cm]{nb11_umap_p02659.png}\\[1mm]
-    {\scriptsize t-SNE --- same data}\\
-    \includegraphics[height=2.75cm]{nb11_tsne_p02659.png}
+    \includegraphics[width=\linewidth]{nb11_umap_tfidf_codebert_p02659.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{The Twist, Continued --- t-SNE Shows Something}
+  \begin{columns}[T]
+    \column{0.46\textwidth}
+    \begin{itemize}
+      \item Same problem, same 2 embeddings --- t-SNE instead of UMAP
+      \item \alert{Structure appears} for both encoders --- unlike UMAP,
+        t-SNE finds something
+      \item The deep-dive that follows focuses on \textbf{TF-IDF}'s
+        clusters specifically (next)
+    \end{itemize}
+    \column{0.52\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{nb11_tsne_tfidf_codebert_p02659.png}
   \end{columns}
 \end{frame}
 
@@ -328,8 +335,7 @@
     \end{itemize}
     \column{0.48\textwidth}
     \includegraphics[width=\linewidth]{nb14_cluster_map.png}\\
-    {\tiny\color{gray} 10 automatically-detected clusters, p02659 (NB14,
-    S1). Numbers = cluster IDs used in the S3/S6 tables.}
+    {\tiny\color{gray} 10 automatically-detected clusters, p02659 (NB14, S1).}
   \end{columns}
 \end{frame}
 
@@ -342,8 +348,7 @@
       \item \textbf{Cluster 36} (0.83×, RE, 100\% pure --- the one spotted
         \emph{by eye} first): checked all 26 files, not a sample
       \item \alert{26/26 are C++}, every single one labeled ``Python'' in
-        the dataset --- not the embedding failing on comparable code, a
-        \alert{data-labeling bug} (NB14, S7)
+        the dataset --- not the embedding failing on comparable code
     \end{itemize}
     \column{0.46\textwidth}
     \centering
@@ -375,10 +380,10 @@ int main() {
     \begin{itemize}
       \item \textbf{Question}: does a model aware of code structure
         (GraphCodeBERT, real data-flow graph) do better?
-      \item \textbf{Result}: mixed --- no version clearly beats TF-IDF on
-        k-NN (top), but a supervised probe puts the real-graph version
-        ahead on verdict (bottom)
-      \item No clear winner --- an open thread for the next steps
+      \item \textbf{Result}: vs.\ a random baseline, no method clearly
+        stands out via k-NN lift (top)
+      \item So we tried a probe instead (bottom): a modest edge for the
+        graph-aware version, 55\% vs 48\%, not decisive
     \end{itemize}
     \column{0.54\textwidth}
     \centering
@@ -387,29 +392,28 @@ int main() {
   \end{columns}
 \end{frame}
 
-\begin{frame}{Summary --- RQ2}
+\begin{frame}{Summary --- RQ2: Do Close Codes Share the Same Verdict?}
   \begin{itemize}
-    \item A real but modest verdict signal, confirmed by 3 independent
-      methods (k-NN lift, t-SNE+heatmap, real code via NB14)
-    \item No more sophisticated model tested clearly beat TF-IDF for this
-      specific task
+    \item A real signal (up to 55\% accuracy vs.\ 27\% baseline, confirmed
+      by 3 independent methods: k-NN lift, t-SNE, real code via NB14) ---
+      but still wrong almost half the time, not reliable alone
+    \item A more complex model barely helps: CodeBERT and GraphCodeBERT beat
+      simple TF-IDF by only a few points --- the model itself may not be
+      the problem
+    \item \textbf{Throughline}: at every step, we checked instead of
+      assuming --- a misleading projection (UMAP), an untested intuition,
+      a mislabeled cluster
   \end{itemize}
 \end{frame}
 
-% ═══════════════════════════════════════════════════════════════════════════
-\section{Analysis and Outlook}
-
-\begin{frame}{Summary and Next Steps}
+\begin{frame}{Next Steps}
   \begin{itemize}
-    \item RQ1: rich error patterns, shaped by language, expertise, and
-      resubmission behavior
-    \item RQ2: a real but modest signal --- validated at the level of actual
-      code, not just the embedding
-    \item \textbf{Next (3 weeks after August 28)}: LLM exploration --- a
-      natural direction after finding that neither CodeBERT nor GraphCodeBERT
+    \item \textbf{3 weeks after August 28}: LLM exploration --- a natural
+      direction after finding that neither CodeBERT nor GraphCodeBERT
       clearly beat TF-IDF
-    \item Also on the roadmap, not started yet: RQ3 (error prediction) and
-      an interactive dashboard
+    \item Two angles: \textbf{LLM-based embeddings} (same pipeline as
+      before), and \textbf{prompting LLMs directly} with code and the
+      problem statement to predict verdicts
   \end{itemize}
 \end{frame}
 

@@ -314,6 +314,93 @@ def embed_codebert(
     return np.vstack(embeddings).astype(np.float32)
 
 
+# ── Step 3c — Causal LLM (last-token / mean pooling, no generation) ──────────
+
+def embed_llm_lasttoken(
+    codes: list[str],
+    checkpoint: str,
+    batch_size: int = 16,
+    device: str = "cpu",
+    pooling: str = "last",
+) -> np.ndarray:
+    """
+    Embeds source code with a causal (decoder-only) LLM checkpoint - a single
+    forward pass per batch, no generation. Unlike CodeBERT's CLS token
+    (prepended, trained to summarize the whole sequence from the start), a
+    causal model has no such token: pooling="last" (default) takes the final
+    token's hidden state instead - thanks to causal attention, it has
+    attended to every token before it, making it the natural analogue.
+    pooling="mean" averages over all real (non-padding) token positions
+    instead. Same cls-vs-mean question NB13 S10 already answered for
+    GraphCodeBERT, now last-vs-mean since a decoder has no CLS.
+
+    checkpoint: local path (e.g. data/models/Qwen--Qwen2.5-Coder-7B-Instruct)
+    or a Hugging Face Hub repo id - passed straight to from_pretrained(), so
+    any already-downloaded local model or hub checkpoint works unmodified.
+
+    Returns float32 array of shape (N, hidden_size) - hidden_size depends on
+    the checkpoint (e.g. 3584 for Qwen2.5-Coder-7B-Instruct).
+
+    Requires: pip install transformers torch
+    """
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    if pooling not in ("last", "mean"):
+        raise ValueError(f"pooling='{pooling}' invalide - 'last' ou 'mean' attendu.")
+
+    print(f"Loading {checkpoint} on {device} (pooling={pooling})...")
+    tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    # Left padding: with pooling="last", this keeps the real last token at
+    # position -1 for every row regardless of that sequence's length within
+    # the batch. Right padding (the default) would land on a pad token
+    # instead for anything shorter than the batch's longest sequence.
+    tokenizer.padding_side = "left"
+    if tokenizer.pad_token is None:
+        # Common for causal-LM tokenizers - no padding needed for single-
+        # sequence generation, so none is defined by default.
+        tokenizer.pad_token = tokenizer.eos_token
+
+    model = AutoModelForCausalLM.from_pretrained(checkpoint).to(device)
+    model.eval()
+
+    embeddings = []
+    for i in range(0, len(codes), batch_size):
+        batch   = codes[i : i + batch_size]
+        encoded = tokenizer(
+            batch,
+            padding=True,
+            truncation=True,
+            max_length=MAX_TOKENS,
+            return_tensors="pt",
+        )
+        encoded = {k: v.to(device) for k, v in encoded.items()}
+
+        with torch.no_grad():
+            out = model(**encoded, output_hidden_states=True)
+
+        last_layer = out.hidden_states[-1]  # (batch, seq_len, hidden)
+        if pooling == "last":
+            vecs = last_layer[:, -1, :]  # left-padded -> always the real last token
+        else:  # mean
+            mask    = encoded["attention_mask"].unsqueeze(-1).to(last_layer.dtype)
+            summed  = (last_layer * mask).sum(dim=1)
+            counts  = mask.sum(dim=1).clamp(min=1)
+            vecs    = summed / counts
+
+        # Checkpoints commonly load in bfloat16 (Qwen2.5-Coder's native
+        # precision) - numpy has no bf16 type, .numpy() rejects it directly.
+        # Cast to fp32 first (harmless: only on an already-small
+        # (batch, hidden) tensor, not the full model).
+        embeddings.append(vecs.float().cpu().numpy())
+
+        done = min(i + batch_size, len(codes))
+        if done % (batch_size * 10) == 0 or done == len(codes):
+            print(f"  {done}/{len(codes)}")
+
+    return np.vstack(embeddings).astype(np.float32)
+
+
 # ── Step 3c — GraphCodeBERT with real data-flow graph (faithful variant) ─────
 #
 # Ports the extraction + feature-building + graph-guided forward pass from
@@ -830,16 +917,30 @@ def run_pipeline(
     seed: int = 42,
     language: str | None = None,
     problem_id: str | None = None,
+    checkpoint: str | None = None,
 ) -> None:
     # Fail fast — a missing/unsupported language for graphcodebert_ast should
     # error before spending minutes loading metadata and reading source files.
     dfg_lang = _resolve_dfg_language(language) if method == "graphcodebert_ast" else None
+    if method == "llm" and not checkpoint:
+        raise ValueError(
+            "method='llm' requires a checkpoint (6th CLI arg) - local path "
+            "(e.g. data/models/Qwen--Qwen2.5-Coder-7B-Instruct) or a HF Hub repo id."
+        )
     # Not a CLI positional arg (5 is already a lot to remember the order of)
     # — an env var, since this is an experiment, not a routine knob:
     #   GCB_POOLING=mean python src/embedding.py graphcodebert_ast ...
-    pooling = os.environ.get("GCB_POOLING", "cls") if method == "graphcodebert_ast" else "cls"
-    if pooling not in ("cls", "mean"):
-        raise ValueError(f"GCB_POOLING='{pooling}' invalide — 'cls' ou 'mean' attendu.")
+    #   LLM_POOLING=mean python src/embedding.py llm ... <checkpoint>
+    if method == "graphcodebert_ast":
+        pooling = os.environ.get("GCB_POOLING", "cls")
+        if pooling not in ("cls", "mean"):
+            raise ValueError(f"GCB_POOLING='{pooling}' invalide — 'cls' ou 'mean' attendu.")
+    elif method == "llm":
+        pooling = os.environ.get("LLM_POOLING", "last")
+        if pooling not in ("last", "mean"):
+            raise ValueError(f"LLM_POOLING='{pooling}' invalide — 'last' ou 'mean' attendu.")
+    else:
+        pooling = "cls"
 
     df_sample = sample_submissions(
         abc_ids, df_abc, df_users, n_per_cell, seed,
@@ -865,9 +966,23 @@ def run_pipeline(
     # for — a full-scale run of the same method/language/problem_id.
     n_tag = f"_n{n_per_cell}" if n_per_cell != SAMPLES_PER_CELL else ""
     # Non-default pooling gets its own tag for the same reason n_tag does —
-    # a pooling="mean" run must never collide with the default cls-pooled file.
-    pooling_tag = f"_{pooling}" if pooling != "cls" else ""
-    method_tag = f"{method}{lang_tag}{pid_tag}{n_tag}{pooling_tag}"
+    # a pooling="mean" run must never collide with the default-pooled file.
+    # Default differs by method: "cls" for graphcodebert_ast, "last" for llm.
+    # Only methods with an actual pooling choice get a tag at all - tfidf,
+    # codebert, graphcodebert always use "cls" with no alternative, so
+    # tagging them "_cls" would be noise, not information (bug found the
+    # hard way: it was doing exactly that before this fix).
+    if method == "graphcodebert_ast":
+        pooling_tag = f"_{pooling}" if pooling != "cls" else ""
+    elif method == "llm":
+        pooling_tag = f"_{pooling}" if pooling != "last" else ""
+    else:
+        pooling_tag = ""
+    # llm needs its own checkpoint in the filename too — unlike the other
+    # methods, "llm" alone doesn't say which model, and two different
+    # checkpoints must never collide on the same output file.
+    checkpoint_tag = f"_{Path(checkpoint).name}" if method == "llm" else ""
+    method_tag = f"{method}{checkpoint_tag}{lang_tag}{pid_tag}{n_tag}{pooling_tag}"
 
     print(f"\nEmbedding with {method_tag}...")
     if method == "tfidf":
@@ -878,9 +993,11 @@ def run_pipeline(
     elif method in CODEBERT_CHECKPOINTS:
         emb = embed_codebert(codes, batch_size=batch_size, device=device,
                               checkpoint=CODEBERT_CHECKPOINTS[method])
+    elif method == "llm":
+        emb = embed_llm_lasttoken(codes, checkpoint, batch_size=batch_size, device=device, pooling=pooling)
     else:
         raise ValueError(
-            f"Unknown method '{method}'. Use 'tfidf', 'codebert', 'graphcodebert', or 'graphcodebert_ast'."
+            f"Unknown method '{method}'. Use 'tfidf', 'codebert', 'graphcodebert', 'graphcodebert_ast', or 'llm'."
         )
 
     save(emb, df_valid, method_tag)
@@ -910,6 +1027,20 @@ Méthodes :
                      Variable d'environnement GCB_POOLING=mean (défaut : cls) —
                      moyenne sur les tokens de code réels au lieu du seul CLS,
                      expérimental, tag de fichier _mean. Voir NB13.
+  llm                LLM causal (decoder-only) quelconque — TF-IDF/CodeBERT
+                     encodent, celui-ci ne fait qu'un seul passage forward (pas
+                     de génération). Pas de token CLS sur un modèle causal :
+                     pooling="last" (défaut) prend le dernier token — grâce à
+                     l'attention causale, il a "vu" tout ce qui précède, c'est
+                     l'équivalent naturel du CLS. Variable d'environnement
+                     LLM_POOLING=mean (défaut : last) pour la moyenne à la
+                     place, même question cls-vs-mean que graphcodebert_ast
+                     (NB13 S10), tag de fichier _mean. Nécessite un 6e argument
+                     positionnel, le checkpoint (voir ci-dessous) — chemin
+                     local déjà téléchargé ou id HuggingFace Hub. Variable
+                     d'environnement EMBED_BATCH_SIZE (défaut : 16, aussi
+                     valable pour codebert/graphcodebert) pour ajuster le
+                     débit selon la mémoire disponible.
   list [D]           Liste les problem_id valides (top 30 par volume de soumissions),
                      filtrable par difficulté : python src/embedding.py list D
   help               Affiche cette aide
@@ -932,6 +1063,12 @@ Arguments positionnels :
                soumissions sur un problème à 4 verdicts effectifs) avant de lancer
                le corpus complet. Une valeur non-défaut ajoute un tag _n{N} au nom
                de fichier, pour ne jamais écraser une run à 500/cellule.
+  checkpoint   Uniquement pour method=llm (6e argument, obligatoire pour cette
+               méthode) : chemin local (ex. data/models/Qwen--Qwen2.5-Coder-7B-
+               Instruct) ou id HuggingFace Hub — passé tel quel à
+               from_pretrained(). Le nom du checkpoint est repris dans le nom
+               de fichier de sortie (deux checkpoints différents ne s'écrasent
+               jamais entre eux).
 
 Sorties (data/processed/embeddings/) :
   embeddings_{méthode}[_{langage}][_{problème}][_n{N}].npy   matrice (N, D) float32
@@ -960,6 +1097,10 @@ Notebook 12_graphcodebert.ipynb — GraphCodeBERT naïf, même problème/langage
 
 Notebook 13_graphcodebert_ast.ipynb — GraphCodeBERT avec le vrai graphe, pilote réduit :
   python src/embedding.py graphcodebert_ast mps "Python" p02659 5
+
+LLM causal, embeddings (RQ2) — checkpoint deja telecharge par src/v2_llm/download_model.py :
+  python src/embedding.py llm mps "Python" p02659 5 data/models/Qwen--Qwen2.5-Coder-7B-Instruct
+  LLM_POOLING=mean python src/embedding.py llm mps "Python" p02659 5 data/models/Qwen--Qwen2.5-Coder-7B-Instruct
 """
 
 
@@ -1012,8 +1153,16 @@ if __name__ == "__main__":
     problem_id = sys.argv[4] if len(sys.argv) > 4 else None
     # quota per (problem|difficulty × status) cell — default SAMPLES_PER_CELL
     n_per_cell = int(sys.argv[5]) if len(sys.argv) > 5 else SAMPLES_PER_CELL
+    # only meaningful for method="llm" — local path or HF Hub repo id
+    checkpoint = sys.argv[6] if len(sys.argv) > 6 else None
+    # Not a CLI positional arg — 6 is already a lot to remember the order of,
+    # same reasoning as GCB_POOLING/LLM_POOLING. A performance knob, tune it
+    # occasionally, don't make everyone scroll past it every run:
+    #   EMBED_BATCH_SIZE=64 python src/embedding.py llm ...
+    batch_size = int(os.environ.get("EMBED_BATCH_SIZE", 16))
 
     run_pipeline(abc_ids, df_abc, df_users,
                  method=method, device=device,
                  language=language, problem_id=problem_id,
-                 n_per_cell=n_per_cell)
+                 n_per_cell=n_per_cell, checkpoint=checkpoint,
+                 batch_size=batch_size)
