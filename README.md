@@ -25,15 +25,15 @@ All analysis so far (RQ1 and RQ2, all notebooks) runs on the **ABC contest subse
 
 Reproducing Shota's proficiency classification (G1–G6) as a baseline, then analyzing error distributions (CE, WA, TLE, RE) across difficulty levels (A–F) and user groups.
 
-### RQ2 — Code-Level Semantic Analysis *(V1 — In Progress)*
+### RQ2 — Code-Level Semantic Analysis *(V1 — Done)*
 > Do codes that are close to each other in vector space share similar error patterns?
 
-Using code embeddings (CodeBERT / GraphCodeBERT) to examine whether source codes with short distances in embedding space tend to share the same error characteristics. The tool should allow investigation of whether nearby codes share the same difficulty level or user proficiency group.
+Using code embeddings (TF-IDF, CodeBERT, GraphCodeBERT — naive and graph-guided with a real data-flow graph) to test whether source codes close in embedding space share error characteristics, and whether a supervised probe trained on those embeddings predicts a submission's verdict from code alone. GraphCodeBERT with a real data-flow graph gives the strongest signal (up to 55% average accuracy vs a ~27% majority-class baseline); the result holds on genuinely unseen submissions (not just cross-validation folds) and does not improve on harder problems or with a larger classifier.
 
-### RQ3 — Error Prediction *(V2 — Optional)*
+### RQ3 — Error Prediction *(V2 — Explored)*
 > Does the information visualized by the proposed tool contribute to error prediction?
 
-Distinguishing errors that are easy to predict from those that are not, to shed light on the intrinsic complexity of OJS errors and verify whether insights from RQ1 and RQ2 can function as a predictive model.
+Two approaches explored: prompting a locally-run LLM directly with the code and problem statement, and extracting a frozen LLM's internal code representation through the same pipeline as RQ2. Neither produced a usable predictor — direct prompting was too noisy on small samples to draw conclusions, and LLM embeddings underperformed the much smaller GraphCodeBERT encoder from RQ2. A negative result, documented rather than left open.
 
 ---
 
@@ -44,7 +44,7 @@ Distinguishing errors that are easy to predict from those that are not, to shed 
 ```
 [ CSV Metadata ]  →  V0: Classical ML & Profiling  →  RQ1
 [ Source Code   ]  →  V1: Embeddings & NLP          →  RQ2
-[ Code Graphs   ]  →  V2: Deep Learning             →  RQ3 (optional)
+[ Code Graphs   ]  →  V2: Deep Learning             →  RQ3 (explored)
 ```
 
 ### Repository Structure
@@ -54,11 +54,13 @@ src/
 ├── main.py                   # Pipeline orchestrator (no logic, calls modules in order)
 ├── data_loader.py            # Single point of access for all raw data I/O
 ├── difficulty_labeler.py     # Assigns A–F difficulty letters to ABC problems
-├── problem_parser.py         # Extracts scores from HTML problem descriptions
+├── problem_parser.py         # Extracts scores + English problem statements from HTML descriptions
 ├── user_profiling.py         # Builds user profiles and classifies into G1–G6
 ├── error_analysis.py         # Computes error distributions (by difficulty, group, language)
-├── embedding.py              # Code embedding pipeline — TF-IDF, CodeBERT & GraphCodeBERT (RQ2)
-└── parser/                   # Vendored official GraphCodeBERT parser (DFG.py, utils.py — MIT, microsoft/CodeBERT)
+├── embedding.py              # Code embedding pipeline — TF-IDF, CodeBERT, GraphCodeBERT & frozen-LLM (RQ2/RQ3)
+├── fresh_eval_probe.py       # Trains a probe on a problem's full corpus, evaluates on never-seen submissions (RQ2)
+├── parser/                   # Vendored official GraphCodeBERT parser (DFG.py, utils.py — MIT, microsoft/CodeBERT)
+└── v2_llm/                   # Local LLM direct-prompting pipeline (RQ3) — see "Getting Started" below
 
 notebooks/
 ├── 01_user_classification_G1G6.ipynb            # G1–G6 classification & validation vs Shimizu
@@ -74,7 +76,10 @@ notebooks/
 ├── 11_embeddings_generalization.ipynb           # Same analysis across multiple problems, one language (RQ2)
 ├── 12_graphcodebert.ipynb                       # GraphCodeBERT naïve — residual structure-awareness after naive pooling (RQ2)
 ├── 13_graphcodebert_ast.ipynb                   # GraphCodeBERT graph-guided (real DFG), 4-method comparison & supervised probe (RQ2)
-└── 14_cluster_investigation.ipynb        # t-SNE cluster validation vs random code-similarity baseline; traces one outlier to a data-labeling bug (RQ2)
+├── 14_cluster_investigation.ipynb                # t-SNE cluster validation vs random code-similarity baseline; traces one outlier to a data-labeling bug (RQ2)
+├── 15_llm_embeddings.ipynb                       # Frozen-LLM embeddings (Qwen2.5-Coder) through the RQ2 pipeline (RQ2/RQ3)
+├── 16_difficulty_f.ipynb                         # Does the hardest difficulty (F) show a cleaner signal than B–E? (RQ2)
+└── 17_fresh_eval_probe.ipynb                     # Analysis of fresh_eval_probe.py's results — probe vs CV, LogisticRegression vs MLP (RQ2)
 
 data/
 ├── Project_CodeNet/          # Raw dataset (not versioned — 8GB)
@@ -83,7 +88,8 @@ data/
 docs/
 ├── planning.md                    # Technical specifications & roadmap
 ├── schedule.md                    # 17-week internship timeline
-└── rapport_specification.tex      # Internship specification report
+├── rapport_specification.tex      # Internship specification report
+└── slides_28aout/                 # Mid-internship presentation deck (Aug 28) — slides + figures
 ```
 
 ---
@@ -130,7 +136,7 @@ The pipeline runs in phases and produces in `data/processed/`:
 python src/embedding.py help
 ```
 
-`src/embedding.py` runs independently of the main pipeline. It samples source code stratified by difficulty × verdict (or by verdict only, if a single problem is targeted), embeds it with TF-IDF, CodeBERT, or GraphCodeBERT (naive or graph-guided), and feeds the k-NN / UMAP analysis in `notebooks/10_embeddings.ipynb` (and its follow-ups, NB11–NB13).
+`src/embedding.py` runs independently of the main pipeline. It samples source code stratified by difficulty × verdict (or by verdict only, if a single problem is targeted), embeds it with TF-IDF, CodeBERT, or GraphCodeBERT (naive or graph-guided), and feeds the k-NN / UMAP analysis in `notebooks/10_embeddings.ipynb` (and its follow-ups, NB11–NB17).
 
 ```bash
 python src/embedding.py <method> [device] [language] [problem_id] [n_per_cell]
@@ -138,11 +144,17 @@ python src/embedding.py <method> [device] [language] [problem_id] [n_per_cell]
 
 | Argument | Values | Notes |
 |---|---|---|
-| `method` | `tfidf` \| `codebert` \| `graphcodebert` \| `graphcodebert_ast` \| `list [difficulty]` \| `help` | `tfidf` is a fast lexical baseline (CPU); `codebert` and `graphcodebert` are semantic encoders (GPU recommended) — `graphcodebert` runs the *naive* variant, same pipeline as `codebert`, no data-flow graph constructed; `graphcodebert_ast` builds the actual data-flow graph (tree-sitter + the official `DFG.py`, vendored under `src/parser/`) and uses GraphCodeBERT's graph-guided attention — restricted to languages with an official DFG extractor (Python, Java, Ruby, Go, PHP, JavaScript — not C/C++); `list` prints candidate problem IDs ranked by submission volume, optionally filtered by difficulty letter |
+| `method` | `tfidf` \| `codebert` \| `graphcodebert` \| `graphcodebert_ast` \| `llm` \| `list [difficulty]` \| `help` | `tfidf` is a fast lexical baseline (CPU); `codebert` and `graphcodebert` are semantic encoders (GPU recommended) — `graphcodebert` runs the *naive* variant, same pipeline as `codebert`, no data-flow graph constructed; `graphcodebert_ast` builds the actual data-flow graph (tree-sitter + the official `DFG.py`, vendored under `src/parser/`) and uses GraphCodeBERT's graph-guided attention — restricted to languages with an official DFG extractor (Python, Java, Ruby, Go, PHP, JavaScript — not C/C++); `llm` extracts a frozen causal LLM's last-token (or mean) hidden state as the embedding (RQ3) — needs a 6th positional arg, `checkpoint`; `list` prints candidate problem IDs ranked by submission volume, optionally filtered by difficulty letter |
 | `device` | `cpu` (default) \| `mps` \| `cuda` | ignored by `tfidf` |
 | `language` | e.g. `"C++"`, `"Python"`, or `""` for all languages | prefix match — `"C++"` covers C++14/17/20; required (and restricted, see above) for `graphcodebert_ast` |
 | `problem_id` | a single ID (`p02616`) or a comma-separated list (`p02616,p02642`) | restricts sampling to the given problem(s), stratified by (problem × verdict) so no single problem dominates the pooled sample; omit to sample across all ABC problems, difficulty B–E (stratified by difficulty × verdict) |
 | `n_per_cell` | integer, default `500` | quota per (problem or difficulty) × verdict cell — same seeded stratified draw, just a smaller one; handy for a quick pilot before a full-scale run. A non-default value gets its own `_n{N}` tag so it never overwrites a default-quota run |
+| `checkpoint` | local path (e.g. `data/models/Qwen--Qwen2.5-Coder-7B-Instruct`) or a HF Hub repo id | only for `method=llm` — which model to extract embeddings from |
+
+Three more knobs, as environment variables rather than positional args (secondary, not part of the core "what to run" choice):
+- `EMBED_BATCH_SIZE` (default `16`) — batch size for `codebert`/`graphcodebert`/`graphcodebert_ast`/`llm`.
+- `GCB_POOLING` (`cls` default, or `mean`) — readout for `graphcodebert_ast`.
+- `LLM_POOLING` (`last` default, or `mean`) — readout for `llm`.
 
 Examples:
 ```bash
@@ -155,9 +167,33 @@ python src/embedding.py graphcodebert_ast mps "Python" p02659 5   # real DFG, sm
 
 Outputs go to `data/processed/embeddings/` (not versioned — see `.gitignore`): `embeddings_{tag}.npy` (float32 matrix) and `metadata_{tag}.csv` (aligned submission metadata), where `{tag}` encodes the method and any language/problem/n_per_cell restriction.
 
+### 5. Evaluate a trained probe on never-seen data (RQ2)
+
+`src/fresh_eval_probe.py` trains a probe (LogisticRegression or MLPClassifier) on a problem's **full** existing embedding corpus, saves it (`joblib`), then evaluates it on fresh submissions drawn from the complete eligible pool — never used anywhere in the existing corpus, not merely held out of a cross-validation fold.
+
+```bash
+python src/fresh_eval_probe.py [problem_id] [n_per_class]
+```
+
+Defaults to `p02659,p02658` at 100/class if no arguments are given. `SEED` (env var, default `1337`) controls which fresh submissions are drawn — vary it to check the result isn't a lucky draw. `PROBE_MODEL` (env var, `logreg` default, or `mlp`) picks the classifier. Outputs (trained probe, drawn submissions, predictions) go to `data/processed/fresh_eval/`. Analyzed in `notebooks/17_fresh_eval_probe.ipynb`.
+
+### 6. LLM direct prompting (RQ3)
+
+`src/v2_llm/` asks a locally-run LLM directly to predict a submission's verdict from its code and problem statement — a text-prompting approach, not embeddings. Runs on two backends:
+- HuggingFace/transformers (`LLM_BACKEND=hf`, default) — uses the main `codenet` environment.
+- MLX, native Apple Silicon (`LLM_BACKEND=mlx`) — needs its own environment, incompatible with the packages above: `python3 -m venv .venv_mlx && .venv_mlx/bin/pip install -r requirements-mlx.txt`.
+
+```bash
+python src/v2_llm/download_model.py <hf-repo-id>                          # fetch a model once
+python src/v2_llm/run_predictions.py <model_path> <device> <language> <problem_id> <n_per_cell>
+LLM_BACKEND=mlx python src/v2_llm/run_predictions.py ...                  # MLX backend instead
+```
+
+Outputs go to `data/processed/llm_verdicts/`. Tested on several models (Qwen2.5-Coder 7B/14B, DeepSeek-Coder, Qwen3.5-9B) at small sample sizes (n=5–25) — results too noisy to draw a conclusion; not pursued further (see RQ3 above).
+
 ---
 
-## Current Status — V0 → V1
+## Current Status — V0 → V2
 
 | Step | Status |
 |---|---|
@@ -175,8 +211,11 @@ Outputs go to `data/processed/embeddings/` (not versioned — see `.gitignore`):
 | Code embeddings — TF-IDF vs CodeBERT, k-NN lift, UMAP & t-SNE (RQ2) | ✅ Done |
 | GraphCodeBERT — naive comparison across 12 problems (RQ2) | ✅ Done |
 | GraphCodeBERT — graph-guided, real data-flow graph + supervised probe (RQ2) | ✅ Done |
-| LLM-based error prediction / pattern detection | ⏳ Planned — final month |
-| Streamlit dashboard | ⏳ Planned |
+| t-SNE cluster validation vs random-baseline code similarity (RQ2) | ✅ Done |
+| Verdict prediction on the hardest difficulty (F) vs B–E (RQ2) | ✅ Done — weaker signal, not stronger |
+| Trained probe evaluated on genuinely unseen submissions, incl. logistic regression vs MLP (RQ2) | ✅ Done |
+| Frozen-LLM embeddings through the RQ2 pipeline (RQ3) | ✅ Explored — underperforms GraphCodeBERT |
+| LLM direct-prompting verdict prediction (RQ3) | ✅ Explored — inconclusive on small samples |
 ---
 
 ## Dataset
