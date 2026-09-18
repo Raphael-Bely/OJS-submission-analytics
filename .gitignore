@@ -27,6 +27,10 @@ data/processed/embeddings/
 # Presentation deck — keep the compiled PDF and its source figures public
 !docs/slides_28aout/*.pdf
 !docs/slides_28aout/figures/*.png
+# rapport_specification.tex / rapport_final.tex's title-page logo — without this,
+# logo_ritsumeikan.png never gets tracked and the title page is missing an image
+# on a fresh clone (found 2026-09-18: logo_em.jpg was tracked, this one wasn't)
+!docs/figures/*.png
 # ...except the old French draft (superseded, still has unfilled \todonote placeholders)
 docs/slides_28aout/slides.pdf
 docs/slides_28aout/slides.tex
